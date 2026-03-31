@@ -809,49 +809,6 @@
   .alert-time { font-size: 11px; color: var(--foreground-muted); white-space: nowrap; flex-shrink: 0; margin-top: 2px; }
 
   /* =========================================
-     RADAR CHART
-     ========================================= */
-  .radar-wrap {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 16px;
-  }
-
-  .radar-svg {
-    width: 100%;
-    max-width: 280px;
-  }
-
-  .radar-grid-line {
-    fill: none;
-    stroke: rgba(0,0,0,0.06);
-    stroke-width: 1;
-  }
-
-  .radar-axis {
-    stroke: rgba(0,0,0,0.05);
-    stroke-width: 1;
-  }
-
-  .radar-axis-label {
-    font-family: 'Inter', sans-serif;
-    font-size: 10px;
-    fill: var(--foreground-muted);
-    font-weight: 500;
-  }
-
-  .radar-area {
-    transition: opacity 400ms ease;
-    cursor: pointer;
-  }
-
-  .radar-dot {
-    transition: opacity 400ms ease;
-    pointer-events: none;
-  }
-
-  /* =========================================
      ANIMATIONS
      ========================================= */
   @keyframes fadeIn {
@@ -1335,11 +1292,58 @@
             </div>
           </div>
 
-          <!-- Driver Performance Radar -->
+          <!-- Top Customer Complaints -->
           <div class="card anim-card" style="animation-delay: 500ms">
-            <div class="card-title">Driver Performance Profile</div>
-            <div class="radar-wrap">
-              <svg id="delivery-radar" class="radar-svg" viewBox="0 0 320 280" xmlns="http://www.w3.org/2000/svg"></svg>
+            <div class="card-title">Top Customer Complaints <span class="badge">This Month</span></div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px 32px;padding:8px 0;">
+              <div class="lollipop-row" style="height:auto;padding:0;">
+                <span class="lollipop-label" style="width:110px;text-align:left;padding-right:12px;">Late Delivery</span>
+                <div class="lollipop-track" style="height:6px;border-radius:3px;">
+                  <div class="lollipop-line" data-width="34%" style="width:0%;height:100%;border-radius:3px;background:#06C167;"></div>
+                  <div class="lollipop-dot" data-left="34%" style="left:0%;background:#06C167;opacity:0;width:8px;height:8px;top:-1px;"></div>
+                </div>
+                <span class="lollipop-score" style="min-width:32px;">34%</span>
+              </div>
+              <div class="lollipop-row" style="height:auto;padding:0;">
+                <span class="lollipop-label" style="width:110px;text-align:left;padding-right:12px;">Cold Food</span>
+                <div class="lollipop-track" style="height:6px;border-radius:3px;">
+                  <div class="lollipop-line" data-width="22%" style="width:0%;height:100%;border-radius:3px;background:#06C167;"></div>
+                  <div class="lollipop-dot" data-left="22%" style="left:0%;background:#06C167;opacity:0;width:8px;height:8px;top:-1px;"></div>
+                </div>
+                <span class="lollipop-score" style="min-width:32px;">22%</span>
+              </div>
+              <div class="lollipop-row" style="height:auto;padding:0;">
+                <span class="lollipop-label" style="width:110px;text-align:left;padding-right:12px;">Wrong Items</span>
+                <div class="lollipop-track" style="height:6px;border-radius:3px;">
+                  <div class="lollipop-line" data-width="18%" style="width:0%;height:100%;border-radius:3px;background:#06C167;"></div>
+                  <div class="lollipop-dot" data-left="18%" style="left:0%;background:#06C167;opacity:0;width:8px;height:8px;top:-1px;"></div>
+                </div>
+                <span class="lollipop-score" style="min-width:32px;">18%</span>
+              </div>
+              <div class="lollipop-row" style="height:auto;padding:0;">
+                <span class="lollipop-label" style="width:110px;text-align:left;padding-right:12px;">Missing Items</span>
+                <div class="lollipop-track" style="height:6px;border-radius:3px;">
+                  <div class="lollipop-line" data-width="14%" style="width:0%;height:100%;border-radius:3px;background:#06C167;"></div>
+                  <div class="lollipop-dot" data-left="14%" style="left:0%;background:#06C167;opacity:0;width:8px;height:8px;top:-1px;"></div>
+                </div>
+                <span class="lollipop-score" style="min-width:32px;">14%</span>
+              </div>
+              <div class="lollipop-row" style="height:auto;padding:0;">
+                <span class="lollipop-label" style="width:110px;text-align:left;padding-right:12px;">Poor Packaging</span>
+                <div class="lollipop-track" style="height:6px;border-radius:3px;">
+                  <div class="lollipop-line" data-width="8%" style="width:0%;height:100%;border-radius:3px;background:#06C167;"></div>
+                  <div class="lollipop-dot" data-left="8%" style="left:0%;background:#06C167;opacity:0;width:8px;height:8px;top:-1px;"></div>
+                </div>
+                <span class="lollipop-score" style="min-width:32px;">8%</span>
+              </div>
+              <div class="lollipop-row" style="height:auto;padding:0;">
+                <span class="lollipop-label" style="width:110px;text-align:left;padding-right:12px;">Driver Attitude</span>
+                <div class="lollipop-track" style="height:6px;border-radius:3px;">
+                  <div class="lollipop-line" data-width="4%" style="width:0%;height:100%;border-radius:3px;background:#06C167;"></div>
+                  <div class="lollipop-dot" data-left="4%" style="left:0%;background:#06C167;opacity:0;width:8px;height:8px;top:-1px;"></div>
+                </div>
+                <span class="lollipop-score" style="min-width:32px;">4%</span>
+              </div>
             </div>
           </div>
         </div>
@@ -2046,12 +2050,6 @@
       countEls.forEach(el => animateCount(el));
     }, 200);
 
-    // Radar chart (delivery experience panel)
-    if (panel.id === 'panel-delivery-experience') {
-      setTimeout(() => {
-        buildDeliveryRadar();
-      }, baseDelay + 200);
-    }
   }
 
   // ---- Count-up animation ----
@@ -2094,100 +2092,6 @@
     }
 
     requestAnimationFrame(update);
-  }
-
-  // ---- Delivery Radar Chart ----
-  function buildDeliveryRadar() {
-    const svg = document.getElementById('delivery-radar');
-    if (!svg) return;
-    svg.innerHTML = '';
-
-    const cx = 160, cy = 130, maxR = 100;
-    const labels = ['Speed', 'Accuracy', 'Courtesy', 'Communication', 'Food Condition'];
-    const values = [82, 89, 90, 85, 78];
-    const numAxes = 5;
-    const angleStep = 360 / numAxes;
-
-    function polarToXY(r, angleDeg) {
-      const rad = (angleDeg - 90) * Math.PI / 180;
-      return { x: cx + r * Math.cos(rad), y: cy + r * Math.sin(rad) };
-    }
-
-    // Grid rings
-    for (let level = 1; level <= 4; level++) {
-      const r = (maxR / 4) * level;
-      let points = [];
-      for (let i = 0; i < numAxes; i++) {
-        const p = polarToXY(r, i * angleStep);
-        points.push(p.x + ',' + p.y);
-      }
-      const polygon = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
-      polygon.setAttribute('points', points.join(' '));
-      polygon.setAttribute('class', 'radar-grid-line');
-      svg.appendChild(polygon);
-    }
-
-    // Axes
-    for (let i = 0; i < numAxes; i++) {
-      const p = polarToXY(maxR, i * angleStep);
-      const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-      line.setAttribute('x1', cx);
-      line.setAttribute('y1', cy);
-      line.setAttribute('x2', p.x);
-      line.setAttribute('y2', p.y);
-      line.setAttribute('class', 'radar-axis');
-      svg.appendChild(line);
-    }
-
-    // Axis labels
-    const labelOffsets = [
-      { dx: 0, dy: -14, anchor: 'middle' },
-      { dx: 14, dy: 4, anchor: 'start' },
-      { dx: 10, dy: 16, anchor: 'start' },
-      { dx: -10, dy: 16, anchor: 'end' },
-      { dx: -14, dy: 4, anchor: 'end' }
-    ];
-    for (let i = 0; i < numAxes; i++) {
-      const p = polarToXY(maxR + 8, i * angleStep);
-      const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-      text.setAttribute('x', p.x + labelOffsets[i].dx);
-      text.setAttribute('y', p.y + labelOffsets[i].dy);
-      text.setAttribute('text-anchor', labelOffsets[i].anchor);
-      text.setAttribute('class', 'radar-axis-label');
-      text.textContent = labels[i];
-      svg.appendChild(text);
-    }
-
-    // Data area
-    let points = [];
-    for (let i = 0; i < numAxes; i++) {
-      const r = (values[i] / 100) * maxR;
-      const p = polarToXY(r, i * angleStep);
-      points.push(p.x + ',' + p.y);
-    }
-
-    const area = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
-    area.setAttribute('points', points.join(' '));
-    area.setAttribute('fill', '#06C167');
-    area.setAttribute('fill-opacity', '0.15');
-    area.setAttribute('stroke', '#06C167');
-    area.setAttribute('stroke-width', '2');
-    area.setAttribute('stroke-opacity', '0.8');
-    area.setAttribute('class', 'radar-area');
-    svg.appendChild(area);
-
-    // Dots
-    for (let i = 0; i < numAxes; i++) {
-      const r = (values[i] / 100) * maxR;
-      const p = polarToXY(r, i * angleStep);
-      const dot = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-      dot.setAttribute('cx', p.x);
-      dot.setAttribute('cy', p.y);
-      dot.setAttribute('r', '4');
-      dot.setAttribute('fill', '#06C167');
-      dot.setAttribute('class', 'radar-dot');
-      svg.appendChild(dot);
-    }
   }
 
   // ---- Initial load ----
