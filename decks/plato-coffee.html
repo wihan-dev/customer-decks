@@ -1,0 +1,2959 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plato Coffee Dashboard | Yazi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --background: #F5F3EF;
+    --card: #FFFFFF;
+    --foreground: #18181B;
+    --foreground-muted: #71717A;
+    --muted: #E4E4E7;
+    --muted-border: rgba(0, 0, 0, 0.08);
+    --primary: #003C2F;
+    --primary-10: rgba(0, 60, 47, 0.10);
+    --primary-15: rgba(0, 60, 47, 0.15);
+    --primary-04: rgba(0, 60, 47, 0.04);
+    --secondary: #7DA76F;
+    --accent: #F5C7B8;
+    --success: #16a34a;
+    --warning: #d97706;
+    --danger: #dc2626;
+    --info: #2563eb;
+    --sidebar-bg: #FAFAF8;
+    --sidebar-border: #EAEAE7;
+  }
+
+  html, body {
+    height: 100vh;
+    overflow: hidden;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--background);
+    color: var(--foreground);
+    font-size: 14px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    font-feature-settings: 'cv11', 'ss01';
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 600;
+  }
+
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.08); border-radius: 2px; }
+  ::-webkit-scrollbar-thumb:hover { background: rgba(0,0,0,0.15); }
+
+  /* =========================================
+     LAYOUT
+     ========================================= */
+  .app-layout {
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  /* =========================================
+     SIDEBAR
+     ========================================= */
+  .sidebar {
+    width: 220px;
+    min-width: 220px;
+    height: 100vh;
+    background: var(--sidebar-bg);
+    border-right: 1px solid var(--sidebar-border);
+    display: flex;
+    flex-direction: column;
+    animation: fadeInLeft 400ms ease-out;
+    z-index: 10;
+  }
+
+  .sidebar-header {
+    padding: 20px 20px 16px;
+    border-bottom: 1px solid var(--sidebar-border);
+  }
+
+  .sidebar-logo {
+    height: 28px;
+    width: auto;
+    display: block;
+  }
+
+  .sidebar-nav {
+    flex: 1;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    overflow-y: auto;
+  }
+
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 12px;
+    border-radius: 8px;
+    color: #71717A;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 180ms ease;
+    text-decoration: none;
+    user-select: none;
+  }
+
+  .nav-item:hover {
+    color: #18181B;
+    background: rgba(0, 0, 0, 0.04);
+  }
+
+  .nav-item.active {
+    color: #003C2F;
+    background: rgba(0, 60, 47, 0.08);
+    font-weight: 600;
+  }
+
+  .nav-item svg {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+  }
+
+  .nav-item svg {
+    color: #A1A1AA;
+  }
+
+  .nav-item.active svg {
+    color: #003C2F;
+  }
+
+  .nav-item:hover svg {
+    color: #71717A;
+  }
+
+  .nav-item.active:hover svg {
+    color: #003C2F;
+  }
+
+  .sidebar-spacer { flex: 1; }
+
+  .sidebar-footer {
+    padding: 8px 12px 16px;
+    border-top: 1px solid var(--sidebar-border);
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .sidebar-footer .nav-item {
+    font-size: 13px;
+    color: #71717A;
+    padding: 10px 12px;
+  }
+
+  /* =========================================
+     MAIN AREA
+     ========================================= */
+  .main-area {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    min-width: 0;
+    background: var(--background);
+  }
+
+  /* =========================================
+     PANEL HEADER (sticky filter bar)
+     ========================================= */
+  .panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 40px;
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+    background: rgba(255,255,255,0.8);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    flex-shrink: 0;
+  }
+
+  .panel-header-left {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .panel-header-badge {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background: var(--primary);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .panel-header-badge svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .panel-header-text h1 {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--foreground);
+    line-height: 1.2;
+  }
+
+  .panel-header-text p {
+    font-size: 13px;
+    color: var(--foreground-muted);
+    margin-top: 4px;
+  }
+
+  .panel-header-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+  }
+
+  .filter-select {
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    padding: 6px 28px 6px 10px;
+    border: 1px solid var(--muted);
+    border-radius: 6px;
+    background: var(--card);
+    color: var(--foreground);
+    appearance: none;
+    -webkit-appearance: none;
+    cursor: pointer;
+    outline: none;
+    background-image: url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L5 5L9 1' stroke='%236B7280' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 8px center;
+    transition: border-color 180ms ease;
+  }
+
+  .filter-select:hover { border-color: #9CA3AF; }
+  .filter-select:focus { border-color: var(--primary); }
+
+  /* =========================================
+     CONTENT AREA
+     ========================================= */
+  .content-area {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 0 40px 48px;
+  }
+
+  .content-area-padded {
+    padding-top: 32px;
+  }
+
+  /* =========================================
+     OVERVIEW PANEL
+     ========================================= */
+  .overview-panel {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .overview-heading {
+    padding: 40px 48px 0;
+    flex-shrink: 0;
+  }
+
+  .overview-heading h1 {
+    font-size: 24px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 600;
+    color: var(--foreground);
+    line-height: 1.2;
+  }
+
+  .overview-heading p {
+    font-size: 14px;
+    font-family: 'Inter', sans-serif;
+    color: var(--foreground-muted);
+    margin-top: 6px;
+  }
+
+  .overview-grid-wrapper {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 48px;
+  }
+
+  /* Tab panels */
+  .tab-panel {
+    display: none;
+    flex-direction: column;
+  }
+
+  .tab-panel.active {
+    display: flex;
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+    animation: fadeIn 300ms ease-out;
+  }
+
+  /* =========================================
+     CARDS
+     ========================================= */
+  .card {
+    background: var(--card);
+    border-radius: 12px;
+    border: 1px solid var(--muted-border);
+    padding: 24px;
+    transition: all 400ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .card:hover {
+    transform: scale(1.01);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+  }
+
+  .card-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--foreground);
+    margin-bottom: 20px;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  /* =========================================
+     KPI GRID - OVERVIEW (2x3, centered)
+     ========================================= */
+  .kpi-grid-hero {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    width: 100%;
+    max-width: 1000px;
+  }
+
+  /* KPI GRID - INNER PANELS (4-col row) */
+  .kpi-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    margin-bottom: 28px;
+  }
+
+  /* =========================================
+     KPI CARD - OVERVIEW (hero)
+     ========================================= */
+  .kpi-card {
+    background: var(--card);
+    border-radius: 16px;
+    border: 1px solid var(--muted-border);
+    padding: 28px 28px 24px;
+    position: relative;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(8px);
+    transition: all 600ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .kpi-card.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .kpi-card:hover {
+    transform: scale(1.015);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.07);
+  }
+
+  .kpi-card.visible:hover {
+    transform: scale(1.015);
+  }
+
+  /* Accent cards */
+  .kpi-card.accent {
+    border-color: rgba(0, 60, 47, 0.12);
+    background: linear-gradient(135deg, #FFFFFF 70%, rgba(0, 60, 47, 0.02) 100%);
+  }
+
+  .kpi-card.accent .kpi-value {
+    color: #003C2F;
+  }
+
+  .kpi-glow {
+    position: absolute;
+    top: -30px;
+    right: -30px;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: rgba(0, 60, 47, 0.05);
+    filter: blur(40px);
+    pointer-events: none;
+  }
+
+  .kpi-card-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+
+  .kpi-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .kpi-icon svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .kpi-icon.neutral {
+    background: rgba(0, 0, 0, 0.05);
+    color: #A1A1AA;
+  }
+
+  .kpi-icon.primary {
+    background: rgba(0, 60, 47, 0.10);
+    color: #003C2F;
+  }
+
+  .kpi-label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--foreground-muted);
+  }
+
+  .kpi-value {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 42px;
+    font-weight: 700;
+    line-height: 1;
+    color: #1A1A1A;
+    margin-bottom: 8px;
+  }
+
+  .kpi-suffix {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--foreground-muted);
+  }
+
+  .kpi-desc {
+    font-size: 13px;
+    color: var(--foreground-muted);
+  }
+
+  .kpi-desc.success {
+    color: var(--success);
+  }
+
+  .kpi-desc.soft-green {
+    color: #4a9a6e;
+  }
+
+  /* =========================================
+     INNER PANEL KPI CARDS (compact, no accent)
+     ========================================= */
+  .kpi-row .kpi-card {
+    border-radius: 16px;
+    padding: 22px 24px 20px;
+    border-color: var(--muted-border);
+    background: var(--card);
+  }
+
+  .kpi-row .kpi-card .kpi-value {
+    font-size: 32px;
+    color: #1A1A1A;
+  }
+
+  .kpi-row .kpi-card .kpi-card-header {
+    margin-bottom: 16px;
+  }
+
+  .kpi-row .kpi-card .kpi-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+  }
+
+  .kpi-row .kpi-card .kpi-icon svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .kpi-row .kpi-card .kpi-icon {
+    background: rgba(0, 0, 0, 0.05);
+    color: #A1A1AA;
+  }
+
+  .kpi-row .kpi-card .kpi-suffix {
+    font-size: 16px;
+  }
+
+  .kpi-change {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--foreground-muted);
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    margin-top: 4px;
+  }
+
+  .kpi-change.positive { color: var(--success); }
+  .kpi-change.negative { color: var(--danger); }
+  .kpi-change.neutral { color: var(--foreground-muted); }
+
+  /* =========================================
+     CHART GRID
+     ========================================= */
+  .chart-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 28px;
+  }
+
+  .chart-container {
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .chart-container svg {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .bar-rect {
+    transition: opacity 200ms ease;
+    cursor: pointer;
+  }
+  .bar-rect:hover { opacity: 0.75; }
+
+  .donut-segment {
+    transition: opacity 200ms ease;
+    cursor: pointer;
+  }
+  .donut-segment:hover { opacity: 0.75; }
+
+  /* =========================================
+     HORIZONTAL BAR CHART
+     ========================================= */
+  /* =========================================
+     LOLLIPOP CHART
+     ========================================= */
+  .lollipop-chart {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 4px 0;
+  }
+
+  .lollipop-row {
+    display: flex;
+    align-items: center;
+    height: 44px;
+    padding: 0 4px 0 0;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 180ms ease;
+  }
+
+  .lollipop-row:hover {
+    background: rgba(0, 60, 47, 0.03);
+  }
+
+  .lollipop-row.selected {
+    background: rgba(0, 60, 47, 0.06);
+  }
+
+  .lollipop-label {
+    width: 120px;
+    font-size: 13px;
+    color: var(--foreground);
+    flex-shrink: 0;
+    text-align: right;
+    font-weight: 500;
+    padding-right: 20px;
+    transition: color 180ms ease;
+  }
+
+  .lollipop-row.selected .lollipop-label {
+    color: var(--primary);
+    font-weight: 600;
+  }
+
+  .lollipop-track {
+    flex: 1;
+    height: 2px;
+    position: relative;
+    background: rgba(0, 0, 0, 0.04);
+    border-radius: 1px;
+  }
+
+  .lollipop-line {
+    height: 100%;
+    border-radius: 1px;
+    transition: width 700ms cubic-bezier(0.16, 1, 0.3, 1);
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+
+  .lollipop-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    transition: left 700ms cubic-bezier(0.16, 1, 0.3, 1), opacity 400ms ease, box-shadow 180ms ease;
+    box-shadow: 0 0 0 3px #fff, 0 1px 4px rgba(0,0,0,0.12);
+    z-index: 1;
+  }
+
+  .lollipop-row.selected .lollipop-dot {
+    box-shadow: 0 0 0 3px #fff, 0 0 0 5px rgba(0, 60, 47, 0.15), 0 1px 4px rgba(0,0,0,0.12);
+  }
+
+  .lollipop-score {
+    width: 36px;
+    font-size: 13px;
+    font-weight: 700;
+    font-family: 'DM Sans', sans-serif;
+    color: var(--foreground);
+    text-align: right;
+    flex-shrink: 0;
+    margin-left: 16px;
+    transition: color 180ms ease;
+  }
+
+  .lollipop-row.selected .lollipop-score {
+    color: var(--primary);
+  }
+
+  /* =========================================
+     CATEGORY SCORE ROWS (for feedback breakdown)
+     ========================================= */
+  .score-row {
+    display: flex;
+    align-items: center;
+    padding: 14px 0;
+    border-bottom: 1px solid rgba(0,0,0,0.04);
+  }
+
+  .score-row:last-child {
+    border-bottom: none;
+  }
+
+  .score-row-label {
+    flex: 1;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--foreground);
+  }
+
+  .score-row-bar {
+    width: 120px;
+    height: 6px;
+    background: rgba(0,0,0,0.04);
+    border-radius: 3px;
+    margin: 0 16px;
+    overflow: hidden;
+  }
+
+  .score-row-fill {
+    height: 100%;
+    border-radius: 3px;
+    background: var(--primary);
+    transition: width 600ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .score-row-value {
+    font-size: 14px;
+    font-weight: 700;
+    font-family: 'DM Sans', sans-serif;
+    color: var(--foreground);
+    width: 40px;
+    text-align: right;
+  }
+
+  .score-row-change {
+    font-size: 11px;
+    font-weight: 500;
+    width: 50px;
+    text-align: right;
+    margin-left: 8px;
+  }
+
+  .score-row-change.up { color: var(--success); }
+  .score-row-change.down { color: var(--danger); }
+  .score-row-change.flat { color: var(--foreground-muted); }
+
+  /* =========================================
+     HORIZONTAL BAR (kept for other panels)
+     ========================================= */
+  .h-bar-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .h-bar-rows {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .h-bar-label {
+    width: 120px;
+    font-size: 13px;
+    color: var(--foreground);
+    flex-shrink: 0;
+    text-align: right;
+    font-weight: 500;
+  }
+
+  .h-bar-track {
+    flex: 1;
+    height: 24px;
+    background: rgba(0, 60, 47, 0.04);
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .h-bar-fill {
+    height: 100%;
+    border-radius: 4px;
+    transition: width 600ms ease-out;
+  }
+
+  .h-bar-value {
+    width: 44px;
+    text-align: right;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--foreground);
+    flex-shrink: 0;
+  }
+
+  /* =========================================
+     LEGEND
+     ========================================= */
+  .chart-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-top: 16px;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--foreground-muted);
+  }
+
+  .legend-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  /* =========================================
+     TABLES
+     ========================================= */
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .data-table thead th {
+    text-align: left;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--foreground-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--muted);
+  }
+
+  .data-table tbody td {
+    padding: 11px 16px;
+    font-size: 13px;
+    color: var(--foreground);
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+  }
+
+  .data-table tbody tr {
+    transition: background 150ms ease;
+  }
+
+  .data-table tbody tr:hover {
+    background: rgba(0, 60, 47, 0.02);
+  }
+
+  .data-table tbody tr:last-child td {
+    border-bottom: none;
+  }
+
+  .status-badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+  }
+
+  .status-active { background: rgba(22, 163, 74, 0.1); color: var(--success); }
+  .status-completed { background: rgba(37, 99, 235, 0.1); color: var(--info); }
+  .status-pending { background: rgba(217, 119, 6, 0.1); color: var(--warning); }
+  .status-closed { background: rgba(107, 114, 128, 0.1); color: var(--foreground-muted); }
+  .status-critical { background: rgba(220, 38, 38, 0.1); color: var(--danger); }
+  .status-warning { background: rgba(217, 119, 6, 0.1); color: var(--warning); }
+  .status-info { background: rgba(37, 99, 235, 0.1); color: var(--info); }
+
+  /* =========================================
+     ALERTS
+     ========================================= */
+  .alert-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 14px 16px;
+    border-radius: 10px;
+    border: 1px solid var(--muted-border);
+    margin-bottom: 10px;
+    transition: background 150ms ease;
+  }
+
+  .alert-item:hover { background: rgba(0, 0, 0, 0.02); }
+
+  .alert-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .alert-icon.critical { background: rgba(220, 38, 38, 0.1); color: var(--danger); }
+  .alert-icon.warning { background: rgba(217, 119, 6, 0.1); color: var(--warning); }
+  .alert-icon.info { background: rgba(37, 99, 235, 0.1); color: var(--info); }
+
+  .alert-content { flex: 1; }
+  .alert-title { font-size: 13px; font-weight: 600; color: var(--foreground); margin-bottom: 2px; }
+  .alert-desc { font-size: 12px; color: var(--foreground-muted); }
+  .alert-time { font-size: 11px; color: var(--foreground-muted); white-space: nowrap; flex-shrink: 0; margin-top: 2px; }
+
+  /* =========================================
+     REGIONAL CARD
+     ========================================= */
+  .region-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .region-item {
+    padding: 14px;
+    border-radius: 10px;
+    border: 1px solid var(--muted-border);
+    transition: background 150ms ease;
+  }
+
+  .region-item:hover { background: rgba(0, 60, 47, 0.02); }
+
+  .region-label { font-size: 11px; color: var(--foreground-muted); margin-bottom: 4px; }
+
+  .region-value {
+    font-size: 18px;
+    font-weight: 700;
+    font-family: 'DM Sans', sans-serif;
+    color: var(--foreground);
+  }
+
+  .region-value .region-tag {
+    font-size: 12px;
+    font-weight: 500;
+    margin-left: 4px;
+  }
+
+  /* =========================================
+     PRODUCT TESTING GRID (two full-height cards)
+     ========================================= */
+  .product-testing-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    flex: 1;
+    padding: 16px 32px 16px;
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  .product-testing-card {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    overflow: hidden;
+    padding: 20px 22px 16px;
+  }
+
+  .product-testing-card:hover {
+    transform: none;
+  }
+
+  .product-testing-card .card-title {
+    flex-shrink: 0;
+    margin-bottom: 12px;
+  }
+
+  .product-testing-card-body {
+    flex: 1;
+    overflow-y: auto;
+    min-height: 0;
+  }
+
+  /* Product rating row (premium version) */
+  .product-row {
+    display: flex;
+    align-items: center;
+    padding: 9px 0;
+    border-bottom: 1px solid rgba(0,0,0,0.04);
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 400ms ease, transform 400ms ease;
+  }
+
+  .product-row.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .product-row:last-child {
+    border-bottom: none;
+  }
+
+  .product-rank {
+    width: 24px;
+    font-size: 12px;
+    font-weight: 700;
+    font-family: 'DM Sans', sans-serif;
+    color: var(--foreground-muted);
+    flex-shrink: 0;
+  }
+
+  .product-rank.top {
+    color: var(--primary);
+  }
+
+  .product-info {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .product-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--foreground);
+    margin-bottom: 5px;
+  }
+
+  .product-bar-track {
+    height: 5px;
+    background: rgba(0,0,0,0.04);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+
+  .product-bar-fill {
+    height: 100%;
+    border-radius: 3px;
+    transition: width 800ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .product-score {
+    width: 36px;
+    text-align: right;
+    font-size: 16px;
+    font-weight: 700;
+    font-family: 'DM Sans', sans-serif;
+    color: var(--foreground);
+    flex-shrink: 0;
+    margin-left: 12px;
+  }
+
+  .product-score.top {
+    color: var(--primary);
+  }
+
+  /* Taste test card rows */
+  .taste-card {
+    border-radius: 8px;
+    border: 1px solid rgba(0,0,0,0.05);
+    background: rgba(0,0,0,0.015);
+    padding: 12px 16px;
+    margin-bottom: 6px;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 400ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .taste-card.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .taste-card:hover {
+    background: rgba(0, 60, 47, 0.025);
+    border-color: rgba(0, 60, 47, 0.08);
+  }
+
+  .taste-card:last-child {
+    margin-bottom: 0;
+  }
+
+  .taste-card-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+
+  .taste-card-name {
+    font-size: 13px;
+    font-weight: 600;
+    font-family: 'DM Sans', sans-serif;
+    color: var(--foreground);
+  }
+
+  .taste-card-badge {
+    font-size: 10px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 20px;
+    letter-spacing: 0.02em;
+  }
+
+  .taste-card-badge.high {
+    background: rgba(0, 60, 47, 0.08);
+    color: var(--primary);
+  }
+
+  .taste-card-badge.mid {
+    background: rgba(125, 167, 111, 0.12);
+    color: #5a8a4a;
+  }
+
+  .taste-card-badge.low {
+    background: rgba(217, 119, 6, 0.08);
+    color: var(--warning);
+  }
+
+  .taste-card-metrics {
+    display: flex;
+    gap: 0;
+  }
+
+  .taste-metric {
+    flex: 1;
+    text-align: center;
+    position: relative;
+  }
+
+  .taste-metric:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 2px;
+    bottom: 2px;
+    width: 1px;
+    background: rgba(0,0,0,0.06);
+  }
+
+  .taste-metric-value {
+    font-size: 15px;
+    font-weight: 700;
+    font-family: 'DM Sans', sans-serif;
+    color: var(--foreground);
+    line-height: 1;
+    margin-bottom: 3px;
+  }
+
+  .taste-metric-label {
+    font-size: 9px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--foreground-muted);
+  }
+
+  /* =========================================
+     RADAR CHART
+     ========================================= */
+  .radar-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .radar-svg {
+    width: 100%;
+    max-width: 320px;
+  }
+
+  .radar-grid-line {
+    fill: none;
+    stroke: rgba(0,0,0,0.06);
+    stroke-width: 1;
+  }
+
+  .radar-axis {
+    stroke: rgba(0,0,0,0.05);
+    stroke-width: 1;
+  }
+
+  .radar-axis-label {
+    font-family: 'Inter', sans-serif;
+    font-size: 10px;
+    fill: var(--foreground-muted);
+    font-weight: 500;
+  }
+
+  .radar-area {
+    transition: opacity 400ms ease, d 500ms cubic-bezier(0.16, 1, 0.3, 1);
+    cursor: pointer;
+  }
+
+  .radar-area:hover {
+    opacity: 0.9 !important;
+  }
+
+  .radar-dot {
+    transition: cx 500ms cubic-bezier(0.16, 1, 0.3, 1), cy 500ms cubic-bezier(0.16, 1, 0.3, 1), opacity 400ms ease;
+    pointer-events: none;
+  }
+
+  .radar-legend {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  .radar-legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: var(--foreground-muted);
+    cursor: pointer;
+    padding: 4px 10px;
+    border-radius: 6px;
+    transition: all 180ms ease;
+    user-select: none;
+  }
+
+  .radar-legend-item:hover {
+    background: rgba(0,0,0,0.03);
+  }
+
+  .radar-legend-item.active {
+    background: rgba(0, 60, 47, 0.06);
+    color: var(--primary);
+    font-weight: 600;
+  }
+
+  .radar-legend-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  /* =========================================
+     SEGMENT PROFILE CARDS
+     ========================================= */
+  .segment-profiles {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .segment-card {
+    border-radius: 14px;
+    border: 1px solid var(--muted-border);
+    padding: 22px 20px 18px;
+    background: var(--card);
+    cursor: pointer;
+    transition: all 300ms cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .segment-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.06);
+  }
+
+  .segment-card.selected {
+    border-color: rgba(0, 60, 47, 0.25);
+    box-shadow: 0 0 0 1px rgba(0, 60, 47, 0.08), 0 6px 20px rgba(0,0,0,0.05);
+  }
+
+  .segment-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+  }
+
+  .segment-card-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .segment-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .segment-card-name {
+    font-size: 14px;
+    font-weight: 600;
+    font-family: 'DM Sans', sans-serif;
+    color: var(--foreground);
+  }
+
+  .segment-card-count {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--foreground-muted);
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  .segment-metrics {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 2px;
+  }
+
+  .segment-metric {
+    text-align: center;
+    padding: 8px 4px;
+  }
+
+  .segment-metric-value {
+    font-size: 18px;
+    font-weight: 700;
+    font-family: 'DM Sans', sans-serif;
+    color: var(--foreground);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+
+  .segment-metric-label {
+    font-size: 10px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--foreground-muted);
+  }
+
+  .segment-bar-track {
+    height: 4px;
+    background: rgba(0,0,0,0.04);
+    border-radius: 2px;
+    margin-top: 14px;
+    overflow: hidden;
+  }
+
+  .segment-bar-fill {
+    height: 100%;
+    border-radius: 2px;
+    transition: width 700ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  /* =========================================
+     ANIMATIONS
+     ========================================= */
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes fadeInLeft {
+    from { opacity: 0; transform: translateX(-16px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+
+  .anim-card {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+
+  .anim-card.animate-in {
+    animation: fadeInUp 500ms ease-out forwards;
+  }
+
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>
+</head>
+<body>
+<div class="app-layout">
+
+  <!-- =========================================
+       SIDEBAR
+       ========================================= -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <img src="https://plato.coffee/cdn/shop/files/PLATO_PRIMARY_GREEN_RGB_V3.svg?v=1732692531&width=460" alt="Platō Coffee" class="sidebar-logo">
+    </div>
+    <nav class="sidebar-nav">
+      <a class="nav-item active" data-panel="survey-overview" href="#">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+        Overview
+      </a>
+      <a class="nav-item" data-panel="store-feedback" href="#">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        Store Feedback
+      </a>
+      <a class="nav-item" data-panel="customer-segments" href="#">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        Segments
+      </a>
+      <a class="nav-item" data-panel="product-testing" href="#">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6v7l4 8H5l4-8V3z"/><path d="M7 3h10"/><path d="M10 14.5c1.5-1 3.5-1 5 0"/></svg>
+        Product Testing
+      </a>
+      <a class="nav-item" data-panel="alerts-triggers" href="#">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+        Alerts
+      </a>
+      <a class="nav-item" data-panel="franchisee-view" href="#">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="10" width="5" height="12" rx="0.5"/><rect x="9.5" y="5" width="5" height="17" rx="0.5"/><rect x="17" y="2" width="5" height="20" rx="0.5"/></svg>
+        Franchisee View
+      </a>
+      <div class="sidebar-spacer"></div>
+    </nav>
+    <div class="sidebar-footer">
+      <a class="nav-item" href="#">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/><circle cx="9" cy="6" r="2" fill="currentColor" stroke="none"/><circle cx="15" cy="12" r="2" fill="currentColor" stroke="none"/><circle cx="9" cy="18" r="2" fill="currentColor" stroke="none"/></svg>
+        Filters
+      </a>
+      <a class="nav-item" href="#">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        Settings
+      </a>
+    </div>
+  </aside>
+
+  <!-- =========================================
+       MAIN CONTENT
+       ========================================= -->
+  <div class="main-area">
+
+    <!-- =============================================
+         PANEL 1: SURVEY OVERVIEW (Hero KPI Layout)
+         ============================================= -->
+    <div class="tab-panel active" id="panel-survey-overview">
+      <div class="overview-panel">
+        <div class="overview-heading">
+          <h1>Survey Insights</h1>
+          <p>Plato Coffee survey performance & response overview</p>
+        </div>
+        <div class="overview-grid-wrapper">
+          <div class="kpi-grid-hero">
+
+            <!-- Card 0: Total Responses (non-accent) -->
+            <div class="kpi-card">
+              <div class="kpi-card-header">
+                <div class="kpi-icon neutral">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                </div>
+                <div class="kpi-label">Total Responses</div>
+              </div>
+              <div class="kpi-value"><span class="count-up" data-target="12847" data-format="comma">0</span></div>
+              <div class="kpi-desc">Survey participants across all regions</div>
+            </div>
+
+            <!-- Card 1: Avg Satisfaction (ACCENT) -->
+            <div class="kpi-card accent">
+              <div class="kpi-glow"></div>
+              <div class="kpi-card-header">
+                <div class="kpi-icon primary">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                </div>
+                <div class="kpi-label">Avg Satisfaction</div>
+              </div>
+              <div class="kpi-value"><span class="count-up" data-target="4.2" data-format="decimal" data-decimals="1">0</span><span class="kpi-suffix">/5</span></div>
+              <div class="kpi-desc">Current average across 24 stores</div>
+            </div>
+
+            <!-- Card 2: NPS Score (non-accent) -->
+            <div class="kpi-card">
+              <div class="kpi-card-header">
+                <div class="kpi-icon neutral">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                </div>
+                <div class="kpi-label">NPS Score</div>
+              </div>
+              <div class="kpi-value"><span class="count-up" data-target="67" data-format="integer">0</span></div>
+              <div class="kpi-desc success">&#8593; 5 pts vs last quarter</div>
+            </div>
+
+            <!-- Card 3: Response Rate (ACCENT) -->
+            <div class="kpi-card accent">
+              <div class="kpi-glow"></div>
+              <div class="kpi-card-header">
+                <div class="kpi-icon primary">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+                </div>
+                <div class="kpi-label">Response Rate</div>
+              </div>
+              <div class="kpi-value"><span class="count-up" data-target="34.2" data-format="decimal" data-decimals="1">0</span><span class="kpi-suffix">%</span></div>
+              <div class="kpi-desc success">&#8593; 2.1% improvement this month</div>
+            </div>
+
+            <!-- Card 4: Active Surveys (non-accent) -->
+            <div class="kpi-card">
+              <div class="kpi-card-header">
+                <div class="kpi-icon neutral">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                </div>
+                <div class="kpi-label">Active Surveys</div>
+              </div>
+              <div class="kpi-value"><span class="count-up" data-target="8" data-format="integer">0</span></div>
+              <div class="kpi-desc">3 launching this week</div>
+            </div>
+
+            <!-- Card 5: Completion Time (ACCENT) -->
+            <div class="kpi-card accent">
+              <div class="kpi-glow"></div>
+              <div class="kpi-card-header">
+                <div class="kpi-icon primary">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+                </div>
+                <div class="kpi-label">Completion Time</div>
+              </div>
+              <div class="kpi-value"><span class="count-up" data-target="2.4" data-format="decimal" data-decimals="1">0</span><span class="kpi-suffix"> min</span></div>
+              <div class="kpi-desc soft-green">Down from 3.1 min last quarter</div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- =============================================
+         PANEL 2: STORE FEEDBACK
+         ============================================= -->
+    <div class="tab-panel" id="panel-store-feedback">
+      <div class="panel-header">
+        <div class="panel-header-left">
+          <div class="panel-header-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+          <div class="panel-header-text">
+            <h1>Store Feedback</h1>
+            <p>Individual store performance & customer feedback</p>
+          </div>
+        </div>
+        <div class="panel-header-right">
+          <select class="filter-select">
+            <option>Last 30 days</option>
+            <option>Last 7 days</option>
+            <option>Last 90 days</option>
+          </select>
+          <select class="filter-select">
+            <option>All Regions</option>
+            <option>Gauteng</option>
+            <option>Western Cape</option>
+          </select>
+        </div>
+      </div>
+      <div class="content-area content-area-padded">
+        <div class="kpi-row">
+          <div class="kpi-card">
+            <div class="kpi-card-header">
+              <div class="kpi-icon neutral">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              </div>
+              <div class="kpi-label">Top Store</div>
+            </div>
+            <div class="kpi-value"><span class="count-up" data-target="4.7" data-format="decimal" data-decimals="1">0</span><span class="kpi-suffix">/5</span></div>
+            <div class="kpi-desc success">V&A Waterfront</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-card-header">
+              <div class="kpi-icon neutral">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+              </div>
+              <div class="kpi-label">Lowest Store</div>
+            </div>
+            <div class="kpi-value"><span class="count-up" data-target="3.1" data-format="decimal" data-decimals="1">0</span><span class="kpi-suffix">/5</span></div>
+            <div class="kpi-change negative">Maboneng</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-card-header">
+              <div class="kpi-icon neutral">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              </div>
+              <div class="kpi-label">Avg Wait Time</div>
+            </div>
+            <div class="kpi-value"><span class="count-up" data-target="4.2" data-format="decimal" data-decimals="1">0</span><span class="kpi-suffix"> min</span></div>
+            <div class="kpi-desc">Across all stores</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-card-header">
+              <div class="kpi-icon neutral">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+              </div>
+              <div class="kpi-label">Cleanliness</div>
+            </div>
+            <div class="kpi-value"><span class="count-up" data-target="4.5" data-format="decimal" data-decimals="1">0</span><span class="kpi-suffix">/5</span></div>
+            <div class="kpi-change positive">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 10V2M6 2L2.5 5.5M6 2L9.5 5.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              +0.2
+            </div>
+          </div>
+        </div>
+
+        <div class="chart-grid">
+          <!-- Lollipop Chart: Store Performance Rankings -->
+          <div class="card anim-card" style="animation-delay: 400ms">
+            <div class="card-title">Store Performance Rankings</div>
+            <div class="lollipop-chart" id="store-lollipop">
+              <div class="lollipop-row selected" data-store="va-waterfront">
+                <span class="lollipop-label">V&A Waterfront</span>
+                <div class="lollipop-track">
+                  <div class="lollipop-line" data-width="94%" style="width:0%;background:#003C2F;"></div>
+                  <div class="lollipop-dot" data-left="94%" style="left:0%;background:#003C2F;opacity:0;"></div>
+                </div>
+                <span class="lollipop-score">4.7</span>
+              </div>
+              <div class="lollipop-row" data-store="rosebank">
+                <span class="lollipop-label">Rosebank</span>
+                <div class="lollipop-track">
+                  <div class="lollipop-line" data-width="90%" style="width:0%;background:#003C2F;opacity:0.82;"></div>
+                  <div class="lollipop-dot" data-left="90%" style="left:0%;background:#003C2F;opacity:0;"></div>
+                </div>
+                <span class="lollipop-score">4.5</span>
+              </div>
+              <div class="lollipop-row" data-store="sandton">
+                <span class="lollipop-label">Sandton City</span>
+                <div class="lollipop-track">
+                  <div class="lollipop-line" data-width="86%" style="width:0%;background:#003C2F;opacity:0.68;"></div>
+                  <div class="lollipop-dot" data-left="86%" style="left:0%;background:#003C2F;opacity:0;"></div>
+                </div>
+                <span class="lollipop-score">4.3</span>
+              </div>
+              <div class="lollipop-row" data-store="menlyn">
+                <span class="lollipop-label">Menlyn</span>
+                <div class="lollipop-track">
+                  <div class="lollipop-line" data-width="84%" style="width:0%;background:#003C2F;opacity:0.56;"></div>
+                  <div class="lollipop-dot" data-left="84%" style="left:0%;background:#003C2F;opacity:0;"></div>
+                </div>
+                <span class="lollipop-score">4.2</span>
+              </div>
+              <div class="lollipop-row" data-store="melrose">
+                <span class="lollipop-label">Melrose Arch</span>
+                <div class="lollipop-track">
+                  <div class="lollipop-line" data-width="82%" style="width:0%;background:#7DA76F;"></div>
+                  <div class="lollipop-dot" data-left="82%" style="left:0%;background:#7DA76F;opacity:0;"></div>
+                </div>
+                <span class="lollipop-score">4.1</span>
+              </div>
+              <div class="lollipop-row" data-store="greenside">
+                <span class="lollipop-label">Greenside</span>
+                <div class="lollipop-track">
+                  <div class="lollipop-line" data-width="78%" style="width:0%;background:#7DA76F;opacity:0.75;"></div>
+                  <div class="lollipop-dot" data-left="78%" style="left:0%;background:#7DA76F;opacity:0;"></div>
+                </div>
+                <span class="lollipop-score">3.9</span>
+              </div>
+              <div class="lollipop-row" data-store="braamfontein">
+                <span class="lollipop-label">Braamfontein</span>
+                <div class="lollipop-track">
+                  <div class="lollipop-line" data-width="76%" style="width:0%;background:#d4a393;"></div>
+                  <div class="lollipop-dot" data-left="76%" style="left:0%;background:#d4a393;opacity:0;"></div>
+                </div>
+                <span class="lollipop-score">3.8</span>
+              </div>
+              <div class="lollipop-row" data-store="maboneng">
+                <span class="lollipop-label">Maboneng</span>
+                <div class="lollipop-track">
+                  <div class="lollipop-line" data-width="62%" style="width:0%;background:#dc2626;opacity:0.75;"></div>
+                  <div class="lollipop-dot" data-left="62%" style="left:0%;background:#dc2626;opacity:0;"></div>
+                </div>
+                <span class="lollipop-score">3.1</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Experience Scores: updates per store selection -->
+          <div class="card anim-card" style="animation-delay: 500ms">
+            <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:20px;">
+              <div class="card-title" style="margin-bottom:0;">Experience Scores</div>
+              <span id="store-score-label" style="font-size:12px;font-weight:600;color:var(--primary);letter-spacing:0.03em;">V&A Waterfront</span>
+            </div>
+            <div id="experience-scores">
+              <div class="score-row" data-cat="quality">
+                <span class="score-row-label">Coffee Quality</span>
+                <div class="score-row-bar"><div class="score-row-fill" data-width="96%" style="width:0%"></div></div>
+                <span class="score-row-value">4.8</span>
+                <span class="score-row-change up">+0.3</span>
+              </div>
+              <div class="score-row" data-cat="staff">
+                <span class="score-row-label">Staff Friendliness</span>
+                <div class="score-row-bar"><div class="score-row-fill" data-width="92%" style="width:0%"></div></div>
+                <span class="score-row-value">4.6</span>
+                <span class="score-row-change up">+0.2</span>
+              </div>
+              <div class="score-row" data-cat="ambience">
+                <span class="score-row-label">Ambience & Design</span>
+                <div class="score-row-bar"><div class="score-row-fill" data-width="94%" style="width:0%"></div></div>
+                <span class="score-row-value">4.7</span>
+                <span class="score-row-change up">+0.1</span>
+              </div>
+              <div class="score-row" data-cat="speed">
+                <span class="score-row-label">Speed of Service</span>
+                <div class="score-row-bar"><div class="score-row-fill" data-width="90%" style="width:0%"></div></div>
+                <span class="score-row-value">4.5</span>
+                <span class="score-row-change up">+0.2</span>
+              </div>
+              <div class="score-row" data-cat="clean">
+                <span class="score-row-label">Cleanliness</span>
+                <div class="score-row-bar"><div class="score-row-fill" data-width="96%" style="width:0%"></div></div>
+                <span class="score-row-value">4.8</span>
+                <span class="score-row-change up">+0.1</span>
+              </div>
+              <div class="score-row" data-cat="value">
+                <span class="score-row-label">Value for Money</span>
+                <div class="score-row-bar"><div class="score-row-fill" data-width="84%" style="width:0%"></div></div>
+                <span class="score-row-value">4.2</span>
+                <span class="score-row-change up">+0.1</span>
+              </div>
+              <div class="score-row" data-cat="wifi">
+                <span class="score-row-label">WiFi & Facilities</span>
+                <div class="score-row-bar"><div class="score-row-fill" data-width="90%" style="width:0%"></div></div>
+                <span class="score-row-value">4.5</span>
+                <span class="score-row-change up">+0.3</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- =============================================
+         PANEL 3: CUSTOMER SEGMENTS
+         ============================================= -->
+    <div class="tab-panel" id="panel-customer-segments">
+      <div class="panel-header">
+        <div class="panel-header-left">
+          <div class="panel-header-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+          <div class="panel-header-text">
+            <h1>Customer Segments</h1>
+            <p>Customer base analysis & behavioural profiles</p>
+          </div>
+        </div>
+        <div class="panel-header-right">
+          <select class="filter-select">
+            <option>Last 30 days</option>
+            <option>Last 90 days</option>
+            <option>This year</option>
+          </select>
+        </div>
+      </div>
+      <div class="content-area content-area-padded">
+        <div class="kpi-row">
+          <div class="kpi-card">
+            <div class="kpi-card-header">
+              <div class="kpi-icon neutral">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+              </div>
+              <div class="kpi-label">Total Customers</div>
+            </div>
+            <div class="kpi-value"><span class="count-up" data-target="5055" data-format="comma">0</span></div>
+            <div class="kpi-change positive">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 10V2M6 2L2.5 5.5M6 2L9.5 5.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              +9.3% vs last quarter
+            </div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-card-header">
+              <div class="kpi-icon neutral">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+              </div>
+              <div class="kpi-label">Avg Lifetime Value</div>
+            </div>
+            <div class="kpi-value"><span class="count-up" data-target="4820" data-format="comma">0</span></div>
+            <div class="kpi-desc">R per customer</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-card-header">
+              <div class="kpi-icon neutral">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+              </div>
+              <div class="kpi-label">Retention Rate</div>
+            </div>
+            <div class="kpi-value"><span class="count-up" data-target="78.4" data-format="decimal" data-decimals="1">0</span><span class="kpi-suffix">%</span></div>
+            <div class="kpi-change positive">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 10V2M6 2L2.5 5.5M6 2L9.5 5.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              +2.1%
+            </div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-card-header">
+              <div class="kpi-icon neutral">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              </div>
+              <div class="kpi-label">Avg Visits / Month</div>
+            </div>
+            <div class="kpi-value"><span class="count-up" data-target="6.2" data-format="decimal" data-decimals="1">0</span></div>
+            <div class="kpi-change positive">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 10V2M6 2L2.5 5.5M6 2L9.5 5.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              +0.4
+            </div>
+          </div>
+        </div>
+
+        <div class="chart-grid">
+          <!-- Radar Chart: Segment Comparison -->
+          <div class="card anim-card" style="animation-delay: 400ms">
+            <div class="card-title">Segment Profiles</div>
+            <div class="radar-wrap">
+              <svg id="radar-chart" class="radar-svg" viewBox="0 0 360 320" xmlns="http://www.w3.org/2000/svg"></svg>
+              <div class="radar-legend" id="radar-legend"></div>
+            </div>
+          </div>
+
+          <!-- Segment Profile Cards -->
+          <div class="card anim-card" style="animation-delay: 500ms">
+            <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:16px;">
+              <div class="card-title" style="margin-bottom:0;">Segment Breakdown</div>
+              <span style="font-size:11px;color:var(--foreground-muted);">Click to highlight</span>
+            </div>
+            <div class="segment-profiles" id="segment-cards"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- =============================================
+         PANEL 4: PRODUCT TESTING
+         ============================================= -->
+    <div class="tab-panel" id="panel-product-testing">
+      <div class="panel-header">
+        <div class="panel-header-left">
+          <div class="panel-header-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6v7l4 8H5l4-8V3z"/><path d="M7 3h10"/><path d="M10 14.5c1.5-1 3.5-1 5 0"/></svg></div>
+          <div class="panel-header-text">
+            <h1>Product Testing</h1>
+            <p>New product feedback & taste test results</p>
+          </div>
+        </div>
+        <div class="panel-header-right">
+          <select class="filter-select">
+            <option>This Quarter</option>
+            <option>Last Quarter</option>
+            <option>This Year</option>
+          </select>
+        </div>
+      </div>
+      <div class="product-testing-grid">
+
+        <!-- LEFT CARD: Product Ratings -->
+        <div class="card product-testing-card anim-card">
+          <div class="card-title">Product Ratings</div>
+          <div class="product-testing-card-body">
+            <div id="product-ratings-list">
+              <div class="product-row" data-rank="1">
+                <span class="product-rank top">01</span>
+                <div class="product-info">
+                  <div class="product-name">Oat Milk Latte</div>
+                  <div class="product-bar-track"><div class="product-bar-fill" data-width="92%" style="width:0%;background:#003C2F;"></div></div>
+                </div>
+                <span class="product-score top">4.6</span>
+              </div>
+              <div class="product-row" data-rank="2">
+                <span class="product-rank top">02</span>
+                <div class="product-info">
+                  <div class="product-name">Cold Brew Tonic</div>
+                  <div class="product-bar-track"><div class="product-bar-fill" data-width="88%" style="width:0%;background:#003C2F;opacity:0.85;"></div></div>
+                </div>
+                <span class="product-score">4.4</span>
+              </div>
+              <div class="product-row" data-rank="3">
+                <span class="product-rank top">03</span>
+                <div class="product-info">
+                  <div class="product-name">Matcha Espresso Fusion</div>
+                  <div class="product-bar-track"><div class="product-bar-fill" data-width="86%" style="width:0%;background:#003C2F;opacity:0.72;"></div></div>
+                </div>
+                <span class="product-score">4.3</span>
+              </div>
+              <div class="product-row" data-rank="4">
+                <span class="product-rank">04</span>
+                <div class="product-info">
+                  <div class="product-name">Honey Flat White</div>
+                  <div class="product-bar-track"><div class="product-bar-fill" data-width="82%" style="width:0%;background:#7DA76F;"></div></div>
+                </div>
+                <span class="product-score">4.1</span>
+              </div>
+              <div class="product-row" data-rank="5">
+                <span class="product-rank">05</span>
+                <div class="product-info">
+                  <div class="product-name">Rooibos Chai Latte</div>
+                  <div class="product-bar-track"><div class="product-bar-fill" data-width="78%" style="width:0%;background:#7DA76F;opacity:0.75;"></div></div>
+                </div>
+                <span class="product-score">3.9</span>
+              </div>
+              <div class="product-row" data-rank="6">
+                <span class="product-rank">06</span>
+                <div class="product-info">
+                  <div class="product-name">Turmeric Latte</div>
+                  <div class="product-bar-track"><div class="product-bar-fill" data-width="74%" style="width:0%;background:#d4a393;"></div></div>
+                </div>
+                <span class="product-score">3.7</span>
+              </div>
+              <div class="product-row" data-rank="7">
+                <span class="product-rank">07</span>
+                <div class="product-info">
+                  <div class="product-name">Lavender Cappuccino</div>
+                  <div class="product-bar-track"><div class="product-bar-fill" data-width="70%" style="width:0%;background:#d4a393;opacity:0.75;"></div></div>
+                </div>
+                <span class="product-score">3.5</span>
+              </div>
+              <div class="product-row" data-rank="8">
+                <span class="product-rank">08</span>
+                <div class="product-info">
+                  <div class="product-name">Charcoal Vanilla Cold Brew</div>
+                  <div class="product-bar-track"><div class="product-bar-fill" data-width="64%" style="width:0%;background:#A1A1AA;"></div></div>
+                </div>
+                <span class="product-score">3.2</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT CARD: Taste Test Results -->
+        <div class="card product-testing-card anim-card">
+          <div class="card-title">Taste Test Results</div>
+          <div class="product-testing-card-body">
+            <div id="taste-test-cards">
+              <div class="taste-card">
+                <div class="taste-card-top">
+                  <span class="taste-card-name">Oat Milk Latte</span>
+                  <span class="taste-card-badge high">Top Performer</span>
+                </div>
+                <div class="taste-card-metrics">
+                  <div class="taste-metric">
+                    <div class="taste-metric-value">156</div>
+                    <div class="taste-metric-label">Testers</div>
+                  </div>
+                  <div class="taste-metric">
+                    <div class="taste-metric-value">4.6</div>
+                    <div class="taste-metric-label">Rating</div>
+                  </div>
+                  <div class="taste-metric">
+                    <div class="taste-metric-value">84%</div>
+                    <div class="taste-metric-label">Buy Intent</div>
+                  </div>
+                  <div class="taste-metric">
+                    <div class="taste-metric-value">91%</div>
+                    <div class="taste-metric-label">Recommend</div>
+                  </div>
+                </div>
+              </div>
+              <div class="taste-card">
+                <div class="taste-card-top">
+                  <span class="taste-card-name">Cold Brew Tonic</span>
+                  <span class="taste-card-badge high">Top Performer</span>
+                </div>
+                <div class="taste-card-metrics">
+                  <div class="taste-metric">
+                    <div class="taste-metric-value">132</div>
+                    <div class="taste-metric-label">Testers</div>
+                  </div>
+                  <div class="taste-metric">
+                    <div class="taste-metric-value">4.4</div>
+                    <div class="taste-metric-label">Rating</div>
+                  </div>
+                  <div class="taste-metric">
+                    <div class="taste-metric-value">78%</div>
+                    <div class="taste-metric-label">Buy Intent</div>
+                  </div>
+                  <div class="taste-metric">
+                    <div class="taste-metric-value">85%</div>
+                    <div class="taste-metric-label">Recommend</div>
+                  </div>
+                </div>
+              </div>
+              <div class="taste-card">
+                <div class="taste-card-top">
+                  <span class="taste-card-name">Matcha Espresso Fusion</span>
+                  <span class="taste-card-badge mid">Strong</span>
+                </div>
+                <div class="taste-card-metrics">
+                  <div class="taste-metric">
+                    <div class="taste-metric-value">128</div>
+                    <div class="taste-metric-label">Testers</div>
+                  </div>
+                  <div class="taste-metric">
+                    <div class="taste-metric-value">4.3</div>
+                    <div class="taste-metric-label">Rating</div>
+                  </div>
+                  <div class="taste-metric">
+                    <div class="taste-metric-value">75%</div>
+                    <div class="taste-metric-label">Buy Intent</div>
+                  </div>
+                  <div class="taste-metric">
+                    <div class="taste-metric-value">80%</div>
+                    <div class="taste-metric-label">Recommend</div>
+                  </div>
+                </div>
+              </div>
+              <div class="taste-card">
+                <div class="taste-card-top">
+                  <span class="taste-card-name">Honey Flat White</span>
+                  <span class="taste-card-badge mid">Strong</span>
+                </div>
+                <div class="taste-card-metrics">
+                  <div class="taste-metric">
+                    <div class="taste-metric-value">144</div>
+                    <div class="taste-metric-label">Testers</div>
+                  </div>
+                  <div class="taste-metric">
+                    <div class="taste-metric-value">4.1</div>
+                    <div class="taste-metric-label">Rating</div>
+                  </div>
+                  <div class="taste-metric">
+                    <div class="taste-metric-value">71%</div>
+                    <div class="taste-metric-label">Buy Intent</div>
+                  </div>
+                  <div class="taste-metric">
+                    <div class="taste-metric-value">74%</div>
+                    <div class="taste-metric-label">Recommend</div>
+                  </div>
+                </div>
+              </div>
+              <div class="taste-card">
+                <div class="taste-card-top">
+                  <span class="taste-card-name">Rooibos Chai Latte</span>
+                  <span class="taste-card-badge low">Moderate</span>
+                </div>
+                <div class="taste-card-metrics">
+                  <div class="taste-metric">
+                    <div class="taste-metric-value">118</div>
+                    <div class="taste-metric-label">Testers</div>
+                  </div>
+                  <div class="taste-metric">
+                    <div class="taste-metric-value">3.9</div>
+                    <div class="taste-metric-label">Rating</div>
+                  </div>
+                  <div class="taste-metric">
+                    <div class="taste-metric-value">62%</div>
+                    <div class="taste-metric-label">Buy Intent</div>
+                  </div>
+                  <div class="taste-metric">
+                    <div class="taste-metric-value">65%</div>
+                    <div class="taste-metric-label">Recommend</div>
+                  </div>
+                </div>
+              </div>
+              <div class="taste-card">
+                <div class="taste-card-top">
+                  <span class="taste-card-name">Turmeric Latte</span>
+                  <span class="taste-card-badge low">Moderate</span>
+                </div>
+                <div class="taste-card-metrics">
+                  <div class="taste-metric">
+                    <div class="taste-metric-value">96</div>
+                    <div class="taste-metric-label">Testers</div>
+                  </div>
+                  <div class="taste-metric">
+                    <div class="taste-metric-value">3.7</div>
+                    <div class="taste-metric-label">Rating</div>
+                  </div>
+                  <div class="taste-metric">
+                    <div class="taste-metric-value">54%</div>
+                    <div class="taste-metric-label">Buy Intent</div>
+                  </div>
+                  <div class="taste-metric">
+                    <div class="taste-metric-value">58%</div>
+                    <div class="taste-metric-label">Recommend</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- =============================================
+         PANEL 5: ALERTS & TRIGGERS
+         ============================================= -->
+    <div class="tab-panel" id="panel-alerts-triggers">
+      <div class="panel-header">
+        <div class="panel-header-left">
+          <div class="panel-header-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></div>
+          <div class="panel-header-text">
+            <h1>Alerts & Triggers</h1>
+            <p>Automated alert monitoring & trigger management</p>
+          </div>
+        </div>
+        <div class="panel-header-right">
+          <select class="filter-select">
+            <option>All Severities</option>
+            <option>Critical Only</option>
+            <option>Warning</option>
+            <option>Info</option>
+          </select>
+          <select class="filter-select">
+            <option>Last 7 days</option>
+            <option>Last 24 hours</option>
+            <option>Last 30 days</option>
+          </select>
+        </div>
+      </div>
+      <div class="content-area content-area-padded">
+        <div class="kpi-row">
+          <div class="kpi-card">
+            <div class="kpi-card-header">
+              <div class="kpi-icon neutral">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+              </div>
+              <div class="kpi-label">Active Alerts</div>
+            </div>
+            <div class="kpi-value"><span class="count-up" data-target="5" data-format="integer">0</span></div>
+            <div class="kpi-change negative">1 critical</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-card-header">
+              <div class="kpi-icon neutral">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+              </div>
+              <div class="kpi-label">Resolved This Week</div>
+            </div>
+            <div class="kpi-value"><span class="count-up" data-target="12" data-format="integer">0</span></div>
+            <div class="kpi-change positive">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 10V2M6 2L2.5 5.5M6 2L9.5 5.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              +4 vs last week
+            </div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-card-header">
+              <div class="kpi-icon neutral">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              </div>
+              <div class="kpi-label">Avg Resolution</div>
+            </div>
+            <div class="kpi-value"><span class="count-up" data-target="1.8" data-format="decimal" data-decimals="1">0</span><span class="kpi-suffix"> hrs</span></div>
+            <div class="kpi-change positive">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 2V10M6 10L2.5 6.5M6 10L9.5 6.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              -0.4 hrs
+            </div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-card-header">
+              <div class="kpi-icon neutral">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              </div>
+              <div class="kpi-label">Critical</div>
+            </div>
+            <div class="kpi-value"><span class="count-up" data-target="1" data-format="integer">0</span></div>
+            <div class="kpi-change negative">Needs attention</div>
+          </div>
+        </div>
+
+        <div class="chart-grid">
+          <div class="card anim-card" style="animation-delay: 400ms">
+            <div class="card-title">Active Alerts</div>
+            <div class="alert-item">
+              <div class="alert-icon critical">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              </div>
+              <div class="alert-content">
+                <div class="alert-title">Low satisfaction score - Maboneng</div>
+                <div class="alert-desc">Score dropped below 3.2 threshold for 3 consecutive days</div>
+              </div>
+              <div class="alert-time">12 min ago</div>
+            </div>
+            <div class="alert-item">
+              <div class="alert-icon warning">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+              </div>
+              <div class="alert-content">
+                <div class="alert-title">Declining NPS trend - Linden</div>
+                <div class="alert-desc">NPS dropped 8 points over last 2 weeks</div>
+              </div>
+              <div class="alert-time">2 hrs ago</div>
+            </div>
+            <div class="alert-item">
+              <div class="alert-icon warning">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+              </div>
+              <div class="alert-content">
+                <div class="alert-title">Wait time exceeds 6 minutes - Sandton City</div>
+                <div class="alert-desc">Average wait time peaked at 6.8 minutes during lunch rush</div>
+              </div>
+              <div class="alert-time">3 hrs ago</div>
+            </div>
+            <div class="alert-item">
+              <div class="alert-icon info">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+              </div>
+              <div class="alert-content">
+                <div class="alert-title">Survey response rate below target - Greenside</div>
+                <div class="alert-desc">Current rate at 22%, target is 30%</div>
+              </div>
+              <div class="alert-time">5 hrs ago</div>
+            </div>
+            <div class="alert-item">
+              <div class="alert-icon info">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+              </div>
+              <div class="alert-content">
+                <div class="alert-title">New product feedback threshold reached - Oat Latte</div>
+                <div class="alert-desc">Over 150 responses collected, ready for analysis review</div>
+              </div>
+              <div class="alert-time">8 hrs ago</div>
+            </div>
+          </div>
+
+          <div class="card anim-card" style="animation-delay: 500ms">
+            <div class="card-title">Recent Trigger Activations</div>
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Trigger</th>
+                  <th>Store</th>
+                  <th>Time</th>
+                  <th>Severity</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>Score &lt; 3.2</td><td>Maboneng</td><td>12 min ago</td><td><span class="status-badge status-critical">Critical</span></td></tr>
+                <tr><td>NPS drop &gt; 5</td><td>Linden</td><td>2 hrs ago</td><td><span class="status-badge status-warning">Warning</span></td></tr>
+                <tr><td>Wait &gt; 6 min</td><td>Sandton City</td><td>3 hrs ago</td><td><span class="status-badge status-warning">Warning</span></td></tr>
+                <tr><td>Response &lt; 30%</td><td>Greenside</td><td>5 hrs ago</td><td><span class="status-badge status-info">Info</span></td></tr>
+                <tr><td>Feedback threshold</td><td>All Stores</td><td>8 hrs ago</td><td><span class="status-badge status-info">Info</span></td></tr>
+                <tr><td>Cleanliness &lt; 3.5</td><td>Braamfontein</td><td>1 day ago</td><td><span class="status-badge status-warning">Warning</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- =============================================
+         PANEL 6: FRANCHISEE VIEW
+         ============================================= -->
+    <div class="tab-panel" id="panel-franchisee-view">
+      <div class="panel-header">
+        <div class="panel-header-left">
+          <div class="panel-header-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="10" width="5" height="12" rx="0.5"/><rect x="9.5" y="5" width="5" height="17" rx="0.5"/><rect x="17" y="2" width="5" height="20" rx="0.5"/></svg></div>
+          <div class="panel-header-text">
+            <h1>Franchisee View</h1>
+            <p>Franchise network performance & compliance</p>
+          </div>
+        </div>
+        <div class="panel-header-right">
+          <select class="filter-select">
+            <option>This Year</option>
+            <option>Last Quarter</option>
+            <option>Last Year</option>
+          </select>
+          <select class="filter-select">
+            <option>All Regions</option>
+            <option>Gauteng</option>
+            <option>Western Cape</option>
+            <option>KwaZulu-Natal</option>
+          </select>
+        </div>
+      </div>
+      <div class="content-area content-area-padded">
+        <div class="kpi-row">
+          <div class="kpi-card">
+            <div class="kpi-card-header">
+              <div class="kpi-icon neutral">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+              </div>
+              <div class="kpi-label">Total Franchisees</div>
+            </div>
+            <div class="kpi-value"><span class="count-up" data-target="24" data-format="integer">0</span></div>
+            <div class="kpi-change positive">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 10V2M6 2L2.5 5.5M6 2L9.5 5.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              +3 this year
+            </div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-card-header">
+              <div class="kpi-icon neutral">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+              </div>
+              <div class="kpi-label">Avg Revenue/Store</div>
+            </div>
+            <div class="kpi-value">R <span class="count-up" data-target="342" data-format="comma">0</span><span class="kpi-suffix">K</span></div>
+            <div class="kpi-change positive">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 10V2M6 2L2.5 5.5M6 2L9.5 5.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              +11.2%
+            </div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-card-header">
+              <div class="kpi-icon neutral">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+              </div>
+              <div class="kpi-label">Compliance Rate</div>
+            </div>
+            <div class="kpi-value"><span class="count-up" data-target="92" data-format="integer">0</span><span class="kpi-suffix">%</span></div>
+            <div class="kpi-change positive">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 10V2M6 2L2.5 5.5M6 2L9.5 5.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              +2%
+            </div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-card-header">
+              <div class="kpi-icon neutral">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+              </div>
+              <div class="kpi-label">Training Completion</div>
+            </div>
+            <div class="kpi-value"><span class="count-up" data-target="87" data-format="integer">0</span><span class="kpi-suffix">%</span></div>
+            <div class="kpi-change positive">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 10V2M6 2L2.5 5.5M6 2L9.5 5.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              +5%
+            </div>
+          </div>
+        </div>
+
+        <div class="chart-grid">
+          <div class="card anim-card" style="animation-delay: 400ms">
+            <div class="card-title">Regional Performance</div>
+            <div class="region-grid">
+              <div class="region-item">
+                <div class="region-label">Gauteng (12 stores)</div>
+                <div class="region-value">4.3 <span class="region-tag" style="color: var(--success);">avg</span></div>
+              </div>
+              <div class="region-item">
+                <div class="region-label">Western Cape (6 stores)</div>
+                <div class="region-value">4.5 <span class="region-tag" style="color: var(--success);">avg</span></div>
+              </div>
+              <div class="region-item">
+                <div class="region-label">KwaZulu-Natal (4 stores)</div>
+                <div class="region-value">4.1 <span class="region-tag" style="color: var(--warning);">avg</span></div>
+              </div>
+              <div class="region-item">
+                <div class="region-label">Eastern Cape (2 stores)</div>
+                <div class="region-value">3.9 <span class="region-tag" style="color: var(--warning);">avg</span></div>
+              </div>
+            </div>
+            <div style="margin-top: 20px;">
+              <div class="card-title" style="margin-bottom: 14px;">Revenue by Region</div>
+              <div class="h-bar-rows">
+                <div class="h-bar-row"><span class="h-bar-label">Gauteng</span><div class="h-bar-track"><div class="h-bar-fill" style="width:90%;background:rgba(0,60,47,1)"></div></div><span class="h-bar-value">R 4.1M</span></div>
+                <div class="h-bar-row"><span class="h-bar-label">Western Cape</span><div class="h-bar-track"><div class="h-bar-fill" style="width:65%;background:rgba(0,60,47,0.78)"></div></div><span class="h-bar-value">R 2.1M</span></div>
+                <div class="h-bar-row"><span class="h-bar-label">KwaZulu-Natal</span><div class="h-bar-track"><div class="h-bar-fill" style="width:42%;background:rgba(0,60,47,0.58)"></div></div><span class="h-bar-value">R 1.4M</span></div>
+                <div class="h-bar-row"><span class="h-bar-label">Eastern Cape</span><div class="h-bar-track"><div class="h-bar-fill" style="width:20%;background:rgba(0,60,47,0.40)"></div></div><span class="h-bar-value">R 0.6M</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card anim-card" style="animation-delay: 500ms">
+            <div class="card-title">Franchisee Ranking</div>
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Rank</th>
+                  <th>Franchisee</th>
+                  <th>Stores</th>
+                  <th>Score</th>
+                  <th>Compliance</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="color:#d97706;font-weight:700;">1</td>
+                  <td>Van der Merwe Group</td>
+                  <td>4</td>
+                  <td>4.7</td>
+                  <td><span class="status-badge status-active">98%</span></td>
+                </tr>
+                <tr>
+                  <td style="color:#9CA3AF;font-weight:700;">2</td>
+                  <td>Naidoo Enterprises</td>
+                  <td>3</td>
+                  <td>4.5</td>
+                  <td><span class="status-badge status-active">96%</span></td>
+                </tr>
+                <tr>
+                  <td style="color:#F5C7B8;font-weight:700;">3</td>
+                  <td>Mokoena Holdings</td>
+                  <td>3</td>
+                  <td>4.4</td>
+                  <td><span class="status-badge status-active">94%</span></td>
+                </tr>
+                <tr>
+                  <td style="font-weight:600;">4</td>
+                  <td>Smith & Co</td>
+                  <td>2</td>
+                  <td>4.2</td>
+                  <td><span class="status-badge status-completed">91%</span></td>
+                </tr>
+                <tr>
+                  <td style="font-weight:600;">5</td>
+                  <td>Patel Hospitality</td>
+                  <td>2</td>
+                  <td>4.0</td>
+                  <td><span class="status-badge status-completed">88%</span></td>
+                </tr>
+                <tr>
+                  <td style="font-weight:600;">6</td>
+                  <td>Botha Family Trust</td>
+                  <td>2</td>
+                  <td>3.8</td>
+                  <td><span class="status-badge status-pending">82%</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end main-area -->
+</div><!-- end app-layout -->
+
+<script>
+(function() {
+  'use strict';
+
+  // ---- Sidebar navigation ----
+  const navItems = document.querySelectorAll('.sidebar-nav .nav-item');
+  const tabPanels = document.querySelectorAll('.tab-panel');
+
+  function switchPanel(panelId) {
+    navItems.forEach(item => {
+      item.classList.toggle('active', item.dataset.panel === panelId);
+    });
+
+    tabPanels.forEach(panel => {
+      const isTarget = panel.id === 'panel-' + panelId;
+      if (isTarget) {
+        panel.classList.add('active');
+        panel.style.animation = 'none';
+        void panel.offsetWidth;
+        panel.style.animation = '';
+        triggerAnimations(panel);
+      } else {
+        panel.classList.remove('active');
+      }
+    });
+  }
+
+  navItems.forEach(item => {
+    item.addEventListener('click', function(e) {
+      e.preventDefault();
+      const panelId = this.dataset.panel;
+      if (panelId) switchPanel(panelId);
+    });
+  });
+
+  // ---- Animations ----
+  function triggerAnimations(panel) {
+    // KPI cards: staggered reveal using .visible class
+    const kpiCards = panel.querySelectorAll('.kpi-card');
+    kpiCards.forEach((card) => {
+      card.classList.remove('visible');
+      card.style.transitionDelay = '0ms';
+    });
+
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        kpiCards.forEach((card, i) => {
+          card.style.transitionDelay = (i * 100) + 'ms';
+          card.classList.add('visible');
+        });
+      });
+    });
+
+    // Anim cards (charts, tables)
+    const animCards = panel.querySelectorAll('.anim-card');
+    animCards.forEach((card) => {
+      card.classList.remove('animate-in');
+      card.style.opacity = '0';
+      card.style.transform = 'translateY(16px)';
+      void card.offsetWidth;
+    });
+
+    const baseDelay = kpiCards.length * 100 + 100;
+    animCards.forEach((card, i) => {
+      setTimeout(() => {
+        card.classList.add('animate-in');
+      }, baseDelay + i * 100);
+    });
+
+    // Lollipop chart animation
+    const lollipopLines = panel.querySelectorAll('.lollipop-line');
+    const lollipopDots = panel.querySelectorAll('.lollipop-dot');
+    lollipopLines.forEach(el => { el.style.width = '0%'; });
+    lollipopDots.forEach(el => { el.style.left = '0%'; el.style.opacity = '0'; });
+    setTimeout(() => {
+      lollipopLines.forEach((el, i) => {
+        setTimeout(() => {
+          el.style.width = el.dataset.width;
+        }, i * 60);
+      });
+      lollipopDots.forEach((el, i) => {
+        setTimeout(() => {
+          el.style.left = el.dataset.left;
+          el.style.opacity = '1';
+        }, i * 60 + 300);
+      });
+    }, baseDelay);
+
+    // Score row bar animation
+    const scoreFills = panel.querySelectorAll('.score-row-fill');
+    scoreFills.forEach(el => { el.style.width = '0%'; });
+    setTimeout(() => {
+      scoreFills.forEach((el, i) => {
+        setTimeout(() => {
+          el.style.width = el.dataset.width;
+        }, i * 80);
+      });
+    }, baseDelay + 100);
+
+    // Count-up values
+    const countEls = panel.querySelectorAll('.count-up');
+    countEls.forEach(el => {
+      el.textContent = '0';
+      void el.offsetWidth;
+    });
+    setTimeout(() => {
+      countEls.forEach(el => animateCount(el));
+    }, 200);
+
+    // Radar chart & segment cards (segments panel)
+    if (panel.id === 'panel-customer-segments') {
+      highlightedSegment = null;
+      setTimeout(() => {
+        buildRadarChart();
+        buildRadarLegend();
+        buildSegmentCards();
+        setTimeout(animateSegmentBars, 200);
+      }, baseDelay + 200);
+    }
+
+    // Product testing split panel animations
+    if (panel.id === 'panel-product-testing') {
+      const productRows = panel.querySelectorAll('.product-row');
+      const tasteCards = panel.querySelectorAll('.taste-card');
+      const productFills = panel.querySelectorAll('.product-bar-fill');
+
+      // Reset
+      productRows.forEach(r => r.classList.remove('visible'));
+      tasteCards.forEach(c => c.classList.remove('visible'));
+      productFills.forEach(f => { f.style.width = '0%'; });
+
+      // Stagger product rows from left
+      productRows.forEach((row, i) => {
+        setTimeout(() => {
+          row.classList.add('visible');
+        }, 100 + i * 70);
+      });
+
+      // Animate bars after rows appear
+      productFills.forEach((fill, i) => {
+        setTimeout(() => {
+          fill.style.width = fill.dataset.width;
+        }, 300 + i * 70);
+      });
+
+      // Stagger taste cards from right
+      tasteCards.forEach((card, i) => {
+        setTimeout(() => {
+          card.classList.add('visible');
+        }, 150 + i * 90);
+      });
+    }
+  }
+
+  // ---- Count-up animation ----
+  function animateCount(el) {
+    const target = parseFloat(el.dataset.target);
+    const format = el.dataset.format || 'integer';
+    const decimals = parseInt(el.dataset.decimals) || 0;
+    const duration = 1200;
+    const startTime = performance.now();
+
+    function easeOutCubic(t) {
+      return 1 - Math.pow(1 - t, 3);
+    }
+
+    function update(currentTime) {
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      const easedProgress = easeOutCubic(progress);
+      const currentVal = target * easedProgress;
+
+      if (format === 'comma') {
+        el.textContent = Math.round(currentVal).toLocaleString('en-US');
+      } else if (format === 'decimal') {
+        el.textContent = currentVal.toFixed(decimals);
+      } else {
+        el.textContent = Math.round(currentVal).toLocaleString('en-US');
+      }
+
+      if (progress < 1) {
+        requestAnimationFrame(update);
+      } else {
+        if (format === 'comma') {
+          el.textContent = Math.round(target).toLocaleString('en-US');
+        } else if (format === 'decimal') {
+          el.textContent = target.toFixed(decimals);
+        } else {
+          el.textContent = Math.round(target).toLocaleString('en-US');
+        }
+      }
+    }
+
+    requestAnimationFrame(update);
+  }
+
+  // ---- Radar Chart & Segment Profiles ----
+  const segmentColors = {
+    regular:  '#003C2F',
+    new:      '#7DA76F',
+    atRisk:   '#d4a393',
+    churned:  '#dc2626'
+  };
+
+  const segments = {
+    regular: {
+      name: 'Regular',
+      count: 3421,
+      pct: 67.7,
+      color: segmentColors.regular,
+      avgSpend: 'R 680',
+      visits: '8.4/mo',
+      satisfaction: '4.5',
+      // Radar dimensions: Visit Freq, Spend, Satisfaction, Loyalty, Advocacy (0-100)
+      radar: [92, 78, 90, 88, 82]
+    },
+    new: {
+      name: 'New',
+      count: 1203,
+      pct: 23.8,
+      color: segmentColors.new,
+      avgSpend: 'R 320',
+      visits: '3.2/mo',
+      satisfaction: '4.1',
+      radar: [38, 42, 82, 30, 55]
+    },
+    atRisk: {
+      name: 'At Risk',
+      count: 342,
+      pct: 6.8,
+      color: segmentColors.atRisk,
+      avgSpend: 'R 180',
+      visits: '1.4/mo',
+      satisfaction: '3.2',
+      radar: [18, 24, 48, 22, 20]
+    },
+    churned: {
+      name: 'Churned',
+      count: 89,
+      pct: 1.8,
+      color: segmentColors.churned,
+      avgSpend: 'R 0',
+      visits: '0/mo',
+      satisfaction: '2.6',
+      radar: [0, 5, 32, 8, 10]
+    }
+  };
+
+  const radarLabels = ['Visit Frequency', 'Spend Level', 'Satisfaction', 'Loyalty', 'Advocacy'];
+  const radarCx = 180, radarCy = 150, radarR = 110;
+  let activeSegments = ['regular', 'new', 'atRisk', 'churned'];
+  let highlightedSegment = null;
+
+  function polarToXY(cx, cy, r, angleDeg) {
+    const rad = (angleDeg - 90) * Math.PI / 180;
+    return { x: cx + r * Math.cos(rad), y: cy + r * Math.sin(rad) };
+  }
+
+  function buildRadarChart() {
+    const svg = document.getElementById('radar-chart');
+    if (!svg) return;
+    svg.innerHTML = '';
+    const numAxes = 5;
+    const angleStep = 360 / numAxes;
+
+    // Grid rings (4 levels)
+    for (let level = 1; level <= 4; level++) {
+      const r = (radarR / 4) * level;
+      let points = [];
+      for (let i = 0; i < numAxes; i++) {
+        const p = polarToXY(radarCx, radarCy, r, i * angleStep);
+        points.push(p.x + ',' + p.y);
+      }
+      const polygon = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
+      polygon.setAttribute('points', points.join(' '));
+      polygon.setAttribute('class', 'radar-grid-line');
+      svg.appendChild(polygon);
+    }
+
+    // Axes
+    for (let i = 0; i < numAxes; i++) {
+      const p = polarToXY(radarCx, radarCy, radarR, i * angleStep);
+      const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+      line.setAttribute('x1', radarCx);
+      line.setAttribute('y1', radarCy);
+      line.setAttribute('x2', p.x);
+      line.setAttribute('y2', p.y);
+      line.setAttribute('class', 'radar-axis');
+      svg.appendChild(line);
+    }
+
+    // Axis labels
+    const labelOffsets = [
+      { dx: 0, dy: -18, anchor: 'middle' },
+      { dx: 18, dy: 4, anchor: 'start' },
+      { dx: 12, dy: 18, anchor: 'start' },
+      { dx: -12, dy: 18, anchor: 'end' },
+      { dx: -18, dy: 4, anchor: 'end' }
+    ];
+    for (let i = 0; i < numAxes; i++) {
+      const p = polarToXY(radarCx, radarCy, radarR + 8, i * angleStep);
+      const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+      text.setAttribute('x', p.x + labelOffsets[i].dx);
+      text.setAttribute('y', p.y + labelOffsets[i].dy);
+      text.setAttribute('text-anchor', labelOffsets[i].anchor);
+      text.setAttribute('class', 'radar-axis-label');
+      text.textContent = radarLabels[i];
+      svg.appendChild(text);
+    }
+
+    // Data areas (draw in reverse so first segment is on top)
+    const segKeys = [...activeSegments].reverse();
+    segKeys.forEach(key => {
+      const seg = segments[key];
+      const values = seg.radar;
+      let points = [];
+      for (let i = 0; i < numAxes; i++) {
+        const r = (values[i] / 100) * radarR;
+        const p = polarToXY(radarCx, radarCy, r, i * angleStep);
+        points.push(p.x + ',' + p.y);
+      }
+
+      const isHighlighted = !highlightedSegment || highlightedSegment === key;
+      const opacity = highlightedSegment && highlightedSegment !== key ? 0.08 : 0.18;
+      const strokeOpacity = highlightedSegment && highlightedSegment !== key ? 0.15 : 0.9;
+
+      const area = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
+      area.setAttribute('points', points.join(' '));
+      area.setAttribute('fill', seg.color);
+      area.setAttribute('fill-opacity', opacity);
+      area.setAttribute('stroke', seg.color);
+      area.setAttribute('stroke-width', highlightedSegment === key ? '2.5' : '1.5');
+      area.setAttribute('stroke-opacity', strokeOpacity);
+      area.setAttribute('class', 'radar-area');
+      area.setAttribute('data-segment', key);
+      area.addEventListener('click', () => toggleHighlight(key));
+      svg.appendChild(area);
+
+      // Dots on vertices
+      if (isHighlighted || !highlightedSegment) {
+        for (let i = 0; i < numAxes; i++) {
+          const r = (values[i] / 100) * radarR;
+          const p = polarToXY(radarCx, radarCy, r, i * angleStep);
+          const dot = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+          dot.setAttribute('cx', p.x);
+          dot.setAttribute('cy', p.y);
+          dot.setAttribute('r', highlightedSegment === key ? '4' : '3');
+          dot.setAttribute('fill', seg.color);
+          dot.setAttribute('class', 'radar-dot');
+          dot.setAttribute('opacity', strokeOpacity);
+          svg.appendChild(dot);
+        }
+      }
+    });
+  }
+
+  function toggleHighlight(key) {
+    highlightedSegment = highlightedSegment === key ? null : key;
+    buildRadarChart();
+    updateRadarLegend();
+    updateSegmentCards();
+  }
+
+  function buildRadarLegend() {
+    const container = document.getElementById('radar-legend');
+    if (!container) return;
+    container.innerHTML = '';
+    Object.keys(segments).forEach(key => {
+      const seg = segments[key];
+      const item = document.createElement('div');
+      item.className = 'radar-legend-item' + (highlightedSegment === key ? ' active' : '');
+      item.innerHTML = '<span class="radar-legend-dot" style="background:' + seg.color + '"></span>' + seg.name;
+      item.addEventListener('click', () => toggleHighlight(key));
+      container.appendChild(item);
+    });
+  }
+
+  function updateRadarLegend() {
+    const items = document.querySelectorAll('.radar-legend-item');
+    const keys = Object.keys(segments);
+    items.forEach((item, i) => {
+      item.classList.toggle('active', highlightedSegment === keys[i]);
+    });
+  }
+
+  function buildSegmentCards() {
+    const container = document.getElementById('segment-cards');
+    if (!container) return;
+    container.innerHTML = '';
+    Object.keys(segments).forEach(key => {
+      const seg = segments[key];
+      const isSelected = highlightedSegment === key;
+      const card = document.createElement('div');
+      card.className = 'segment-card' + (isSelected ? ' selected' : '');
+      card.setAttribute('data-segment-key', key);
+      card.innerHTML =
+        '<div class="segment-card-header">' +
+          '<div class="segment-card-left">' +
+            '<span class="segment-dot" style="background:' + seg.color + '"></span>' +
+            '<span class="segment-card-name">' + seg.name + '</span>' +
+          '</div>' +
+          '<span class="segment-card-count">' + seg.count.toLocaleString() + ' (' + seg.pct + '%)</span>' +
+        '</div>' +
+        '<div class="segment-metrics">' +
+          '<div class="segment-metric"><div class="segment-metric-value">' + seg.avgSpend + '</div><div class="segment-metric-label">Avg Spend</div></div>' +
+          '<div class="segment-metric"><div class="segment-metric-value">' + seg.visits + '</div><div class="segment-metric-label">Visits</div></div>' +
+          '<div class="segment-metric"><div class="segment-metric-value">' + seg.satisfaction + '</div><div class="segment-metric-label">CSAT</div></div>' +
+        '</div>' +
+        '<div class="segment-bar-track"><div class="segment-bar-fill" data-width="' + seg.pct + '%" style="width:0%;background:' + seg.color + '"></div></div>';
+      card.addEventListener('click', () => toggleHighlight(key));
+      container.appendChild(card);
+    });
+  }
+
+  function updateSegmentCards() {
+    const cards = document.querySelectorAll('.segment-card');
+    cards.forEach(card => {
+      const key = card.getAttribute('data-segment-key');
+      card.classList.toggle('selected', highlightedSegment === key);
+    });
+  }
+
+  function animateSegmentBars() {
+    const fills = document.querySelectorAll('.segment-bar-fill');
+    fills.forEach((fill, i) => {
+      fill.style.width = '0%';
+      setTimeout(() => {
+        fill.style.width = fill.dataset.width;
+      }, i * 80 + 100);
+    });
+  }
+
+  // ---- Store selection & Experience Scores ----
+  const storeData = {
+    'va-waterfront': {
+      name: 'V&A Waterfront',
+      quality: { score: 4.8, width: 96, change: '+0.3', dir: 'up' },
+      staff:   { score: 4.6, width: 92, change: '+0.2', dir: 'up' },
+      ambience:{ score: 4.7, width: 94, change: '+0.1', dir: 'up' },
+      speed:   { score: 4.5, width: 90, change: '+0.2', dir: 'up' },
+      clean:   { score: 4.8, width: 96, change: '+0.1', dir: 'up' },
+      value:   { score: 4.2, width: 84, change: '+0.1', dir: 'up' },
+      wifi:    { score: 4.5, width: 90, change: '+0.3', dir: 'up' }
+    },
+    'rosebank': {
+      name: 'Rosebank',
+      quality: { score: 4.6, width: 92, change: '+0.2', dir: 'up' },
+      staff:   { score: 4.5, width: 90, change: '+0.1', dir: 'up' },
+      ambience:{ score: 4.4, width: 88, change: '+0.2', dir: 'up' },
+      speed:   { score: 4.3, width: 86, change: '-0.1', dir: 'down' },
+      clean:   { score: 4.6, width: 92, change: '+0.2', dir: 'up' },
+      value:   { score: 4.1, width: 82, change: '0.0', dir: 'flat' },
+      wifi:    { score: 4.3, width: 86, change: '+0.1', dir: 'up' }
+    },
+    'sandton': {
+      name: 'Sandton City',
+      quality: { score: 4.4, width: 88, change: '+0.1', dir: 'up' },
+      staff:   { score: 4.2, width: 84, change: '-0.1', dir: 'down' },
+      ambience:{ score: 4.5, width: 90, change: '+0.3', dir: 'up' },
+      speed:   { score: 4.0, width: 80, change: '-0.2', dir: 'down' },
+      clean:   { score: 4.4, width: 88, change: '+0.1', dir: 'up' },
+      value:   { score: 3.9, width: 78, change: '-0.1', dir: 'down' },
+      wifi:    { score: 4.2, width: 84, change: '+0.2', dir: 'up' }
+    },
+    'menlyn': {
+      name: 'Menlyn',
+      quality: { score: 4.3, width: 86, change: '+0.1', dir: 'up' },
+      staff:   { score: 4.1, width: 82, change: '0.0', dir: 'flat' },
+      ambience:{ score: 4.2, width: 84, change: '+0.1', dir: 'up' },
+      speed:   { score: 4.0, width: 80, change: '-0.1', dir: 'down' },
+      clean:   { score: 4.3, width: 86, change: '+0.2', dir: 'up' },
+      value:   { score: 3.8, width: 76, change: '-0.2', dir: 'down' },
+      wifi:    { score: 4.1, width: 82, change: '0.0', dir: 'flat' }
+    },
+    'melrose': {
+      name: 'Melrose Arch',
+      quality: { score: 4.2, width: 84, change: '0.0', dir: 'flat' },
+      staff:   { score: 4.0, width: 80, change: '+0.1', dir: 'up' },
+      ambience:{ score: 4.3, width: 86, change: '+0.2', dir: 'up' },
+      speed:   { score: 3.9, width: 78, change: '-0.1', dir: 'down' },
+      clean:   { score: 4.2, width: 84, change: '+0.1', dir: 'up' },
+      value:   { score: 3.7, width: 74, change: '-0.1', dir: 'down' },
+      wifi:    { score: 4.0, width: 80, change: '+0.1', dir: 'up' }
+    },
+    'greenside': {
+      name: 'Greenside',
+      quality: { score: 4.0, width: 80, change: '-0.1', dir: 'down' },
+      staff:   { score: 3.9, width: 78, change: '0.0', dir: 'flat' },
+      ambience:{ score: 3.8, width: 76, change: '-0.1', dir: 'down' },
+      speed:   { score: 3.7, width: 74, change: '-0.2', dir: 'down' },
+      clean:   { score: 4.1, width: 82, change: '+0.1', dir: 'up' },
+      value:   { score: 3.6, width: 72, change: '0.0', dir: 'flat' },
+      wifi:    { score: 3.8, width: 76, change: '-0.1', dir: 'down' }
+    },
+    'braamfontein': {
+      name: 'Braamfontein',
+      quality: { score: 3.9, width: 78, change: '-0.1', dir: 'down' },
+      staff:   { score: 3.7, width: 74, change: '-0.2', dir: 'down' },
+      ambience:{ score: 3.8, width: 76, change: '0.0', dir: 'flat' },
+      speed:   { score: 3.5, width: 70, change: '-0.3', dir: 'down' },
+      clean:   { score: 3.9, width: 78, change: '+0.1', dir: 'up' },
+      value:   { score: 3.5, width: 70, change: '-0.1', dir: 'down' },
+      wifi:    { score: 3.6, width: 72, change: '-0.2', dir: 'down' }
+    },
+    'maboneng': {
+      name: 'Maboneng',
+      quality: { score: 3.3, width: 66, change: '-0.3', dir: 'down' },
+      staff:   { score: 3.0, width: 60, change: '-0.2', dir: 'down' },
+      ambience:{ score: 3.2, width: 64, change: '-0.1', dir: 'down' },
+      speed:   { score: 2.8, width: 56, change: '-0.4', dir: 'down' },
+      clean:   { score: 3.1, width: 62, change: '-0.2', dir: 'down' },
+      value:   { score: 2.9, width: 58, change: '-0.3', dir: 'down' },
+      wifi:    { score: 3.0, width: 60, change: '-0.1', dir: 'down' }
+    }
+  };
+
+  function updateExperienceScores(storeKey) {
+    const data = storeData[storeKey];
+    if (!data) return;
+
+    // Update store label
+    const label = document.getElementById('store-score-label');
+    if (label) label.textContent = data.name;
+
+    // Update each score row
+    const categories = ['quality', 'staff', 'ambience', 'speed', 'clean', 'value', 'wifi'];
+    categories.forEach((cat, i) => {
+      const row = document.querySelector('.score-row[data-cat="' + cat + '"]');
+      if (!row) return;
+      const fill = row.querySelector('.score-row-fill');
+      const val = row.querySelector('.score-row-value');
+      const change = row.querySelector('.score-row-change');
+
+      if (fill) {
+        fill.style.width = '0%';
+        setTimeout(() => {
+          fill.style.width = data[cat].width + '%';
+          fill.dataset.width = data[cat].width + '%';
+        }, i * 50 + 50);
+      }
+      if (val) val.textContent = data[cat].score.toFixed(1);
+      if (change) {
+        change.textContent = data[cat].change;
+        change.className = 'score-row-change ' + data[cat].dir;
+      }
+    });
+  }
+
+  // Attach click handlers to lollipop rows
+  document.querySelectorAll('.lollipop-row').forEach(row => {
+    row.addEventListener('click', function() {
+      // Update selected state
+      document.querySelectorAll('.lollipop-row').forEach(r => r.classList.remove('selected'));
+      this.classList.add('selected');
+
+      // Update experience scores for this store
+      const storeKey = this.dataset.store;
+      if (storeKey) updateExperienceScores(storeKey);
+    });
+  });
+
+  // ---- Initial load ----
+  function init() {
+    const activePanel = document.querySelector('.tab-panel.active');
+    if (activePanel) {
+      setTimeout(() => {
+        triggerAnimations(activePanel);
+      }, 100);
+    }
+  }
+
+  if (document.readyState === 'complete') {
+    init();
+  } else {
+    window.addEventListener('load', init);
+  }
+})();
+</script>
+</body>
+</html>
