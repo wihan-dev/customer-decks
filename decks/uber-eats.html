@@ -572,13 +572,20 @@
     display: flex;
     flex-direction: column;
     min-height: 0;
+    overflow: hidden;
+  }
+
+  .chart-grid > .card > .card-title {
+    flex-shrink: 0;
   }
 
   .chart-grid > .card > .chart-container,
   .chart-grid > .card > .lollipop-chart,
-  .chart-grid > .card > div:last-child {
+  .chart-grid > .card > div:last-child,
+  .chart-grid > .card > table {
     flex: 1;
     min-height: 0;
+    overflow-y: auto;
   }
 
   .chart-grid > .card > .chart-container svg {
@@ -757,6 +764,12 @@
   /* =========================================
      TABLES
      ========================================= */
+  .data-table-wrap {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+  }
+
   .data-table {
     width: 100%;
     border-collapse: collapse;
@@ -816,12 +829,16 @@
   .alert-item {
     display: flex;
     align-items: flex-start;
-    gap: 12px;
-    padding: 14px 16px;
-    border-radius: 10px;
+    gap: 10px;
+    padding: 10px 12px;
+    border-radius: 8px;
     border: 1px solid var(--muted-border);
-    margin-bottom: 10px;
+    margin-bottom: 8px;
     transition: background 150ms ease;
+  }
+
+  .alert-item:last-child {
+    margin-bottom: 0;
   }
 
   .alert-item:hover { background: rgba(0, 0, 0, 0.02); }
@@ -1605,114 +1622,106 @@
         <div class="chart-grid">
           <!-- Active Alerts -->
           <div class="card anim-card" style="animation-delay: 400ms">
-            <div class="card-title">Active Alerts</div>
-            <div class="alert-item">
-              <div class="alert-icon critical">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            <div class="card-title">Active Alerts <span class="badge">14 Active</span></div>
+            <div style="flex:1;min-height:0;overflow-y:auto;">
+              <div class="alert-item">
+                <div class="alert-icon critical">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                </div>
+                <div class="alert-content">
+                  <div class="alert-title">Driver rating below 3.0 - Polokwane</div>
+                  <div class="alert-desc">3 drivers below threshold</div>
+                </div>
+                <div class="alert-time">8m ago</div>
               </div>
-              <div class="alert-content">
-                <div class="alert-title">Driver rating below 3.0 - Polokwane region</div>
-                <div class="alert-desc">3 drivers consistently rated below threshold</div>
+              <div class="alert-item">
+                <div class="alert-icon critical">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                </div>
+                <div class="alert-content">
+                  <div class="alert-title">Delivery time spike - Sandton</div>
+                  <div class="alert-desc">Avg exceeded 50 min during lunch</div>
+                </div>
+                <div class="alert-time">24m ago</div>
               </div>
-              <div class="alert-time">8 min ago</div>
-            </div>
-            <div class="alert-item">
-              <div class="alert-icon critical">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              <div class="alert-item">
+                <div class="alert-icon critical">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                </div>
+                <div class="alert-content">
+                  <div class="alert-title">Food complaints surge - JHB North</div>
+                  <div class="alert-desc">12 complaints in 4 hours</div>
+                </div>
+                <div class="alert-time">1h ago</div>
               </div>
-              <div class="alert-content">
-                <div class="alert-title">Delivery time spike - Sandton area</div>
-                <div class="alert-desc">Avg delivery exceeded 50 min during lunch rush</div>
+              <div class="alert-item">
+                <div class="alert-icon warning">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                </div>
+                <div class="alert-content">
+                  <div class="alert-title">NPS decline - Pretoria East</div>
+                  <div class="alert-desc">Dropped 11 pts over 2 weeks</div>
+                </div>
+                <div class="alert-time">2h ago</div>
               </div>
-              <div class="alert-time">24 min ago</div>
-            </div>
-            <div class="alert-item">
-              <div class="alert-icon critical">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              <div class="alert-item">
+                <div class="alert-icon warning">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                </div>
+                <div class="alert-content">
+                  <div class="alert-title">Low response rate - Bloemfontein</div>
+                  <div class="alert-desc">Response rate at 18%, target 30%</div>
+                </div>
+                <div class="alert-time">3h ago</div>
               </div>
-              <div class="alert-content">
-                <div class="alert-title">Food condition complaints surge - JHB North</div>
-                <div class="alert-desc">12 complaints in 4 hours, investigate driver handling</div>
+              <div class="alert-item">
+                <div class="alert-icon info">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                </div>
+                <div class="alert-content">
+                  <div class="alert-title">New driver batch - Cape Town</div>
+                  <div class="alert-desc">42 new drivers activated</div>
+                </div>
+                <div class="alert-time">5h ago</div>
               </div>
-              <div class="alert-time">1 hr ago</div>
-            </div>
-            <div class="alert-item">
-              <div class="alert-icon warning">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+              <div class="alert-item">
+                <div class="alert-icon info">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                </div>
+                <div class="alert-content">
+                  <div class="alert-title">Weekly report ready</div>
+                  <div class="alert-desc">All 10 regions included</div>
+                </div>
+                <div class="alert-time">12h ago</div>
               </div>
-              <div class="alert-content">
-                <div class="alert-title">NPS decline - Pretoria East</div>
-                <div class="alert-desc">NPS dropped 11 points over 2 weeks</div>
-              </div>
-              <div class="alert-time">2 hrs ago</div>
-            </div>
-            <div class="alert-item">
-              <div class="alert-icon warning">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-              </div>
-              <div class="alert-content">
-                <div class="alert-title">Low survey response rate - Bloemfontein</div>
-                <div class="alert-desc">Response rate dropped to 18%, well below 30% target</div>
-              </div>
-              <div class="alert-time">3 hrs ago</div>
-            </div>
-            <div class="alert-item">
-              <div class="alert-icon info">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-              </div>
-              <div class="alert-content">
-                <div class="alert-title">New driver onboarding batch complete</div>
-                <div class="alert-desc">42 new drivers activated in Cape Town region</div>
-              </div>
-              <div class="alert-time">5 hrs ago</div>
-            </div>
-            <div class="alert-item">
-              <div class="alert-icon info">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-              </div>
-              <div class="alert-content">
-                <div class="alert-title">Driver feedback milestone - Durban</div>
-                <div class="alert-desc">500 driver feedback responses collected this month</div>
-              </div>
-              <div class="alert-time">8 hrs ago</div>
-            </div>
-            <div class="alert-item">
-              <div class="alert-icon info">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-              </div>
-              <div class="alert-content">
-                <div class="alert-title">Weekly driver satisfaction report ready</div>
-                <div class="alert-desc">Report generated for all 10 active regions</div>
-              </div>
-              <div class="alert-time">12 hrs ago</div>
             </div>
           </div>
 
           <!-- Trigger Activations -->
           <div class="card anim-card" style="animation-delay: 500ms">
             <div class="card-title">Recent Trigger Activations</div>
-            <table class="data-table">
-              <thead>
-                <tr>
-                  <th>Trigger</th>
-                  <th>Region</th>
-                  <th>Time</th>
-                  <th>Severity</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr><td>Rating &lt; 3.0</td><td>Polokwane</td><td>8 min ago</td><td><span class="status-badge status-critical">Critical</span></td></tr>
-                <tr><td>Delivery &gt; 50 min</td><td>Sandton</td><td>24 min ago</td><td><span class="status-badge status-critical">Critical</span></td></tr>
-                <tr><td>Complaints &gt; 10/hr</td><td>JHB North</td><td>1 hr ago</td><td><span class="status-badge status-critical">Critical</span></td></tr>
-                <tr><td>NPS drop &gt; 10</td><td>Pretoria East</td><td>2 hrs ago</td><td><span class="status-badge status-warning">Warning</span></td></tr>
-                <tr><td>Response &lt; 20%</td><td>Bloemfontein</td><td>3 hrs ago</td><td><span class="status-badge status-warning">Warning</span></td></tr>
-                <tr><td>Driver batch complete</td><td>Cape Town</td><td>5 hrs ago</td><td><span class="status-badge status-info">Info</span></td></tr>
-                <tr><td>Feedback milestone</td><td>Durban</td><td>8 hrs ago</td><td><span class="status-badge status-info">Info</span></td></tr>
-                <tr><td>Weekly report</td><td>All Regions</td><td>12 hrs ago</td><td><span class="status-badge status-info">Info</span></td></tr>
-                <tr><td>On-time &lt; 80%</td><td>East London</td><td>1 day ago</td><td><span class="status-badge status-warning">Warning</span></td></tr>
-                <tr><td>Driver churn &gt; 5%</td><td>Port Elizabeth</td><td>1 day ago</td><td><span class="status-badge status-warning">Warning</span></td></tr>
-              </tbody>
-            </table>
+            <div style="flex:1;min-height:0;overflow-y:auto;">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Trigger</th>
+                    <th>Region</th>
+                    <th>Time</th>
+                    <th>Severity</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><td>Rating &lt; 3.0</td><td>Polokwane</td><td>8m ago</td><td><span class="status-badge status-critical">Critical</span></td></tr>
+                  <tr><td>Delivery &gt; 50 min</td><td>Sandton</td><td>24m ago</td><td><span class="status-badge status-critical">Critical</span></td></tr>
+                  <tr><td>Complaints &gt; 10/hr</td><td>JHB North</td><td>1h ago</td><td><span class="status-badge status-critical">Critical</span></td></tr>
+                  <tr><td>NPS drop &gt; 10</td><td>Pretoria</td><td>2h ago</td><td><span class="status-badge status-warning">Warning</span></td></tr>
+                  <tr><td>Response &lt; 20%</td><td>Bloemfontein</td><td>3h ago</td><td><span class="status-badge status-warning">Warning</span></td></tr>
+                  <tr><td>Driver batch done</td><td>Cape Town</td><td>5h ago</td><td><span class="status-badge status-info">Info</span></td></tr>
+                  <tr><td>On-time &lt; 80%</td><td>East London</td><td>1d ago</td><td><span class="status-badge status-warning">Warning</span></td></tr>
+                  <tr><td>Churn &gt; 5%</td><td>Port Elizabeth</td><td>1d ago</td><td><span class="status-badge status-warning">Warning</span></td></tr>
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>
@@ -1884,71 +1893,73 @@
 
           <!-- Regional Rankings Table -->
           <div class="card anim-card" style="animation-delay: 500ms">
-            <div class="card-title">Regional Rankings</div>
-            <table class="data-table">
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th>Region</th>
-                  <th>Drivers</th>
-                  <th>CSAT</th>
-                  <th>NPS</th>
-                  <th>Trend</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style="color:#06C167;font-weight:700;">1</td>
-                  <td>Cape Town</td><td>624</td><td>4.6</td><td>74</td>
-                  <td><span class="status-badge status-active">+3.8%</span></td>
-                </tr>
-                <tr>
-                  <td style="color:#06C167;font-weight:700;">2</td>
-                  <td>Stellenbosch</td><td>187</td><td>4.4</td><td>69</td>
-                  <td><span class="status-badge status-active">+2.4%</span></td>
-                </tr>
-                <tr>
-                  <td style="color:#06C167;font-weight:700;">3</td>
-                  <td>Durban</td><td>512</td><td>4.3</td><td>66</td>
-                  <td><span class="status-badge status-active">+5.1%</span></td>
-                </tr>
-                <tr>
-                  <td style="font-weight:600;">4</td>
-                  <td>Sandton</td><td>389</td><td>4.2</td><td>63</td>
-                  <td><span class="status-badge status-completed">+1.9%</span></td>
-                </tr>
-                <tr>
-                  <td style="font-weight:600;">5</td>
-                  <td>Johannesburg</td><td>743</td><td>4.1</td><td>59</td>
-                  <td><span class="status-badge status-completed">+1.2%</span></td>
-                </tr>
-                <tr>
-                  <td style="font-weight:600;">6</td>
-                  <td>Pretoria</td><td>456</td><td>3.9</td><td>52</td>
-                  <td><span class="status-badge status-completed">+0.8%</span></td>
-                </tr>
-                <tr>
-                  <td style="font-weight:600;">7</td>
-                  <td>Port Elizabeth</td><td>234</td><td>3.7</td><td>45</td>
-                  <td><span class="status-badge status-warning">-0.6%</span></td>
-                </tr>
-                <tr>
-                  <td style="font-weight:600;">8</td>
-                  <td>Bloemfontein</td><td>198</td><td>3.6</td><td>42</td>
-                  <td><span class="status-badge status-warning">-1.3%</span></td>
-                </tr>
-                <tr>
-                  <td style="font-weight:600;">9</td>
-                  <td>East London</td><td>156</td><td>3.4</td><td>38</td>
-                  <td><span class="status-badge status-warning">-0.9%</span></td>
-                </tr>
-                <tr>
-                  <td style="font-weight:600;">10</td>
-                  <td>Polokwane</td><td>143</td><td>3.2</td><td>31</td>
-                  <td><span class="status-badge status-critical">-2.7%</span></td>
-                </tr>
-              </tbody>
-            </table>
+            <div class="card-title">Regional Rankings <span class="badge">All Regions</span></div>
+            <div style="flex:1;min-height:0;overflow-y:auto;">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Region</th>
+                    <th>Drivers</th>
+                    <th>CSAT</th>
+                    <th>NPS</th>
+                    <th>Trend</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td style="color:#06C167;font-weight:700;">1</td>
+                    <td>Cape Town</td><td>624</td><td>4.6</td><td>74</td>
+                    <td><span class="status-badge status-active">+3.8%</span></td>
+                  </tr>
+                  <tr>
+                    <td style="color:#06C167;font-weight:700;">2</td>
+                    <td>Stellenbosch</td><td>187</td><td>4.4</td><td>69</td>
+                    <td><span class="status-badge status-active">+2.4%</span></td>
+                  </tr>
+                  <tr>
+                    <td style="color:#06C167;font-weight:700;">3</td>
+                    <td>Durban</td><td>512</td><td>4.3</td><td>66</td>
+                    <td><span class="status-badge status-active">+5.1%</span></td>
+                  </tr>
+                  <tr>
+                    <td style="font-weight:600;">4</td>
+                    <td>Sandton</td><td>389</td><td>4.2</td><td>63</td>
+                    <td><span class="status-badge status-completed">+1.9%</span></td>
+                  </tr>
+                  <tr>
+                    <td style="font-weight:600;">5</td>
+                    <td>Johannesburg</td><td>743</td><td>4.1</td><td>59</td>
+                    <td><span class="status-badge status-completed">+1.2%</span></td>
+                  </tr>
+                  <tr>
+                    <td style="font-weight:600;">6</td>
+                    <td>Pretoria</td><td>456</td><td>3.9</td><td>52</td>
+                    <td><span class="status-badge status-completed">+0.8%</span></td>
+                  </tr>
+                  <tr>
+                    <td style="font-weight:600;">7</td>
+                    <td>Port Elizabeth</td><td>234</td><td>3.7</td><td>45</td>
+                    <td><span class="status-badge status-warning">-0.6%</span></td>
+                  </tr>
+                  <tr>
+                    <td style="font-weight:600;">8</td>
+                    <td>Bloemfontein</td><td>198</td><td>3.6</td><td>42</td>
+                    <td><span class="status-badge status-warning">-1.3%</span></td>
+                  </tr>
+                  <tr>
+                    <td style="font-weight:600;">9</td>
+                    <td>East London</td><td>156</td><td>3.4</td><td>38</td>
+                    <td><span class="status-badge status-warning">-0.9%</span></td>
+                  </tr>
+                  <tr>
+                    <td style="font-weight:600;">10</td>
+                    <td>Polokwane</td><td>143</td><td>3.2</td><td>31</td>
+                    <td><span class="status-badge status-critical">-2.7%</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>
