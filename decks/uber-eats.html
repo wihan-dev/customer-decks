@@ -129,12 +129,23 @@
     width: 18px;
     height: 18px;
     flex-shrink: 0;
+  }
+
+  .nav-item svg {
     color: #A1A1AA;
   }
 
-  .nav-item.active svg { color: #06C167; }
-  .nav-item:hover svg { color: #71717A; }
-  .nav-item.active:hover svg { color: #06C167; }
+  .nav-item.active svg {
+    color: #06C167;
+  }
+
+  .nav-item:hover svg {
+    color: #71717A;
+  }
+
+  .nav-item.active:hover svg {
+    color: #06C167;
+  }
 
   .sidebar-spacer { flex: 1; }
 
@@ -298,9 +309,7 @@
     padding: 0 48px;
   }
 
-  /* =========================================
-     TAB PANELS
-     ========================================= */
+  /* Tab panels */
   .tab-panel {
     display: none;
     flex-direction: column;
@@ -315,7 +324,31 @@
   }
 
   /* =========================================
-     GRID LAYOUTS
+     CARDS
+     ========================================= */
+  .card {
+    background: var(--card);
+    border-radius: 12px;
+    border: 1px solid var(--muted-border);
+    padding: 24px;
+    transition: all 400ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .card:hover {
+    transform: scale(1.01);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+  }
+
+  .card-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--foreground);
+    margin-bottom: 20px;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  /* =========================================
+     KPI GRID - OVERVIEW (2x3, centered)
      ========================================= */
   .kpi-grid-hero {
     display: grid;
@@ -325,192 +358,423 @@
     max-width: 1000px;
   }
 
+  /* KPI GRID - INNER PANELS (4-col row) */
   .kpi-row {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 20px;
     margin-bottom: 28px;
   }
-  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
-  .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 24px; }
-  .full-width { margin-bottom: 24px; }
 
   /* =========================================
-     CARD
-     ========================================= */
-  .card {
-    background: var(--card);
-    border-radius: 14px;
-    border: 1px solid var(--muted-border);
-    padding: 20px 24px;
-    transition: border-color 200ms, box-shadow 200ms;
-  }
-
-  .card:hover {
-    border-color: rgba(0,0,0,0.12);
-    box-shadow: 0 4px 20px rgba(0,0,0,0.04);
-  }
-
-  .card-title {
-    font-family: 'DM Sans', sans-serif;
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--foreground);
-    margin-bottom: 16px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  .card-title .badge {
-    font-size: 11px;
-    font-weight: 500;
-    padding: 3px 10px;
-    border-radius: 20px;
-    background: var(--primary-10);
-    color: var(--primary);
-    font-family: 'Inter', sans-serif;
-  }
-
-  /* =========================================
-     KPI CARD
+     KPI CARD - OVERVIEW (hero)
      ========================================= */
   .kpi-card {
     background: var(--card);
-    border-radius: 14px;
+    border-radius: 16px;
     border: 1px solid var(--muted-border);
-    padding: 20px 22px;
+    padding: 28px 28px 24px;
     position: relative;
     overflow: hidden;
-    transition: all 250ms ease;
+    opacity: 0;
+    transform: translateY(8px);
+    transition: all 600ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .kpi-card.visible {
+    opacity: 1;
+    transform: translateY(0);
   }
 
   .kpi-card:hover {
-    border-color: rgba(0,0,0,0.12);
-    transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+    transform: scale(1.015);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.07);
   }
 
-  .kpi-card::before {
-    content: '';
+  .kpi-card.visible:hover {
+    transform: scale(1.015);
+  }
+
+  /* Accent cards */
+  .kpi-card.accent {
+    border-color: rgba(6, 193, 103, 0.12);
+    background: linear-gradient(135deg, #FFFFFF 70%, rgba(6, 193, 103, 0.02) 100%);
+  }
+
+  .kpi-card.accent .kpi-value {
+    color: #06C167;
+  }
+
+  .kpi-glow {
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 2px;
-    background: var(--primary);
-    opacity: 0;
-    transition: opacity 300ms;
+    top: -30px;
+    right: -30px;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: rgba(6, 193, 103, 0.05);
+    filter: blur(40px);
+    pointer-events: none;
   }
 
-  .kpi-card:hover::before { opacity: 1; }
+  .kpi-card-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+
+  .kpi-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .kpi-icon svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .kpi-icon.neutral {
+    background: rgba(0, 0, 0, 0.05);
+    color: #A1A1AA;
+  }
+
+  .kpi-icon.primary {
+    background: rgba(6, 193, 103, 0.10);
+    color: #06C167;
+  }
 
   .kpi-label {
-    font-size: 12px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
     color: var(--foreground-muted);
-    font-weight: 500;
-    margin-bottom: 8px;
   }
 
   .kpi-value {
     font-family: 'DM Sans', sans-serif;
-    font-size: 28px;
+    font-size: 42px;
     font-weight: 700;
-    color: var(--foreground);
-    line-height: 1.1;
-    margin-bottom: 6px;
+    line-height: 1;
+    color: #1A1A1A;
+    margin-bottom: 8px;
+  }
+
+  .kpi-suffix {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--foreground-muted);
+  }
+
+  .kpi-desc {
+    font-size: 13px;
+    color: var(--foreground-muted);
+  }
+
+  .kpi-desc.success {
+    color: var(--success);
+  }
+
+  .kpi-desc.soft-green {
+    color: #4a9a6e;
+  }
+
+  /* =========================================
+     INNER PANEL KPI CARDS (compact, no accent)
+     ========================================= */
+  .kpi-row .kpi-card {
+    border-radius: 16px;
+    padding: 22px 24px 20px;
+    border-color: var(--muted-border);
+    background: var(--card);
+  }
+
+  .kpi-row .kpi-card .kpi-value {
+    font-size: 32px;
+    color: #1A1A1A;
+  }
+
+  .kpi-row .kpi-card .kpi-card-header {
+    margin-bottom: 16px;
+  }
+
+  .kpi-row .kpi-card .kpi-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+  }
+
+  .kpi-row .kpi-card .kpi-icon svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .kpi-row .kpi-card .kpi-icon {
+    background: rgba(0, 0, 0, 0.05);
+    color: #A1A1AA;
+  }
+
+  .kpi-row .kpi-card .kpi-suffix {
+    font-size: 16px;
   }
 
   .kpi-change {
     font-size: 12px;
-    font-weight: 600;
-    display: inline-flex;
-    align-items: center;
-    gap: 3px;
-    padding: 2px 8px;
-    border-radius: 6px;
-  }
-
-  .kpi-change.up { color: #16a34a; background: rgba(22, 163, 74, 0.08); }
-  .kpi-change.down { color: #dc2626; background: rgba(220, 38, 38, 0.08); }
-
-  .kpi-icon {
-    position: absolute;
-    top: 16px;
-    right: 18px;
-    width: 38px;
-    height: 38px;
-    border-radius: 10px;
-    background: var(--primary-10);
+    font-weight: 500;
+    color: var(--foreground-muted);
     display: flex;
     align-items: center;
-    justify-content: center;
+    gap: 3px;
+    margin-top: 4px;
   }
 
-  .kpi-icon svg { width: 18px; height: 18px; color: var(--primary); }
+  .kpi-change.positive { color: var(--success); }
+  .kpi-change.negative { color: var(--danger); }
+  .kpi-change.neutral { color: var(--foreground-muted); }
 
   /* =========================================
-     SVG CHARTS
+     CHART GRID
      ========================================= */
-  .chart-container { width: 100%; position: relative; }
-  .chart-container svg { width: 100%; display: block; }
-  .bar-rect { transition: opacity 200ms; }
+  .chart-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 28px;
+  }
+
+  .chart-container {
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .chart-container svg {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .bar-rect {
+    transition: opacity 200ms ease;
+    cursor: pointer;
+  }
   .bar-rect:hover { opacity: 0.75; }
 
   /* =========================================
-     TABLE
+     LOLLIPOP CHART
      ========================================= */
-  .data-table { width: 100%; border-collapse: collapse; }
-
-  .data-table th {
-    font-size: 11px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    color: var(--foreground-muted);
-    padding: 10px 12px;
-    text-align: left;
-    border-bottom: 1px solid rgba(0,0,0,0.08);
+  .lollipop-chart {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 4px 0;
   }
 
-  .data-table td {
+  .lollipop-row {
+    display: flex;
+    align-items: center;
+    height: 44px;
+    padding: 0 4px 0 0;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 180ms ease;
+  }
+
+  .lollipop-row:hover {
+    background: rgba(6, 193, 103, 0.03);
+  }
+
+  .lollipop-row.selected {
+    background: rgba(6, 193, 103, 0.06);
+  }
+
+  .lollipop-label {
+    width: 120px;
     font-size: 13px;
-    padding: 10px 12px;
+    color: var(--foreground);
+    flex-shrink: 0;
+    text-align: right;
+    font-weight: 500;
+    padding-right: 20px;
+    transition: color 180ms ease;
+  }
+
+  .lollipop-row.selected .lollipop-label {
+    color: var(--primary);
+    font-weight: 600;
+  }
+
+  .lollipop-track {
+    flex: 1;
+    height: 2px;
+    position: relative;
+    background: rgba(0, 0, 0, 0.04);
+    border-radius: 1px;
+  }
+
+  .lollipop-line {
+    height: 100%;
+    border-radius: 1px;
+    transition: width 700ms cubic-bezier(0.16, 1, 0.3, 1);
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+
+  .lollipop-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    transition: left 700ms cubic-bezier(0.16, 1, 0.3, 1), opacity 400ms ease, box-shadow 180ms ease;
+    box-shadow: 0 0 0 3px #fff, 0 1px 4px rgba(0,0,0,0.12);
+    z-index: 1;
+  }
+
+  .lollipop-row.selected .lollipop-dot {
+    box-shadow: 0 0 0 3px #fff, 0 0 0 5px rgba(6, 193, 103, 0.15), 0 1px 4px rgba(0,0,0,0.12);
+  }
+
+  .lollipop-score {
+    width: 36px;
+    font-size: 13px;
+    font-weight: 700;
+    font-family: 'DM Sans', sans-serif;
+    color: var(--foreground);
+    text-align: right;
+    flex-shrink: 0;
+    margin-left: 16px;
+    transition: color 180ms ease;
+  }
+
+  .lollipop-row.selected .lollipop-score {
+    color: var(--primary);
+  }
+
+  /* =========================================
+     SCORE ROWS (progress bars for concerns)
+     ========================================= */
+  .score-row {
+    display: flex;
+    align-items: center;
+    padding: 14px 0;
     border-bottom: 1px solid rgba(0,0,0,0.04);
+  }
+
+  .score-row:last-child {
+    border-bottom: none;
+  }
+
+  .score-row-label {
+    flex: 1;
+    font-size: 14px;
+    font-weight: 500;
     color: var(--foreground);
   }
 
-  .data-table tbody tr { transition: background 150ms; }
-  .data-table tbody tr:hover { background: rgba(0,0,0,0.02); }
-  .data-table tbody tr:last-child td { border-bottom: none; }
+  .score-row-bar {
+    width: 120px;
+    height: 6px;
+    background: rgba(0,0,0,0.04);
+    border-radius: 3px;
+    margin: 0 16px;
+    overflow: hidden;
+  }
+
+  .score-row-fill {
+    height: 100%;
+    border-radius: 3px;
+    background: var(--primary);
+    transition: width 600ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .score-row-value {
+    font-size: 14px;
+    font-weight: 700;
+    font-family: 'DM Sans', sans-serif;
+    color: var(--foreground);
+    width: 40px;
+    text-align: right;
+  }
+
+  .score-row-change {
+    font-size: 11px;
+    font-weight: 500;
+    width: 50px;
+    text-align: right;
+    margin-left: 8px;
+  }
+
+  .score-row-change.up { color: var(--success); }
+  .score-row-change.down { color: var(--danger); }
+  .score-row-change.flat { color: var(--foreground-muted); }
 
   /* =========================================
-     STATUS BADGES
+     TABLES
      ========================================= */
-  .status { font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 20px; display: inline-block; }
-  .status-excellent { background: rgba(6, 193, 103, 0.10); color: #06C167; }
-  .status-good { background: rgba(37, 99, 235, 0.08); color: #2563eb; }
-  .status-average { background: rgba(217, 119, 6, 0.08); color: #d97706; }
-  .status-poor { background: rgba(220, 38, 38, 0.08); color: #dc2626; }
-  .status-active { background: rgba(6, 193, 103, 0.10); color: #06C167; }
-  .status-completed { background: rgba(37, 99, 235, 0.08); color: #2563eb; }
-  .status-pending { background: rgba(217, 119, 6, 0.08); color: #d97706; }
-  .status-critical { background: rgba(220, 38, 38, 0.08); color: #dc2626; }
-  .status-warning { background: rgba(217, 119, 6, 0.08); color: #d97706; }
-  .status-info { background: rgba(37, 99, 235, 0.08); color: #2563eb; }
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .data-table thead th {
+    text-align: left;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--foreground-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--muted);
+  }
+
+  .data-table tbody td {
+    padding: 11px 16px;
+    font-size: 13px;
+    color: var(--foreground);
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+  }
+
+  .data-table tbody tr {
+    transition: background 150ms ease;
+  }
+
+  .data-table tbody tr:hover {
+    background: rgba(6, 193, 103, 0.02);
+  }
+
+  .data-table tbody tr:last-child td {
+    border-bottom: none;
+  }
+
+  .status-badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+  }
+
+  .status-active { background: rgba(22, 163, 74, 0.1); color: var(--success); }
+  .status-completed { background: rgba(37, 99, 235, 0.1); color: var(--info); }
+  .status-pending { background: rgba(217, 119, 6, 0.1); color: var(--warning); }
+  .status-closed { background: rgba(107, 114, 128, 0.1); color: var(--foreground-muted); }
+  .status-critical { background: rgba(220, 38, 38, 0.1); color: var(--danger); }
+  .status-warning { background: rgba(217, 119, 6, 0.1); color: var(--warning); }
+  .status-info { background: rgba(37, 99, 235, 0.1); color: var(--info); }
 
   /* =========================================
-     PROGRESS BAR
-     ========================================= */
-  .progress-row { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
-  .progress-row:last-child { margin-bottom: 0; }
-  .progress-label { font-size: 13px; color: var(--foreground); min-width: 140px; font-weight: 500; }
-  .progress-track { flex: 1; height: 8px; background: rgba(0,0,0,0.04); border-radius: 4px; overflow: hidden; }
-  .progress-fill { height: 100%; border-radius: 4px; background: var(--primary); transition: width 800ms ease-out; }
-  .progress-value { font-size: 12px; color: var(--foreground-muted); min-width: 36px; text-align: right; font-weight: 600; }
-
-  /* =========================================
-     ALERT ITEM
+     ALERTS
      ========================================= */
   .alert-item {
     display: flex;
@@ -518,91 +782,120 @@
     gap: 12px;
     padding: 14px 16px;
     border-radius: 10px;
-    background: rgba(0,0,0,0.02);
-    border-left: 3px solid transparent;
+    border: 1px solid var(--muted-border);
     margin-bottom: 10px;
-    transition: background 200ms;
+    transition: background 150ms ease;
   }
 
-  .alert-item:hover { background: rgba(0,0,0,0.04); }
-  .alert-item:last-child { margin-bottom: 0; }
-  .alert-item.critical { border-left-color: var(--danger); }
-  .alert-item.warning { border-left-color: var(--warning); }
-  .alert-item.info { border-left-color: var(--info); }
+  .alert-item:hover { background: rgba(0, 0, 0, 0.02); }
 
-  .alert-dot { width: 8px; height: 8px; border-radius: 50%; margin-top: 5px; flex-shrink: 0; }
-  .alert-dot.critical { background: var(--danger); }
-  .alert-dot.warning { background: var(--warning); }
-  .alert-dot.info { background: var(--info); }
-
-  .alert-content { flex: 1; min-width: 0; }
-  .alert-title { font-size: 13px; font-weight: 600; color: var(--foreground); margin-bottom: 2px; }
-  .alert-desc { font-size: 12px; color: var(--foreground-muted); }
-  .alert-time { font-size: 11px; color: var(--foreground-muted); white-space: nowrap; margin-top: 2px; }
-
-  /* =========================================
-     LOLLIPOP CHART
-     ========================================= */
-  .lollipop-row {
+  .alert-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
     display: flex;
     align-items: center;
-    gap: 12px;
-    margin-bottom: 12px;
+    justify-content: center;
+    flex-shrink: 0;
   }
-  .lollipop-row:last-child { margin-bottom: 0; }
-  .lollipop-label { font-size: 13px; color: var(--foreground); min-width: 130px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .lollipop-track { flex: 1; height: 2px; background: rgba(0,0,0,0.06); border-radius: 1px; position: relative; }
-  .lollipop-fill { height: 100%; border-radius: 1px; background: var(--primary); position: absolute; left: 0; top: 0; transition: width 800ms ease-out; }
-  .lollipop-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--primary); border: 2px solid white; box-shadow: 0 1px 4px rgba(0,0,0,0.15); position: absolute; top: -4px; transition: left 800ms ease-out; }
-  .lollipop-value { font-size: 12px; color: var(--foreground-muted); min-width: 32px; text-align: right; font-weight: 600; }
+
+  .alert-icon.critical { background: rgba(220, 38, 38, 0.1); color: var(--danger); }
+  .alert-icon.warning { background: rgba(217, 119, 6, 0.1); color: var(--warning); }
+  .alert-icon.info { background: rgba(37, 99, 235, 0.1); color: var(--info); }
+
+  .alert-content { flex: 1; }
+  .alert-title { font-size: 13px; font-weight: 600; color: var(--foreground); margin-bottom: 2px; }
+  .alert-desc { font-size: 12px; color: var(--foreground-muted); }
+  .alert-time { font-size: 11px; color: var(--foreground-muted); white-space: nowrap; flex-shrink: 0; margin-top: 2px; }
+
+  /* =========================================
+     RADAR CHART
+     ========================================= */
+  .radar-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .radar-svg {
+    width: 100%;
+    max-width: 280px;
+  }
+
+  .radar-grid-line {
+    fill: none;
+    stroke: rgba(0,0,0,0.06);
+    stroke-width: 1;
+  }
+
+  .radar-axis {
+    stroke: rgba(0,0,0,0.05);
+    stroke-width: 1;
+  }
+
+  .radar-axis-label {
+    font-family: 'Inter', sans-serif;
+    font-size: 10px;
+    fill: var(--foreground-muted);
+    font-weight: 500;
+  }
+
+  .radar-area {
+    transition: opacity 400ms ease;
+    cursor: pointer;
+  }
+
+  .radar-dot {
+    transition: opacity 400ms ease;
+    pointer-events: none;
+  }
 
   /* =========================================
      ANIMATIONS
      ========================================= */
-  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-  @keyframes fadeInUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
-  @keyframes fadeInLeft { from { opacity: 0; transform: translateX(-16px); } to { opacity: 1; transform: translateX(0); } }
-  @keyframes scaleIn { from { opacity: 0; transform: scale(0.92); } to { opacity: 1; transform: scale(1); } }
-  @keyframes countPulse { 0% { transform: scale(1); } 50% { transform: scale(1.04); } 100% { transform: scale(1); } }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
 
-  .animate-fadeInUp { animation: fadeInUp 450ms ease-out both; }
-  .animate-scaleIn { animation: scaleIn 400ms ease-out both; }
-  .stagger-1 { animation-delay: 0ms; }
-  .stagger-2 { animation-delay: 80ms; }
-  .stagger-3 { animation-delay: 160ms; }
-  .stagger-4 { animation-delay: 240ms; }
-  .stagger-5 { animation-delay: 320ms; }
-  .stagger-6 { animation-delay: 400ms; }
+  @keyframes fadeInLeft {
+    from { opacity: 0; transform: translateX(-16px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
 
-  /* =========================================
-     RESPONSIVE
-     ========================================= */
-  @media (max-width: 1100px) {
-    .kpi-grid-hero { grid-template-columns: repeat(2, 1fr); }
-    .kpi-row { grid-template-columns: repeat(2, 1fr); }
-    .two-col { grid-template-columns: 1fr; }
+  .anim-card {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+
+  .anim-card.animate-in {
+    animation: fadeInUp 500ms ease-out forwards;
+  }
+
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
   }
 </style>
 </head>
 <body>
-
 <div class="app-layout">
-  <!-- ==========================================
+
+  <!-- =========================================
        SIDEBAR
-       ========================================== -->
+       ========================================= -->
   <aside class="sidebar">
     <div class="sidebar-header">
-      <!-- Uber Eats Logo -->
       <svg class="sidebar-logo" viewBox="0 0 180 28" xmlns="http://www.w3.org/2000/svg">
         <text x="0" y="22" font-family="DM Sans, sans-serif" font-size="20" font-weight="700" fill="#142328">Uber</text>
         <text x="58" y="22" font-family="DM Sans, sans-serif" font-size="20" font-weight="700" fill="#06C167">Eats</text>
       </svg>
     </div>
-
     <nav class="sidebar-nav">
       <a class="nav-item active" data-panel="survey-overview" href="#">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
-        Survey Overview
+        Overview
       </a>
       <a class="nav-item" data-panel="driver-rankings" href="#">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
@@ -638,744 +931,746 @@
     </div>
   </aside>
 
-  <!-- ==========================================
+  <!-- =========================================
        MAIN CONTENT
-       ========================================== -->
+       ========================================= -->
   <div class="main-area">
 
-      <!-- ==========================================
-           TAB 1: SURVEY OVERVIEW
-           ========================================== -->
-      <div class="tab-panel active" id="panel-survey-overview">
-        <div class="overview-panel">
+    <!-- =============================================
+         PANEL 1: SURVEY OVERVIEW (Hero KPI Layout)
+         ============================================= -->
+    <div class="tab-panel active" id="panel-survey-overview">
+      <div class="overview-panel">
         <div class="overview-heading">
           <h1>Survey Insights</h1>
           <p>Uber Eats driver survey performance &amp; response overview</p>
         </div>
         <div class="overview-grid-wrapper">
-        <div class="kpi-grid-hero">
-          <div class="kpi-card animate-fadeInUp stagger-1">
-            <div class="kpi-label">Total Responses</div>
-            <div class="kpi-value" data-count="52418" data-format="int">0</div>
-            <div class="kpi-change up">
-              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 2L10 7H2L6 2Z" fill="currentColor"/></svg>
-              18.3%
+          <div class="kpi-grid-hero">
+
+            <!-- Card 0: Total Responses -->
+            <div class="kpi-card">
+              <div class="kpi-card-header">
+                <div class="kpi-icon neutral">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                </div>
+                <div class="kpi-label">Total Responses</div>
+              </div>
+              <div class="kpi-value"><span class="count-up" data-target="52418" data-format="comma">0</span></div>
+              <div class="kpi-desc">Survey participants across all regions</div>
             </div>
-            <div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg></div>
-          </div>
-          <div class="kpi-card animate-fadeInUp stagger-2">
-            <div class="kpi-label">Customer Satisfaction</div>
-            <div class="kpi-value"><span data-count="4.2" data-format="float" data-decimals="1">0</span>/5</div>
-            <div class="kpi-change up">
-              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 2L10 7H2L6 2Z" fill="currentColor"/></svg>
-              0.3
+
+            <!-- Card 1: Customer Satisfaction (ACCENT) -->
+            <div class="kpi-card accent">
+              <div class="kpi-glow"></div>
+              <div class="kpi-card-header">
+                <div class="kpi-icon primary">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
+                </div>
+                <div class="kpi-label">Customer Satisfaction</div>
+              </div>
+              <div class="kpi-value"><span class="count-up" data-target="4.2" data-format="decimal" data-decimals="1">0</span><span class="kpi-suffix">/5</span></div>
+              <div class="kpi-desc">Current average across all drivers</div>
             </div>
-            <div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg></div>
-          </div>
-          <div class="kpi-card animate-fadeInUp stagger-3">
-            <div class="kpi-label">NPS Score</div>
-            <div class="kpi-value" data-count="61" data-format="int">0</div>
-            <div class="kpi-change up">
-              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 2L10 7H2L6 2Z" fill="currentColor"/></svg>
-              8 pts
+
+            <!-- Card 2: NPS Score -->
+            <div class="kpi-card">
+              <div class="kpi-card-header">
+                <div class="kpi-icon neutral">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                </div>
+                <div class="kpi-label">NPS Score</div>
+              </div>
+              <div class="kpi-value"><span class="count-up" data-target="61" data-format="integer">0</span></div>
+              <div class="kpi-desc success">&#8593; 8 pts vs last quarter</div>
             </div>
-            <div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
-          </div>
-          <div class="kpi-card animate-fadeInUp stagger-4">
-            <div class="kpi-label">Response Rate</div>
-            <div class="kpi-value"><span data-count="31.4" data-format="float" data-decimals="1">0</span>%</div>
-            <div class="kpi-change up">
-              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 2L10 7H2L6 2Z" fill="currentColor"/></svg>
-              4.1%
+
+            <!-- Card 3: Response Rate (ACCENT) -->
+            <div class="kpi-card accent">
+              <div class="kpi-glow"></div>
+              <div class="kpi-card-header">
+                <div class="kpi-icon primary">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+                </div>
+                <div class="kpi-label">Response Rate</div>
+              </div>
+              <div class="kpi-value"><span class="count-up" data-target="31.4" data-format="decimal" data-decimals="1">0</span><span class="kpi-suffix">%</span></div>
+              <div class="kpi-desc success">WhatsApp survey completion rate</div>
             </div>
-            <div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
+
+            <!-- Card 4: Active Drivers -->
+            <div class="kpi-card">
+              <div class="kpi-card-header">
+                <div class="kpi-icon neutral">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+                </div>
+                <div class="kpi-label">Active Drivers</div>
+              </div>
+              <div class="kpi-value"><span class="count-up" data-target="3842" data-format="comma">0</span></div>
+              <div class="kpi-desc success">&#8593; 12.4% vs last quarter</div>
+            </div>
+
+            <!-- Card 5: On-Time Delivery -->
+            <div class="kpi-card">
+              <div class="kpi-card-header">
+                <div class="kpi-icon neutral">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                </div>
+                <div class="kpi-label">On-Time Delivery</div>
+              </div>
+              <div class="kpi-value"><span class="count-up" data-target="89" data-format="integer">0</span><span class="kpi-suffix">%</span></div>
+              <div class="kpi-desc">Deliveries within estimated time</div>
+            </div>
+
           </div>
         </div>
-        </div><!-- end overview-grid-wrapper -->
-        </div><!-- end overview-panel -->
+      </div>
+    </div>
 
-        <div class="content-area content-area-padded">
-        <div class="two-col">
-          <!-- Monthly Response Trends -->
-          <div class="card animate-fadeInUp stagger-3">
-            <div class="card-title">Monthly Response Trends <span class="badge">6 Months</span></div>
-            <div class="chart-container">
-              <svg viewBox="0 0 480 220" xmlns="http://www.w3.org/2000/svg">
-                <line x1="50" y1="30" x2="50" y2="180" stroke="#E4E4E7" stroke-width="0.5"/>
-                <line x1="50" y1="180" x2="460" y2="180" stroke="#E4E4E7" stroke-width="0.5"/>
-                <line x1="50" y1="142.5" x2="460" y2="142.5" stroke="#E4E4E7" stroke-width="0.5" opacity="0.6"/>
-                <line x1="50" y1="105" x2="460" y2="105" stroke="#E4E4E7" stroke-width="0.5" opacity="0.6"/>
-                <line x1="50" y1="67.5" x2="460" y2="67.5" stroke="#E4E4E7" stroke-width="0.5" opacity="0.6"/>
-                <line x1="50" y1="30" x2="460" y2="30" stroke="#E4E4E7" stroke-width="0.5" opacity="0.6"/>
-                <text x="44" y="183" text-anchor="end" fill="#71717A" font-size="10" font-family="Inter,sans-serif">0</text>
-                <text x="44" y="145" text-anchor="end" fill="#71717A" font-size="10" font-family="Inter,sans-serif">4k</text>
-                <text x="44" y="108" text-anchor="end" fill="#71717A" font-size="10" font-family="Inter,sans-serif">8k</text>
-                <text x="44" y="70" text-anchor="end" fill="#71717A" font-size="10" font-family="Inter,sans-serif">12k</text>
-                <text x="44" y="33" text-anchor="end" fill="#71717A" font-size="10" font-family="Inter,sans-serif">16k</text>
-                <rect class="bar-rect" x="72" y="120" width="44" height="60" rx="4" fill="#06C167" opacity="0.55"><title>Oct: 4,821</title></rect>
-                <rect class="bar-rect" x="138" y="105" width="44" height="75" rx="4" fill="#06C167" opacity="0.65"><title>Nov: 6,013</title></rect>
-                <rect class="bar-rect" x="204" y="85" width="44" height="95" rx="4" fill="#06C167" opacity="0.72"><title>Dec: 7,624</title></rect>
-                <rect class="bar-rect" x="270" y="72" width="44" height="108" rx="4" fill="#06C167" opacity="0.80"><title>Jan: 8,672</title></rect>
-                <rect class="bar-rect" x="336" y="55" width="44" height="125" rx="4" fill="#06C167" opacity="0.90"><title>Feb: 10,032</title></rect>
-                <rect class="bar-rect" x="402" y="35" width="44" height="145" rx="4" fill="#06C167" opacity="1"><title>Mar: 11,643</title></rect>
-                <text x="94" y="115" text-anchor="middle" fill="#18181B" font-size="10" font-weight="600" font-family="Inter,sans-serif">4.8k</text>
-                <text x="160" y="100" text-anchor="middle" fill="#18181B" font-size="10" font-weight="600" font-family="Inter,sans-serif">6.0k</text>
-                <text x="226" y="80" text-anchor="middle" fill="#18181B" font-size="10" font-weight="600" font-family="Inter,sans-serif">7.6k</text>
-                <text x="292" y="67" text-anchor="middle" fill="#18181B" font-size="10" font-weight="600" font-family="Inter,sans-serif">8.7k</text>
-                <text x="358" y="50" text-anchor="middle" fill="#18181B" font-size="10" font-weight="600" font-family="Inter,sans-serif">10.0k</text>
-                <text x="424" y="30" text-anchor="middle" fill="#18181B" font-size="10" font-weight="600" font-family="Inter,sans-serif">11.6k</text>
-                <text x="94" y="198" text-anchor="middle" fill="#71717A" font-size="10" font-family="Inter,sans-serif">Oct</text>
-                <text x="160" y="198" text-anchor="middle" fill="#71717A" font-size="10" font-family="Inter,sans-serif">Nov</text>
-                <text x="226" y="198" text-anchor="middle" fill="#71717A" font-size="10" font-family="Inter,sans-serif">Dec</text>
-                <text x="292" y="198" text-anchor="middle" fill="#71717A" font-size="10" font-family="Inter,sans-serif">Jan</text>
-                <text x="358" y="198" text-anchor="middle" fill="#71717A" font-size="10" font-family="Inter,sans-serif">Feb</text>
-                <text x="424" y="198" text-anchor="middle" fill="#71717A" font-size="10" font-family="Inter,sans-serif">Mar</text>
-              </svg>
+    <!-- =============================================
+         PANEL 2: DRIVER RANKINGS
+         ============================================= -->
+    <div class="tab-panel" id="panel-driver-rankings">
+      <div class="panel-header">
+        <div class="panel-header-left">
+          <div class="panel-header-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+          <div class="panel-header-text">
+            <h1>Driver Rankings</h1>
+            <p>Top performing drivers by satisfaction &amp; delivery metrics</p>
+          </div>
+        </div>
+        <div class="panel-header-right">
+          <select class="filter-select">
+            <option>Last 30 days</option>
+            <option>Last 7 days</option>
+            <option>Last 90 days</option>
+          </select>
+          <select class="filter-select">
+            <option>All Regions</option>
+            <option>Cape Town</option>
+            <option>Johannesburg</option>
+          </select>
+        </div>
+      </div>
+      <div class="content-area content-area-padded">
+        <div class="kpi-row">
+          <div class="kpi-card">
+            <div class="kpi-card-header">
+              <div class="kpi-icon neutral">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+              </div>
+              <div class="kpi-label">Active Drivers</div>
+            </div>
+            <div class="kpi-value"><span class="count-up" data-target="3842" data-format="comma">0</span></div>
+            <div class="kpi-change positive">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 10V2M6 2L2.5 5.5M6 2L9.5 5.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              +12.4%
             </div>
           </div>
+          <div class="kpi-card">
+            <div class="kpi-card-header">
+              <div class="kpi-icon neutral">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              </div>
+              <div class="kpi-label">Avg Driver Rating</div>
+            </div>
+            <div class="kpi-value"><span class="count-up" data-target="4.3" data-format="decimal" data-decimals="1">0</span><span class="kpi-suffix">/5</span></div>
+            <div class="kpi-change positive">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 10V2M6 2L2.5 5.5M6 2L9.5 5.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              +0.2
+            </div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-card-header">
+              <div class="kpi-icon neutral">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+              </div>
+              <div class="kpi-label">5-Star Deliveries</div>
+            </div>
+            <div class="kpi-value"><span class="count-up" data-target="68" data-format="integer">0</span><span class="kpi-suffix">%</span></div>
+            <div class="kpi-change positive">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 10V2M6 2L2.5 5.5M6 2L9.5 5.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              +3.1%
+            </div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-card-header">
+              <div class="kpi-icon neutral">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              </div>
+              <div class="kpi-label">Flagged Drivers</div>
+            </div>
+            <div class="kpi-value"><span class="count-up" data-target="47" data-format="integer">0</span></div>
+            <div class="kpi-change negative">Needs review</div>
+          </div>
+        </div>
 
-          <!-- Satisfaction by Category Donut -->
-          <div class="card animate-fadeInUp stagger-4">
-            <div class="card-title">Satisfaction by Category</div>
-            <div class="chart-container" style="display:flex;align-items:center;gap:24px;">
-              <svg viewBox="0 0 200 200" width="180" height="180" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="100" cy="100" r="72" fill="none" stroke="#06C167" stroke-width="28" stroke-dasharray="135.72 316.68" stroke-dashoffset="-79.17" transform="rotate(-90 100 100)"/>
-                <circle cx="100" cy="100" r="72" fill="none" stroke="#04A154" stroke-width="28" stroke-dasharray="108.57 343.83" stroke-dashoffset="-214.89" transform="rotate(-90 100 100)"/>
-                <circle cx="100" cy="100" r="72" fill="none" stroke="#5EEAA8" stroke-width="28" stroke-dasharray="90.48 361.92" stroke-dashoffset="-323.46" transform="rotate(-90 100 100)"/>
-                <circle cx="100" cy="100" r="72" fill="none" stroke="#142328" stroke-width="28" stroke-dasharray="117.62 334.78" stroke-dashoffset="-413.94" transform="rotate(-90 100 100)"/>
-                <text x="100" y="94" text-anchor="middle" fill="#18181B" font-family="DM Sans,sans-serif" font-size="22" font-weight="700">4.2</text>
-                <text x="100" y="112" text-anchor="middle" fill="#71717A" font-family="Inter,sans-serif" font-size="10">avg rating</text>
-              </svg>
-              <div style="display:flex;flex-direction:column;gap:10px;font-size:13px;">
-                <div style="display:flex;align-items:center;gap:8px;"><span style="width:10px;height:10px;border-radius:3px;background:#06C167;flex-shrink:0;"></span><span style="color:#71717A;">Driver Courtesy</span><span style="margin-left:auto;font-weight:600;">4.5</span></div>
-                <div style="display:flex;align-items:center;gap:8px;"><span style="width:10px;height:10px;border-radius:3px;background:#04A154;flex-shrink:0;"></span><span style="color:#71717A;">Delivery Speed</span><span style="margin-left:auto;font-weight:600;">4.1</span></div>
-                <div style="display:flex;align-items:center;gap:8px;"><span style="width:10px;height:10px;border-radius:3px;background:#5EEAA8;flex-shrink:0;"></span><span style="color:#71717A;">Food Condition</span><span style="margin-left:auto;font-weight:600;">4.0</span></div>
-                <div style="display:flex;align-items:center;gap:8px;"><span style="width:10px;height:10px;border-radius:3px;background:#142328;flex-shrink:0;"></span><span style="color:#71717A;">Communication</span><span style="margin-left:auto;font-weight:600;">4.3</span></div>
+        <div class="chart-grid">
+          <!-- Lollipop Chart: Top Rated Drivers -->
+          <div class="card anim-card" style="animation-delay: 400ms">
+            <div class="card-title">Top Rated Drivers</div>
+            <div class="lollipop-chart">
+              <div class="lollipop-row selected">
+                <span class="lollipop-label">Sipho M.</span>
+                <div class="lollipop-track">
+                  <div class="lollipop-line" data-width="96%" style="width:0%;background:#06C167;"></div>
+                  <div class="lollipop-dot" data-left="96%" style="left:0%;background:#06C167;opacity:0;"></div>
+                </div>
+                <span class="lollipop-score">4.9</span>
+              </div>
+              <div class="lollipop-row">
+                <span class="lollipop-label">Thabo K.</span>
+                <div class="lollipop-track">
+                  <div class="lollipop-line" data-width="94%" style="width:0%;background:#06C167;opacity:0.85;"></div>
+                  <div class="lollipop-dot" data-left="94%" style="left:0%;background:#06C167;opacity:0;"></div>
+                </div>
+                <span class="lollipop-score">4.8</span>
+              </div>
+              <div class="lollipop-row">
+                <span class="lollipop-label">Zanele D.</span>
+                <div class="lollipop-track">
+                  <div class="lollipop-line" data-width="92%" style="width:0%;background:#06C167;opacity:0.72;"></div>
+                  <div class="lollipop-dot" data-left="92%" style="left:0%;background:#06C167;opacity:0;"></div>
+                </div>
+                <span class="lollipop-score">4.7</span>
+              </div>
+              <div class="lollipop-row">
+                <span class="lollipop-label">David N.</span>
+                <div class="lollipop-track">
+                  <div class="lollipop-line" data-width="90%" style="width:0%;background:#06C167;opacity:0.60;"></div>
+                  <div class="lollipop-dot" data-left="90%" style="left:0%;background:#06C167;opacity:0;"></div>
+                </div>
+                <span class="lollipop-score">4.6</span>
+              </div>
+              <div class="lollipop-row">
+                <span class="lollipop-label">Lerato P.</span>
+                <div class="lollipop-track">
+                  <div class="lollipop-line" data-width="86%" style="width:0%;background:#142328;"></div>
+                  <div class="lollipop-dot" data-left="86%" style="left:0%;background:#142328;opacity:0;"></div>
+                </div>
+                <span class="lollipop-score">4.4</span>
+              </div>
+              <div class="lollipop-row">
+                <span class="lollipop-label">Mandla S.</span>
+                <div class="lollipop-track">
+                  <div class="lollipop-line" data-width="84%" style="width:0%;background:#142328;opacity:0.75;"></div>
+                  <div class="lollipop-dot" data-left="84%" style="left:0%;background:#142328;opacity:0;"></div>
+                </div>
+                <span class="lollipop-score">4.3</span>
+              </div>
+              <div class="lollipop-row">
+                <span class="lollipop-label">Fatima A.</span>
+                <div class="lollipop-track">
+                  <div class="lollipop-line" data-width="82%" style="width:0%;background:#142328;opacity:0.55;"></div>
+                  <div class="lollipop-dot" data-left="82%" style="left:0%;background:#142328;opacity:0;"></div>
+                </div>
+                <span class="lollipop-score">4.2</span>
+              </div>
+              <div class="lollipop-row">
+                <span class="lollipop-label">James R.</span>
+                <div class="lollipop-track">
+                  <div class="lollipop-line" data-width="78%" style="width:0%;background:#A1A1AA;"></div>
+                  <div class="lollipop-dot" data-left="78%" style="left:0%;background:#A1A1AA;opacity:0;"></div>
+                </div>
+                <span class="lollipop-score">4.0</span>
               </div>
             </div>
           </div>
-        </div>
 
-        <!-- Recent Survey Activity -->
-        <div class="card full-width animate-fadeInUp stagger-5">
-          <div class="card-title">Recent Survey Activity <span class="badge">Last 30 Days</span></div>
-          <table class="data-table">
-            <thead>
-              <tr>
-                <th>Region</th>
-                <th>Survey Type</th>
-                <th>Sent</th>
-                <th>Responses</th>
-                <th>Avg Score</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr><td>Cape Town CBD</td><td>Post-Delivery</td><td>4,210</td><td>1,347</td><td>4.4</td><td><span class="status status-active">Active</span></td></tr>
-              <tr><td>Johannesburg North</td><td>Post-Delivery</td><td>5,680</td><td>1,892</td><td>4.1</td><td><span class="status status-active">Active</span></td></tr>
-              <tr><td>Sandton</td><td>Driver Check-in</td><td>1,240</td><td>623</td><td>3.8</td><td><span class="status status-active">Active</span></td></tr>
-              <tr><td>Durban Central</td><td>Post-Delivery</td><td>3,470</td><td>1,108</td><td>4.2</td><td><span class="status status-completed">Completed</span></td></tr>
-              <tr><td>Pretoria East</td><td>Restaurant Rating</td><td>2,890</td><td>934</td><td>4.0</td><td><span class="status status-completed">Completed</span></td></tr>
-              <tr><td>Stellenbosch</td><td>Post-Delivery</td><td>1,560</td><td>487</td><td>4.5</td><td><span class="status status-pending">Pending</span></td></tr>
-            </tbody>
-          </table>
-        </div>
-        </div><!-- end content-area -->
-      </div>
-
-      <!-- ==========================================
-           TAB 2: DRIVER RANKINGS
-           ========================================== -->
-      <div class="tab-panel" id="panel-driver-rankings">
-        <div class="panel-header">
-          <div class="panel-header-left">
-            <div class="panel-header-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
-            <div class="panel-header-text">
-              <h1>Driver Rankings</h1>
-              <p>Top performing drivers by satisfaction &amp; delivery metrics</p>
-            </div>
-          </div>
-          <div class="panel-header-right">
-            <select class="filter-select">
-              <option>This Month</option>
-              <option>Last 7 days</option>
-              <option>Last 90 days</option>
-            </select>
-            <select class="filter-select">
-              <option>All Regions</option>
-              <option>Cape Town</option>
-              <option>Johannesburg</option>
-              <option>Durban</option>
-            </select>
-          </div>
-        </div>
-        <div class="content-area content-area-padded">
-        <div class="kpi-row">
-          <div class="kpi-card animate-fadeInUp stagger-1">
-            <div class="kpi-label">Active Drivers</div>
-            <div class="kpi-value" data-count="3842" data-format="int">0</div>
-            <div class="kpi-change up">
-              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 2L10 7H2L6 2Z" fill="currentColor"/></svg>
-              12.4%
-            </div>
-            <div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg></div>
-          </div>
-          <div class="kpi-card animate-fadeInUp stagger-2">
-            <div class="kpi-label">Avg Driver Rating</div>
-            <div class="kpi-value"><span data-count="4.3" data-format="float" data-decimals="1">0</span>/5</div>
-            <div class="kpi-change up">
-              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 2L10 7H2L6 2Z" fill="currentColor"/></svg>
-              0.2
-            </div>
-            <div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
-          </div>
-          <div class="kpi-card animate-fadeInUp stagger-3">
-            <div class="kpi-label">5-Star Deliveries</div>
-            <div class="kpi-value"><span data-count="68" data-format="int">0</span>%</div>
-            <div class="kpi-change up">
-              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 2L10 7H2L6 2Z" fill="currentColor"/></svg>
-              5.2%
-            </div>
-            <div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
-          </div>
-          <div class="kpi-card animate-fadeInUp stagger-4">
-            <div class="kpi-label">Flagged Drivers</div>
-            <div class="kpi-value" data-count="47" data-format="int">0</div>
-            <div class="kpi-change down">
-              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 10L2 5H10L6 10Z" fill="currentColor"/></svg>
-              8
-            </div>
-            <div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg></div>
-          </div>
-        </div>
-
-        <div class="two-col">
-          <!-- Top Drivers Lollipop Chart -->
-          <div class="card animate-fadeInUp stagger-3">
-            <div class="card-title">Top Rated Drivers <span class="badge">Top 10</span></div>
-            <div style="display:flex;flex-direction:column;gap:4px;">
-              <div class="lollipop-row"><span class="lollipop-label">Sipho Ndlovu</span><div class="lollipop-track"><div class="lollipop-fill" style="width:96%"></div><div class="lollipop-dot" style="left:calc(96% - 5px)"></div></div><span class="lollipop-value">4.9</span></div>
-              <div class="lollipop-row"><span class="lollipop-label">Thandiwe Molefe</span><div class="lollipop-track"><div class="lollipop-fill" style="width:94%"></div><div class="lollipop-dot" style="left:calc(94% - 5px)"></div></div><span class="lollipop-value">4.8</span></div>
-              <div class="lollipop-row"><span class="lollipop-label">David Botha</span><div class="lollipop-track"><div class="lollipop-fill" style="width:94%"></div><div class="lollipop-dot" style="left:calc(94% - 5px)"></div></div><span class="lollipop-value">4.8</span></div>
-              <div class="lollipop-row"><span class="lollipop-label">Nomsa Dlamini</span><div class="lollipop-track"><div class="lollipop-fill" style="width:92%"></div><div class="lollipop-dot" style="left:calc(92% - 5px)"></div></div><span class="lollipop-value">4.7</span></div>
-              <div class="lollipop-row"><span class="lollipop-label">Johan van Wyk</span><div class="lollipop-track"><div class="lollipop-fill" style="width:92%"></div><div class="lollipop-dot" style="left:calc(92% - 5px)"></div></div><span class="lollipop-value">4.7</span></div>
-              <div class="lollipop-row"><span class="lollipop-label">Lerato Khumalo</span><div class="lollipop-track"><div class="lollipop-fill" style="width:90%"></div><div class="lollipop-dot" style="left:calc(90% - 5px)"></div></div><span class="lollipop-value">4.6</span></div>
-              <div class="lollipop-row"><span class="lollipop-label">Pieter Jansen</span><div class="lollipop-track"><div class="lollipop-fill" style="width:90%"></div><div class="lollipop-dot" style="left:calc(90% - 5px)"></div></div><span class="lollipop-value">4.6</span></div>
-              <div class="lollipop-row"><span class="lollipop-label">Blessing Zulu</span><div class="lollipop-track"><div class="lollipop-fill" style="width:88%"></div><div class="lollipop-dot" style="left:calc(88% - 5px)"></div></div><span class="lollipop-value">4.5</span></div>
-              <div class="lollipop-row"><span class="lollipop-label">Fatima Patel</span><div class="lollipop-track"><div class="lollipop-fill" style="width:88%"></div><div class="lollipop-dot" style="left:calc(88% - 5px)"></div></div><span class="lollipop-value">4.5</span></div>
-              <div class="lollipop-row"><span class="lollipop-label">Thabo Mokoena</span><div class="lollipop-track"><div class="lollipop-fill" style="width:86%"></div><div class="lollipop-dot" style="left:calc(86% - 5px)"></div></div><span class="lollipop-value">4.4</span></div>
-            </div>
-          </div>
-
-          <!-- Driver Rating Distribution -->
-          <div class="card animate-fadeInUp stagger-4">
-            <div class="card-title">Rating Distribution <span class="badge">All Drivers</span></div>
+          <!-- Rating Distribution -->
+          <div class="card anim-card" style="animation-delay: 500ms">
+            <div class="card-title">Rating Distribution</div>
             <div class="chart-container">
-              <svg viewBox="0 0 480 220" xmlns="http://www.w3.org/2000/svg">
-                <line x1="50" y1="30" x2="50" y2="180" stroke="#E4E4E7" stroke-width="0.5"/>
-                <line x1="50" y1="180" x2="460" y2="180" stroke="#E4E4E7" stroke-width="0.5"/>
-                <line x1="50" y1="142.5" x2="460" y2="142.5" stroke="#E4E4E7" stroke-width="0.5" opacity="0.6"/>
-                <line x1="50" y1="105" x2="460" y2="105" stroke="#E4E4E7" stroke-width="0.5" opacity="0.6"/>
-                <line x1="50" y1="67.5" x2="460" y2="67.5" stroke="#E4E4E7" stroke-width="0.5" opacity="0.6"/>
-                <text x="44" y="183" text-anchor="end" fill="#71717A" font-size="10" font-family="Inter,sans-serif">0%</text>
-                <text x="44" y="145" text-anchor="end" fill="#71717A" font-size="10" font-family="Inter,sans-serif">10%</text>
-                <text x="44" y="108" text-anchor="end" fill="#71717A" font-size="10" font-family="Inter,sans-serif">20%</text>
-                <text x="44" y="70" text-anchor="end" fill="#71717A" font-size="10" font-family="Inter,sans-serif">30%</text>
-                <text x="44" y="33" text-anchor="end" fill="#71717A" font-size="10" font-family="Inter,sans-serif">40%</text>
-                <!-- 1 star: 2%, 2 star: 5%, 3 star: 12%, 4 star: 38%, 5 star: 43% -->
-                <rect class="bar-rect" x="72" y="172.5" width="60" height="7.5" rx="4" fill="#dc2626" opacity="0.7"><title>1 Star: 2%</title></rect>
-                <rect class="bar-rect" x="152" y="161.25" width="60" height="18.75" rx="4" fill="#d97706" opacity="0.7"><title>2 Stars: 5%</title></rect>
-                <rect class="bar-rect" x="232" y="135" width="60" height="45" rx="4" fill="#E4E4E7" opacity="0.9"><title>3 Stars: 12%</title></rect>
-                <rect class="bar-rect" x="312" y="37.5" width="60" height="142.5" rx="4" fill="#06C167" opacity="0.7"><title>4 Stars: 38%</title></rect>
-                <rect class="bar-rect" x="392" y="18.75" width="60" height="161.25" rx="4" fill="#06C167" opacity="1"><title>5 Stars: 43%</title></rect>
-                <text x="102" y="168" text-anchor="middle" fill="#71717A" font-size="10" font-weight="600" font-family="Inter,sans-serif">2%</text>
-                <text x="182" y="157" text-anchor="middle" fill="#71717A" font-size="10" font-weight="600" font-family="Inter,sans-serif">5%</text>
-                <text x="262" y="130" text-anchor="middle" fill="#71717A" font-size="10" font-weight="600" font-family="Inter,sans-serif">12%</text>
-                <text x="342" y="32" text-anchor="middle" fill="#18181B" font-size="10" font-weight="600" font-family="Inter,sans-serif">38%</text>
-                <text x="422" y="14" text-anchor="middle" fill="#18181B" font-size="10" font-weight="600" font-family="Inter,sans-serif">43%</text>
-                <text x="102" y="198" text-anchor="middle" fill="#71717A" font-size="10" font-family="Inter,sans-serif">1 Star</text>
-                <text x="182" y="198" text-anchor="middle" fill="#71717A" font-size="10" font-family="Inter,sans-serif">2 Stars</text>
-                <text x="262" y="198" text-anchor="middle" fill="#71717A" font-size="10" font-family="Inter,sans-serif">3 Stars</text>
-                <text x="342" y="198" text-anchor="middle" fill="#71717A" font-size="10" font-family="Inter,sans-serif">4 Stars</text>
-                <text x="422" y="198" text-anchor="middle" fill="#71717A" font-size="10" font-family="Inter,sans-serif">5 Stars</text>
+              <svg viewBox="0 0 420 240" xmlns="http://www.w3.org/2000/svg">
+                <line x1="50" y1="20" x2="50" y2="190" stroke="#E4E4E7" stroke-width="0.5"/>
+                <line x1="50" y1="190" x2="400" y2="190" stroke="#E4E4E7" stroke-width="0.5"/>
+                <line x1="50" y1="147.5" x2="400" y2="147.5" stroke="#E4E4E7" stroke-width="0.5" opacity="0.5"/>
+                <line x1="50" y1="105" x2="400" y2="105" stroke="#E4E4E7" stroke-width="0.5" opacity="0.5"/>
+                <line x1="50" y1="62.5" x2="400" y2="62.5" stroke="#E4E4E7" stroke-width="0.5" opacity="0.5"/>
+                <line x1="50" y1="20" x2="400" y2="20" stroke="#E4E4E7" stroke-width="0.5" opacity="0.5"/>
+                <text x="44" y="193" text-anchor="end" fill="#71717A" font-size="10" font-family="Inter,sans-serif">0%</text>
+                <text x="44" y="150" text-anchor="end" fill="#71717A" font-size="10" font-family="Inter,sans-serif">25%</text>
+                <text x="44" y="108" text-anchor="end" fill="#71717A" font-size="10" font-family="Inter,sans-serif">50%</text>
+                <text x="44" y="65" text-anchor="end" fill="#71717A" font-size="10" font-family="Inter,sans-serif">75%</text>
+                <text x="44" y="23" text-anchor="end" fill="#71717A" font-size="10" font-family="Inter,sans-serif">100%</text>
+                <!-- 1 star: 3% -->
+                <rect class="bar-rect" x="75" y="184.9" width="48" height="5.1" rx="3" fill="#dc2626" opacity="0.7"><title>1 Star: 3%</title></rect>
+                <!-- 2 star: 7% -->
+                <rect class="bar-rect" x="143" y="178.1" width="48" height="11.9" rx="3" fill="#d97706" opacity="0.7"><title>2 Stars: 7%</title></rect>
+                <!-- 3 star: 12% -->
+                <rect class="bar-rect" x="211" y="169.6" width="48" height="20.4" rx="3" fill="#142328" opacity="0.5"><title>3 Stars: 12%</title></rect>
+                <!-- 4 star: 30% -->
+                <rect class="bar-rect" x="279" y="139" width="48" height="51" rx="3" fill="#06C167" opacity="0.7"><title>4 Stars: 30%</title></rect>
+                <!-- 5 star: 48% -->
+                <rect class="bar-rect" x="347" y="108.4" width="48" height="81.6" rx="3" fill="#06C167"><title>5 Stars: 48%</title></rect>
+                <text x="99" y="180" text-anchor="middle" fill="#18181B" font-size="10" font-weight="600" font-family="Inter,sans-serif">3%</text>
+                <text x="167" y="173" text-anchor="middle" fill="#18181B" font-size="10" font-weight="600" font-family="Inter,sans-serif">7%</text>
+                <text x="235" y="165" text-anchor="middle" fill="#18181B" font-size="10" font-weight="600" font-family="Inter,sans-serif">12%</text>
+                <text x="303" y="134" text-anchor="middle" fill="#18181B" font-size="10" font-weight="600" font-family="Inter,sans-serif">30%</text>
+                <text x="371" y="103" text-anchor="middle" fill="#18181B" font-size="10" font-weight="600" font-family="Inter,sans-serif">48%</text>
+                <text x="99" y="208" text-anchor="middle" fill="#71717A" font-size="10" font-family="Inter,sans-serif">1 Star</text>
+                <text x="167" y="208" text-anchor="middle" fill="#71717A" font-size="10" font-family="Inter,sans-serif">2 Stars</text>
+                <text x="235" y="208" text-anchor="middle" fill="#71717A" font-size="10" font-family="Inter,sans-serif">3 Stars</text>
+                <text x="303" y="208" text-anchor="middle" fill="#71717A" font-size="10" font-family="Inter,sans-serif">4 Stars</text>
+                <text x="371" y="208" text-anchor="middle" fill="#71717A" font-size="10" font-family="Inter,sans-serif">5 Stars</text>
               </svg>
             </div>
           </div>
         </div>
-
-        <!-- Driver Leaderboard -->
-        <div class="card full-width animate-fadeInUp stagger-5">
-          <div class="card-title">Driver Leaderboard <span class="badge">This Month</span></div>
-          <table class="data-table">
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Driver</th>
-                <th>Region</th>
-                <th>Deliveries</th>
-                <th>Rating</th>
-                <th>On-Time %</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr><td>1</td><td style="font-weight:600;">Sipho Ndlovu</td><td>Cape Town</td><td>342</td><td>4.9</td><td>97%</td><td><span class="status status-excellent">Excellent</span></td></tr>
-              <tr><td>2</td><td style="font-weight:600;">Thandiwe Molefe</td><td>Johannesburg</td><td>318</td><td>4.8</td><td>95%</td><td><span class="status status-excellent">Excellent</span></td></tr>
-              <tr><td>3</td><td style="font-weight:600;">David Botha</td><td>Durban</td><td>289</td><td>4.8</td><td>94%</td><td><span class="status status-excellent">Excellent</span></td></tr>
-              <tr><td>4</td><td style="font-weight:600;">Nomsa Dlamini</td><td>Pretoria</td><td>276</td><td>4.7</td><td>93%</td><td><span class="status status-good">Good</span></td></tr>
-              <tr><td>5</td><td style="font-weight:600;">Johan van Wyk</td><td>Stellenbosch</td><td>264</td><td>4.7</td><td>92%</td><td><span class="status status-good">Good</span></td></tr>
-              <tr><td>6</td><td style="font-weight:600;">Lerato Khumalo</td><td>Sandton</td><td>251</td><td>4.6</td><td>91%</td><td><span class="status status-good">Good</span></td></tr>
-              <tr><td>7</td><td style="font-weight:600;">Pieter Jansen</td><td>Cape Town</td><td>243</td><td>4.6</td><td>90%</td><td><span class="status status-good">Good</span></td></tr>
-              <tr><td>8</td><td style="font-weight:600;">Blessing Zulu</td><td>Johannesburg</td><td>231</td><td>4.5</td><td>89%</td><td><span class="status status-good">Good</span></td></tr>
-            </tbody>
-          </table>
-        </div>
-        </div><!-- end content-area -->
       </div>
+    </div>
 
-      <!-- ==========================================
-           TAB 3: DELIVERY EXPERIENCE
-           ========================================== -->
-      <div class="tab-panel" id="panel-delivery-experience">
-        <div class="panel-header">
-          <div class="panel-header-left">
-            <div class="panel-header-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></div>
-            <div class="panel-header-text">
-              <h1>Delivery Experience</h1>
-              <p>Delivery time, food condition &amp; customer experience metrics</p>
-            </div>
-          </div>
-          <div class="panel-header-right">
-            <select class="filter-select">
-              <option>This Month</option>
-              <option>Last 7 days</option>
-              <option>Last 90 days</option>
-            </select>
-            <select class="filter-select">
-              <option>All Regions</option>
-              <option>Cape Town</option>
-              <option>Johannesburg</option>
-              <option>Durban</option>
-            </select>
+    <!-- =============================================
+         PANEL 3: DELIVERY EXPERIENCE
+         ============================================= -->
+    <div class="tab-panel" id="panel-delivery-experience">
+      <div class="panel-header">
+        <div class="panel-header-left">
+          <div class="panel-header-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></div>
+          <div class="panel-header-text">
+            <h1>Delivery Experience</h1>
+            <p>Delivery performance &amp; customer experience metrics</p>
           </div>
         </div>
-        <div class="content-area content-area-padded">
+        <div class="panel-header-right">
+          <select class="filter-select">
+            <option>Last 30 days</option>
+            <option>Last 7 days</option>
+            <option>Last 90 days</option>
+          </select>
+        </div>
+      </div>
+      <div class="content-area content-area-padded">
         <div class="kpi-row">
-          <div class="kpi-card animate-fadeInUp stagger-1">
-            <div class="kpi-label">Avg Delivery Time</div>
-            <div class="kpi-value"><span data-count="29" data-format="int">0</span> min</div>
-            <div class="kpi-change up">
-              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 2L10 7H2L6 2Z" fill="currentColor"/></svg>
-              3 min
+          <div class="kpi-card">
+            <div class="kpi-card-header">
+              <div class="kpi-icon neutral">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              </div>
+              <div class="kpi-label">Avg Delivery Time</div>
             </div>
-            <div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+            <div class="kpi-value"><span class="count-up" data-target="29" data-format="integer">0</span><span class="kpi-suffix"> min</span></div>
+            <div class="kpi-change positive">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 2V10M6 10L2.5 6.5M6 10L9.5 6.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              -3 min vs last month
+            </div>
           </div>
-          <div class="kpi-card animate-fadeInUp stagger-2">
-            <div class="kpi-label">On-Time Rate</div>
-            <div class="kpi-value"><span data-count="89" data-format="int">0</span>%</div>
-            <div class="kpi-change up">
-              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 2L10 7H2L6 2Z" fill="currentColor"/></svg>
-              4.7%
+          <div class="kpi-card">
+            <div class="kpi-card-header">
+              <div class="kpi-icon neutral">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+              </div>
+              <div class="kpi-label">On-Time Rate</div>
             </div>
-            <div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
+            <div class="kpi-value"><span class="count-up" data-target="89" data-format="integer">0</span><span class="kpi-suffix">%</span></div>
+            <div class="kpi-change positive">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 10V2M6 2L2.5 5.5M6 2L9.5 5.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              +2.4%
+            </div>
           </div>
-          <div class="kpi-card animate-fadeInUp stagger-3">
-            <div class="kpi-label">Food Condition Score</div>
-            <div class="kpi-value"><span data-count="4.1" data-format="float" data-decimals="1">0</span>/5</div>
-            <div class="kpi-change up">
-              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 2L10 7H2L6 2Z" fill="currentColor"/></svg>
-              0.3
+          <div class="kpi-card">
+            <div class="kpi-card-header">
+              <div class="kpi-icon neutral">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              </div>
+              <div class="kpi-label">Food Condition</div>
             </div>
-            <div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 2l2 18h14l2-18H3z"/><path d="M7 2v4a5 5 0 0010 0V2"/></svg></div>
+            <div class="kpi-value"><span class="count-up" data-target="4.1" data-format="decimal" data-decimals="1">0</span><span class="kpi-suffix">/5</span></div>
+            <div class="kpi-change positive">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 10V2M6 2L2.5 5.5M6 2L9.5 5.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              +0.3
+            </div>
           </div>
-          <div class="kpi-card animate-fadeInUp stagger-4">
-            <div class="kpi-label">Reorder Rate</div>
-            <div class="kpi-value"><span data-count="67" data-format="int">0</span>%</div>
-            <div class="kpi-change up">
-              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 2L10 7H2L6 2Z" fill="currentColor"/></svg>
-              5.3%
+          <div class="kpi-card">
+            <div class="kpi-card-header">
+              <div class="kpi-icon neutral">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+              </div>
+              <div class="kpi-label">Reorder Rate</div>
             </div>
-            <div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"/></svg></div>
+            <div class="kpi-value"><span class="count-up" data-target="67" data-format="integer">0</span><span class="kpi-suffix">%</span></div>
+            <div class="kpi-change positive">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 10V2M6 2L2.5 5.5M6 2L9.5 5.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              +4.2%
+            </div>
           </div>
         </div>
 
-        <div class="two-col">
-          <!-- Delivery Time Distribution -->
-          <div class="card animate-fadeInUp stagger-3">
-            <div class="card-title">Delivery Time Breakdown <span class="badge">This Month</span></div>
+        <div class="chart-grid">
+          <!-- Delivery Time Breakdown -->
+          <div class="card anim-card" style="animation-delay: 400ms">
+            <div class="card-title">Delivery Time Breakdown</div>
             <div class="chart-container">
-              <svg viewBox="0 0 480 220" xmlns="http://www.w3.org/2000/svg">
-                <line x1="50" y1="30" x2="50" y2="180" stroke="#E4E4E7" stroke-width="0.5"/>
-                <line x1="50" y1="180" x2="460" y2="180" stroke="#E4E4E7" stroke-width="0.5"/>
-                <line x1="50" y1="142.5" x2="460" y2="142.5" stroke="#E4E4E7" stroke-width="0.5" opacity="0.6"/>
-                <line x1="50" y1="105" x2="460" y2="105" stroke="#E4E4E7" stroke-width="0.5" opacity="0.6"/>
-                <line x1="50" y1="67.5" x2="460" y2="67.5" stroke="#E4E4E7" stroke-width="0.5" opacity="0.6"/>
-                <text x="44" y="183" text-anchor="end" fill="#71717A" font-size="10" font-family="Inter,sans-serif">0%</text>
-                <text x="44" y="145" text-anchor="end" fill="#71717A" font-size="10" font-family="Inter,sans-serif">10%</text>
-                <text x="44" y="108" text-anchor="end" fill="#71717A" font-size="10" font-family="Inter,sans-serif">20%</text>
-                <text x="44" y="70" text-anchor="end" fill="#71717A" font-size="10" font-family="Inter,sans-serif">30%</text>
-                <text x="44" y="33" text-anchor="end" fill="#71717A" font-size="10" font-family="Inter,sans-serif">40%</text>
-                <rect class="bar-rect" x="64" y="135" width="60" height="45" rx="4" fill="#06C167" opacity="0.55"><title>Under 15 min: 12%</title></rect>
-                <rect class="bar-rect" x="144" y="52.5" width="60" height="127.5" rx="4" fill="#06C167" opacity="0.85"><title>15-25 min: 34%</title></rect>
-                <rect class="bar-rect" x="224" y="48.75" width="60" height="131.25" rx="4" fill="#06C167" opacity="1"><title>25-35 min: 35%</title></rect>
-                <rect class="bar-rect" x="304" y="131.25" width="60" height="48.75" rx="4" fill="#06C167" opacity="0.65"><title>35-45 min: 13%</title></rect>
-                <rect class="bar-rect" x="384" y="157.5" width="60" height="22.5" rx="4" fill="#d97706" opacity="0.65"><title>45+ min: 6%</title></rect>
-                <text x="94" y="130" text-anchor="middle" fill="#18181B" font-size="10" font-weight="600">12%</text>
-                <text x="174" y="47" text-anchor="middle" fill="#18181B" font-size="10" font-weight="600">34%</text>
-                <text x="254" y="44" text-anchor="middle" fill="#18181B" font-size="10" font-weight="600">35%</text>
-                <text x="334" y="126" text-anchor="middle" fill="#18181B" font-size="10" font-weight="600">13%</text>
-                <text x="414" y="153" text-anchor="middle" fill="#d97706" font-size="10" font-weight="600">6%</text>
-                <text x="94" y="198" text-anchor="middle" fill="#71717A" font-size="10" font-family="Inter,sans-serif">&lt;15m</text>
-                <text x="174" y="198" text-anchor="middle" fill="#71717A" font-size="10" font-family="Inter,sans-serif">15-25m</text>
-                <text x="254" y="198" text-anchor="middle" fill="#71717A" font-size="10" font-family="Inter,sans-serif">25-35m</text>
-                <text x="334" y="198" text-anchor="middle" fill="#71717A" font-size="10" font-family="Inter,sans-serif">35-45m</text>
-                <text x="414" y="198" text-anchor="middle" fill="#71717A" font-size="10" font-family="Inter,sans-serif">45m+</text>
+              <svg viewBox="0 0 420 240" xmlns="http://www.w3.org/2000/svg">
+                <line x1="50" y1="20" x2="50" y2="190" stroke="#E4E4E7" stroke-width="0.5"/>
+                <line x1="50" y1="190" x2="400" y2="190" stroke="#E4E4E7" stroke-width="0.5"/>
+                <line x1="50" y1="147.5" x2="400" y2="147.5" stroke="#E4E4E7" stroke-width="0.5" opacity="0.5"/>
+                <line x1="50" y1="105" x2="400" y2="105" stroke="#E4E4E7" stroke-width="0.5" opacity="0.5"/>
+                <line x1="50" y1="62.5" x2="400" y2="62.5" stroke="#E4E4E7" stroke-width="0.5" opacity="0.5"/>
+                <text x="44" y="193" text-anchor="end" fill="#71717A" font-size="10" font-family="Inter,sans-serif">0%</text>
+                <text x="44" y="150" text-anchor="end" fill="#71717A" font-size="10" font-family="Inter,sans-serif">15%</text>
+                <text x="44" y="108" text-anchor="end" fill="#71717A" font-size="10" font-family="Inter,sans-serif">30%</text>
+                <text x="44" y="65" text-anchor="end" fill="#71717A" font-size="10" font-family="Inter,sans-serif">45%</text>
+                <!-- Under 20 min: 28% -->
+                <rect class="bar-rect" x="75" y="111" width="56" height="79" rx="3" fill="#06C167"><title>Under 20 min: 28%</title></rect>
+                <!-- 20-30 min: 41% -->
+                <rect class="bar-rect" x="148" y="74" width="56" height="116" rx="3" fill="#06C167" opacity="0.75"><title>20-30 min: 41%</title></rect>
+                <!-- 30-45 min: 22% -->
+                <rect class="bar-rect" x="221" y="128" width="56" height="62" rx="3" fill="#142328" opacity="0.6"><title>30-45 min: 22%</title></rect>
+                <!-- 45-60 min: 7% -->
+                <rect class="bar-rect" x="294" y="170" width="56" height="20" rx="3" fill="#d97706" opacity="0.7"><title>45-60 min: 7%</title></rect>
+                <!-- Over 60 min: 2% -->
+                <rect class="bar-rect" x="367" y="184" width="33" height="6" rx="3" fill="#dc2626" opacity="0.7"><title>Over 60 min: 2%</title></rect>
+                <text x="103" y="106" text-anchor="middle" fill="#18181B" font-size="10" font-weight="600" font-family="Inter,sans-serif">28%</text>
+                <text x="176" y="69" text-anchor="middle" fill="#18181B" font-size="10" font-weight="600" font-family="Inter,sans-serif">41%</text>
+                <text x="249" y="123" text-anchor="middle" fill="#18181B" font-size="10" font-weight="600" font-family="Inter,sans-serif">22%</text>
+                <text x="322" y="165" text-anchor="middle" fill="#18181B" font-size="10" font-weight="600" font-family="Inter,sans-serif">7%</text>
+                <text x="383" y="179" text-anchor="middle" fill="#18181B" font-size="10" font-weight="600" font-family="Inter,sans-serif">2%</text>
+                <text x="103" y="208" text-anchor="middle" fill="#71717A" font-size="9" font-family="Inter,sans-serif">&lt;20 min</text>
+                <text x="176" y="208" text-anchor="middle" fill="#71717A" font-size="9" font-family="Inter,sans-serif">20-30</text>
+                <text x="249" y="208" text-anchor="middle" fill="#71717A" font-size="9" font-family="Inter,sans-serif">30-45</text>
+                <text x="322" y="208" text-anchor="middle" fill="#71717A" font-size="9" font-family="Inter,sans-serif">45-60</text>
+                <text x="383" y="208" text-anchor="middle" fill="#71717A" font-size="9" font-family="Inter,sans-serif">&gt;60</text>
               </svg>
             </div>
           </div>
 
-          <!-- Driver Skills Radar Chart -->
-          <div class="card animate-fadeInUp stagger-4">
-            <div class="card-title">Driver Performance Radar <span class="badge">Average</span></div>
-            <div class="chart-container" style="display:flex;justify-content:center;">
-              <svg viewBox="0 0 300 280" width="300" height="280" xmlns="http://www.w3.org/2000/svg">
-                <!-- Background pentagons -->
-                <polygon points="150,30 258,108 217,228 83,228 42,108" fill="none" stroke="#E4E4E7" stroke-width="0.5"/>
-                <polygon points="150,60 234,120 202,210 98,210 66,120" fill="none" stroke="#E4E4E7" stroke-width="0.5"/>
-                <polygon points="150,90 210,132 187,192 113,192 90,132" fill="none" stroke="#E4E4E7" stroke-width="0.5"/>
-                <polygon points="150,120 186,144 172,174 128,174 114,144" fill="none" stroke="#E4E4E7" stroke-width="0.5"/>
-                <!-- Axis lines -->
-                <line x1="150" y1="150" x2="150" y2="30" stroke="#E4E4E7" stroke-width="0.5"/>
-                <line x1="150" y1="150" x2="258" y2="108" stroke="#E4E4E7" stroke-width="0.5"/>
-                <line x1="150" y1="150" x2="217" y2="228" stroke="#E4E4E7" stroke-width="0.5"/>
-                <line x1="150" y1="150" x2="83" y2="228" stroke="#E4E4E7" stroke-width="0.5"/>
-                <line x1="150" y1="150" x2="42" y2="108" stroke="#E4E4E7" stroke-width="0.5"/>
-                <!-- Data polygon (Punctuality: 88%, Courtesy: 92%, Navigation: 78%, Communication: 85%, Food Handling: 82%) -->
-                <polygon points="150,44.4 243.6,113.6 197.4,218.4 96.6,211.2 56.4,115.2" fill="rgba(6,193,103,0.12)" stroke="#06C167" stroke-width="2"/>
-                <!-- Data points -->
-                <circle cx="150" cy="44.4" r="4" fill="#06C167"/>
-                <circle cx="243.6" cy="113.6" r="4" fill="#06C167"/>
-                <circle cx="197.4" cy="218.4" r="4" fill="#06C167"/>
-                <circle cx="96.6" cy="211.2" r="4" fill="#06C167"/>
-                <circle cx="56.4" cy="115.2" r="4" fill="#06C167"/>
-                <!-- Labels -->
-                <text x="150" y="18" text-anchor="middle" fill="#18181B" font-size="11" font-weight="600" font-family="Inter,sans-serif">Punctuality</text>
-                <text x="270" y="108" text-anchor="start" fill="#18181B" font-size="11" font-weight="600" font-family="Inter,sans-serif">Courtesy</text>
-                <text x="225" y="245" text-anchor="middle" fill="#18181B" font-size="11" font-weight="600" font-family="Inter,sans-serif">Navigation</text>
-                <text x="75" y="245" text-anchor="middle" fill="#18181B" font-size="11" font-weight="600" font-family="Inter,sans-serif">Communication</text>
-                <text x="30" y="108" text-anchor="end" fill="#18181B" font-size="11" font-weight="600" font-family="Inter,sans-serif">Food Care</text>
-              </svg>
+          <!-- Driver Performance Radar -->
+          <div class="card anim-card" style="animation-delay: 500ms">
+            <div class="card-title">Driver Performance Profile</div>
+            <div class="radar-wrap">
+              <svg id="delivery-radar" class="radar-svg" viewBox="0 0 320 280" xmlns="http://www.w3.org/2000/svg"></svg>
             </div>
           </div>
         </div>
-
-        <!-- Issue Categories -->
-        <div class="card full-width animate-fadeInUp stagger-5">
-          <div class="card-title">Top Customer Complaints <span class="badge">This Month</span></div>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px 32px;">
-            <div class="progress-row"><span class="progress-label">Late Delivery</span><div class="progress-track"><div class="progress-fill" style="width:34%"></div></div><span class="progress-value">34%</span></div>
-            <div class="progress-row"><span class="progress-label">Cold Food</span><div class="progress-track"><div class="progress-fill" style="width:22%"></div></div><span class="progress-value">22%</span></div>
-            <div class="progress-row"><span class="progress-label">Wrong Items</span><div class="progress-track"><div class="progress-fill" style="width:18%"></div></div><span class="progress-value">18%</span></div>
-            <div class="progress-row"><span class="progress-label">Missing Items</span><div class="progress-track"><div class="progress-fill" style="width:14%"></div></div><span class="progress-value">14%</span></div>
-            <div class="progress-row"><span class="progress-label">Poor Packaging</span><div class="progress-track"><div class="progress-fill" style="width:8%"></div></div><span class="progress-value">8%</span></div>
-            <div class="progress-row"><span class="progress-label">Driver Attitude</span><div class="progress-track"><div class="progress-fill" style="width:4%"></div></div><span class="progress-value">4%</span></div>
-          </div>
-        </div>
-        </div><!-- end content-area -->
       </div>
+    </div>
 
-      <!-- ==========================================
-           TAB 4: DRIVER SENTIMENT
-           ========================================== -->
-      <div class="tab-panel" id="panel-driver-sentiment">
-        <div class="panel-header">
-          <div class="panel-header-left">
-            <div class="panel-header-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg></div>
-            <div class="panel-header-text">
-              <h1>Driver Sentiment</h1>
-              <p>Driver satisfaction, feedback &amp; support trends</p>
-            </div>
-          </div>
-          <div class="panel-header-right">
-            <select class="filter-select">
-              <option>Last 30 days</option>
-              <option>Last 7 days</option>
-              <option>Last 90 days</option>
-            </select>
-            <select class="filter-select">
-              <option>All Regions</option>
-              <option>Cape Town</option>
-              <option>Johannesburg</option>
-              <option>Durban</option>
-            </select>
+    <!-- =============================================
+         PANEL 4: DRIVER SENTIMENT
+         ============================================= -->
+    <div class="tab-panel" id="panel-driver-sentiment">
+      <div class="panel-header">
+        <div class="panel-header-left">
+          <div class="panel-header-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg></div>
+          <div class="panel-header-text">
+            <h1>Driver Sentiment</h1>
+            <p>Driver satisfaction trends &amp; key concerns</p>
           </div>
         </div>
-        <div class="content-area content-area-padded">
+        <div class="panel-header-right">
+          <select class="filter-select">
+            <option>Last 6 months</option>
+            <option>Last 3 months</option>
+            <option>This year</option>
+          </select>
+        </div>
+      </div>
+      <div class="content-area content-area-padded">
         <div class="kpi-row">
-          <div class="kpi-card animate-fadeInUp stagger-1">
-            <div class="kpi-label">Driver Satisfaction</div>
-            <div class="kpi-value"><span data-count="3.9" data-format="float" data-decimals="1">0</span>/5</div>
-            <div class="kpi-change up">
-              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 2L10 7H2L6 2Z" fill="currentColor"/></svg>
-              0.4
+          <div class="kpi-card">
+            <div class="kpi-card-header">
+              <div class="kpi-icon neutral">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
+              </div>
+              <div class="kpi-label">Driver Satisfaction</div>
             </div>
-            <div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg></div>
+            <div class="kpi-value"><span class="count-up" data-target="3.9" data-format="decimal" data-decimals="1">0</span><span class="kpi-suffix">/5</span></div>
+            <div class="kpi-change positive">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 10V2M6 2L2.5 5.5M6 2L9.5 5.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              +0.2
+            </div>
           </div>
-          <div class="kpi-card animate-fadeInUp stagger-2">
-            <div class="kpi-label">Driver NPS</div>
-            <div class="kpi-value" data-count="42" data-format="int">0</div>
-            <div class="kpi-change up">
-              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 2L10 7H2L6 2Z" fill="currentColor"/></svg>
-              6 pts
+          <div class="kpi-card">
+            <div class="kpi-card-header">
+              <div class="kpi-icon neutral">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+              </div>
+              <div class="kpi-label">Driver NPS</div>
             </div>
-            <div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+            <div class="kpi-value"><span class="count-up" data-target="42" data-format="integer">0</span></div>
+            <div class="kpi-change positive">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 10V2M6 2L2.5 5.5M6 2L9.5 5.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              +6 pts
+            </div>
           </div>
-          <div class="kpi-card animate-fadeInUp stagger-3">
-            <div class="kpi-label">Survey Participation</div>
-            <div class="kpi-value"><span data-count="54" data-format="int">0</span>%</div>
-            <div class="kpi-change up">
-              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 2L10 7H2L6 2Z" fill="currentColor"/></svg>
-              8.2%
+          <div class="kpi-card">
+            <div class="kpi-card-header">
+              <div class="kpi-icon neutral">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+              </div>
+              <div class="kpi-label">Survey Participation</div>
             </div>
-            <div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 4h2a2 2 0 012 2v14a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg></div>
+            <div class="kpi-value"><span class="count-up" data-target="54" data-format="integer">0</span><span class="kpi-suffix">%</span></div>
+            <div class="kpi-change positive">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 10V2M6 2L2.5 5.5M6 2L9.5 5.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              +8%
+            </div>
           </div>
-          <div class="kpi-card animate-fadeInUp stagger-4">
-            <div class="kpi-label">Support Tickets</div>
-            <div class="kpi-value" data-count="189" data-format="int">0</div>
-            <div class="kpi-change down">
-              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 10L2 5H10L6 10Z" fill="currentColor"/></svg>
-              15%
+          <div class="kpi-card">
+            <div class="kpi-card-header">
+              <div class="kpi-icon neutral">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+              </div>
+              <div class="kpi-label">Support Tickets</div>
             </div>
-            <div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+            <div class="kpi-value"><span class="count-up" data-target="189" data-format="integer">0</span></div>
+            <div class="kpi-change negative">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 10V2M6 2L2.5 5.5M6 2L9.5 5.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              +23 this week
+            </div>
           </div>
         </div>
 
-        <div class="two-col">
-          <!-- Driver Satisfaction Trend -->
-          <div class="card animate-fadeInUp stagger-3">
-            <div class="card-title">Driver Satisfaction Trend <span class="badge">6 Months</span></div>
+        <div class="chart-grid">
+          <!-- Satisfaction Trend -->
+          <div class="card anim-card" style="animation-delay: 400ms">
+            <div class="card-title">Driver Satisfaction Trend</div>
             <div class="chart-container">
-              <svg viewBox="0 0 480 220" xmlns="http://www.w3.org/2000/svg">
-                <line x1="50" y1="30" x2="50" y2="180" stroke="#E4E4E7" stroke-width="0.5"/>
-                <line x1="50" y1="180" x2="460" y2="180" stroke="#E4E4E7" stroke-width="0.5"/>
-                <line x1="50" y1="142.5" x2="460" y2="142.5" stroke="#E4E4E7" stroke-width="0.5" opacity="0.6"/>
-                <line x1="50" y1="105" x2="460" y2="105" stroke="#E4E4E7" stroke-width="0.5" opacity="0.6"/>
-                <line x1="50" y1="67.5" x2="460" y2="67.5" stroke="#E4E4E7" stroke-width="0.5" opacity="0.6"/>
-                <text x="44" y="183" text-anchor="end" fill="#71717A" font-size="10" font-family="Inter,sans-serif">0</text>
-                <text x="44" y="145" text-anchor="end" fill="#71717A" font-size="10" font-family="Inter,sans-serif">1.25</text>
-                <text x="44" y="108" text-anchor="end" fill="#71717A" font-size="10" font-family="Inter,sans-serif">2.5</text>
-                <text x="44" y="70" text-anchor="end" fill="#71717A" font-size="10" font-family="Inter,sans-serif">3.75</text>
-                <text x="44" y="33" text-anchor="end" fill="#71717A" font-size="10" font-family="Inter,sans-serif">5.0</text>
-                <!-- Area fill -->
-                <polygon points="94,79.2 160,73.2 226,70.2 292,67.2 358,64.2 424,62.7 424,180 94,180" fill="rgba(6,193,103,0.08)"/>
-                <!-- Line -->
-                <polyline points="94,79.2 160,73.2 226,70.2 292,67.2 358,64.2 424,62.7" fill="none" stroke="#06C167" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
-                <!-- Data points -->
-                <circle cx="94" cy="79.2" r="4" fill="white" stroke="#06C167" stroke-width="2"/>
-                <circle cx="160" cy="73.2" r="4" fill="white" stroke="#06C167" stroke-width="2"/>
-                <circle cx="226" cy="70.2" r="4" fill="white" stroke="#06C167" stroke-width="2"/>
-                <circle cx="292" cy="67.2" r="4" fill="white" stroke="#06C167" stroke-width="2"/>
-                <circle cx="358" cy="64.2" r="4" fill="white" stroke="#06C167" stroke-width="2"/>
-                <circle cx="424" cy="62.7" r="4" fill="#06C167" stroke="#06C167" stroke-width="2"/>
-                <!-- Value labels -->
-                <text x="94" y="72" text-anchor="middle" fill="#18181B" font-size="10" font-weight="600" font-family="Inter,sans-serif">3.4</text>
-                <text x="160" y="66" text-anchor="middle" fill="#18181B" font-size="10" font-weight="600" font-family="Inter,sans-serif">3.5</text>
-                <text x="226" y="63" text-anchor="middle" fill="#18181B" font-size="10" font-weight="600" font-family="Inter,sans-serif">3.6</text>
-                <text x="292" y="60" text-anchor="middle" fill="#18181B" font-size="10" font-weight="600" font-family="Inter,sans-serif">3.7</text>
-                <text x="358" y="57" text-anchor="middle" fill="#18181B" font-size="10" font-weight="600" font-family="Inter,sans-serif">3.8</text>
-                <text x="424" y="55" text-anchor="middle" fill="#18181B" font-size="10" font-weight="600" font-family="Inter,sans-serif">3.9</text>
-                <!-- X labels -->
-                <text x="94" y="198" text-anchor="middle" fill="#71717A" font-size="10" font-family="Inter,sans-serif">Oct</text>
+              <svg viewBox="0 0 420 220" xmlns="http://www.w3.org/2000/svg">
+                <line x1="50" y1="20" x2="50" y2="180" stroke="#E4E4E7" stroke-width="0.5"/>
+                <line x1="50" y1="180" x2="400" y2="180" stroke="#E4E4E7" stroke-width="0.5"/>
+                <line x1="50" y1="140" x2="400" y2="140" stroke="#E4E4E7" stroke-width="0.5" opacity="0.4"/>
+                <line x1="50" y1="100" x2="400" y2="100" stroke="#E4E4E7" stroke-width="0.5" opacity="0.4"/>
+                <line x1="50" y1="60" x2="400" y2="60" stroke="#E4E4E7" stroke-width="0.5" opacity="0.4"/>
+                <text x="44" y="183" text-anchor="end" fill="#71717A" font-size="10" font-family="Inter,sans-serif">3.0</text>
+                <text x="44" y="143" text-anchor="end" fill="#71717A" font-size="10" font-family="Inter,sans-serif">3.5</text>
+                <text x="44" y="103" text-anchor="end" fill="#71717A" font-size="10" font-family="Inter,sans-serif">4.0</text>
+                <text x="44" y="63" text-anchor="end" fill="#71717A" font-size="10" font-family="Inter,sans-serif">4.5</text>
+                <!-- Line: Oct 3.5, Nov 3.6, Dec 3.7, Jan 3.7, Feb 3.8, Mar 3.9 -->
+                <polyline points="100,140 160,132 220,124 280,124 340,116 400,108" fill="none" stroke="#06C167" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle cx="100" cy="140" r="4" fill="#06C167" stroke="white" stroke-width="2"/>
+                <circle cx="160" cy="132" r="4" fill="#06C167" stroke="white" stroke-width="2"/>
+                <circle cx="220" cy="124" r="4" fill="#06C167" stroke="white" stroke-width="2"/>
+                <circle cx="280" cy="124" r="4" fill="#06C167" stroke="white" stroke-width="2"/>
+                <circle cx="340" cy="116" r="4" fill="#06C167" stroke="white" stroke-width="2"/>
+                <circle cx="400" cy="108" r="4" fill="#06C167" stroke="white" stroke-width="2"/>
+                <text x="100" y="135" text-anchor="middle" fill="#18181B" font-size="10" font-weight="600" font-family="Inter,sans-serif">3.5</text>
+                <text x="160" y="127" text-anchor="middle" fill="#18181B" font-size="10" font-weight="600" font-family="Inter,sans-serif">3.6</text>
+                <text x="220" y="119" text-anchor="middle" fill="#18181B" font-size="10" font-weight="600" font-family="Inter,sans-serif">3.7</text>
+                <text x="280" y="119" text-anchor="middle" fill="#18181B" font-size="10" font-weight="600" font-family="Inter,sans-serif">3.7</text>
+                <text x="340" y="111" text-anchor="middle" fill="#18181B" font-size="10" font-weight="600" font-family="Inter,sans-serif">3.8</text>
+                <text x="400" y="103" text-anchor="middle" fill="#18181B" font-size="10" font-weight="600" font-family="Inter,sans-serif">3.9</text>
+                <text x="100" y="198" text-anchor="middle" fill="#71717A" font-size="10" font-family="Inter,sans-serif">Oct</text>
                 <text x="160" y="198" text-anchor="middle" fill="#71717A" font-size="10" font-family="Inter,sans-serif">Nov</text>
-                <text x="226" y="198" text-anchor="middle" fill="#71717A" font-size="10" font-family="Inter,sans-serif">Dec</text>
-                <text x="292" y="198" text-anchor="middle" fill="#71717A" font-size="10" font-family="Inter,sans-serif">Jan</text>
-                <text x="358" y="198" text-anchor="middle" fill="#71717A" font-size="10" font-family="Inter,sans-serif">Feb</text>
-                <text x="424" y="198" text-anchor="middle" fill="#71717A" font-size="10" font-family="Inter,sans-serif">Mar</text>
+                <text x="220" y="198" text-anchor="middle" fill="#71717A" font-size="10" font-family="Inter,sans-serif">Dec</text>
+                <text x="280" y="198" text-anchor="middle" fill="#71717A" font-size="10" font-family="Inter,sans-serif">Jan</text>
+                <text x="340" y="198" text-anchor="middle" fill="#71717A" font-size="10" font-family="Inter,sans-serif">Feb</text>
+                <text x="400" y="198" text-anchor="middle" fill="#71717A" font-size="10" font-family="Inter,sans-serif">Mar</text>
               </svg>
             </div>
           </div>
 
           <!-- Top Driver Concerns -->
-          <div class="card animate-fadeInUp stagger-4">
+          <div class="card anim-card" style="animation-delay: 500ms">
             <div class="card-title">Top Driver Concerns</div>
-            <div style="display:flex;flex-direction:column;gap:4px;">
-              <div class="progress-row"><span class="progress-label">Wait at Restaurant</span><div class="progress-track"><div class="progress-fill" style="width:74%;background:#d97706;"></div></div><span class="progress-value">74%</span></div>
-              <div class="progress-row"><span class="progress-label">Earnings Transparency</span><div class="progress-track"><div class="progress-fill" style="width:68%;background:#d97706;"></div></div><span class="progress-value">68%</span></div>
-              <div class="progress-row"><span class="progress-label">Navigation Issues</span><div class="progress-track"><div class="progress-fill" style="width:56%"></div></div><span class="progress-value">56%</span></div>
-              <div class="progress-row"><span class="progress-label">Parking Access</span><div class="progress-track"><div class="progress-fill" style="width:48%"></div></div><span class="progress-value">48%</span></div>
-              <div class="progress-row"><span class="progress-label">Customer No-Shows</span><div class="progress-track"><div class="progress-fill" style="width:41%"></div></div><span class="progress-value">41%</span></div>
-              <div class="progress-row"><span class="progress-label">Safety Concerns</span><div class="progress-track"><div class="progress-fill" style="width:33%;background:#dc2626;"></div></div><span class="progress-value">33%</span></div>
-              <div class="progress-row"><span class="progress-label">App Reliability</span><div class="progress-track"><div class="progress-fill" style="width:24%"></div></div><span class="progress-value">24%</span></div>
+            <div id="driver-concerns">
+              <div class="score-row">
+                <span class="score-row-label">Earnings transparency</span>
+                <div class="score-row-bar"><div class="score-row-fill" data-width="88%" style="width:0%"></div></div>
+                <span class="score-row-value">78%</span>
+              </div>
+              <div class="score-row">
+                <span class="score-row-label">App navigation issues</span>
+                <div class="score-row-bar"><div class="score-row-fill" data-width="76%" style="width:0%"></div></div>
+                <span class="score-row-value">64%</span>
+              </div>
+              <div class="score-row">
+                <span class="score-row-label">Long wait at restaurants</span>
+                <div class="score-row-bar"><div class="score-row-fill" data-width="72%" style="width:0%"></div></div>
+                <span class="score-row-value">61%</span>
+              </div>
+              <div class="score-row">
+                <span class="score-row-label">Safety concerns</span>
+                <div class="score-row-bar"><div class="score-row-fill" data-width="64%" style="width:0%"></div></div>
+                <span class="score-row-value">54%</span>
+              </div>
+              <div class="score-row">
+                <span class="score-row-label">Vehicle maintenance costs</span>
+                <div class="score-row-bar"><div class="score-row-fill" data-width="56%" style="width:0%"></div></div>
+                <span class="score-row-value">47%</span>
+              </div>
+              <div class="score-row">
+                <span class="score-row-label">Customer communication</span>
+                <div class="score-row-bar"><div class="score-row-fill" data-width="48%" style="width:0%"></div></div>
+                <span class="score-row-value">40%</span>
+              </div>
+              <div class="score-row">
+                <span class="score-row-label">Peak hour availability</span>
+                <div class="score-row-bar"><div class="score-row-fill" data-width="40%" style="width:0%"></div></div>
+                <span class="score-row-value">34%</span>
+              </div>
             </div>
           </div>
         </div>
-
-        <!-- Driver Verbatims -->
-        <div class="card full-width animate-fadeInUp stagger-5">
-          <div class="card-title">Recent Driver Feedback <span class="badge">Via WhatsApp</span></div>
-          <table class="data-table">
-            <thead>
-              <tr>
-                <th>Driver</th>
-                <th>Region</th>
-                <th>Comment</th>
-                <th>Sentiment</th>
-                <th>Date</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr><td style="font-weight:600;">Sipho N.</td><td>Cape Town</td><td>"The new app update makes navigation much smoother. Really happy with it."</td><td><span class="status status-excellent">Positive</span></td><td>29 Mar</td></tr>
-              <tr><td style="font-weight:600;">Lerato K.</td><td>Sandton</td><td>"Waited 25 min at Nando's Rosebank. Kitchen said they didn't see the order."</td><td><span class="status status-critical">Negative</span></td><td>28 Mar</td></tr>
-              <tr><td style="font-weight:600;">Johan v.W.</td><td>Stellenbosch</td><td>"Love the tip feature. Customers in this area are very generous."</td><td><span class="status status-excellent">Positive</span></td><td>27 Mar</td></tr>
-              <tr><td style="font-weight:600;">Nomsa D.</td><td>Pretoria</td><td>"Parking at malls is still a nightmare. Need designated driver spots."</td><td><span class="status status-warning">Neutral</span></td><td>26 Mar</td></tr>
-              <tr><td style="font-weight:600;">David B.</td><td>Durban</td><td>"Safety at night deliveries in CBD area is a real concern for me."</td><td><span class="status status-critical">Negative</span></td><td>25 Mar</td></tr>
-            </tbody>
-          </table>
-        </div>
-        </div><!-- end content-area -->
       </div>
+    </div>
 
-      <!-- ==========================================
-           TAB 5: ALERTS & FLAGS
-           ========================================== -->
-      <div class="tab-panel" id="panel-alerts-flags">
-        <div class="panel-header">
-          <div class="panel-header-left">
-            <div class="panel-header-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></div>
-            <div class="panel-header-text">
-              <h1>Alerts &amp; Flags</h1>
-              <p>Active alerts, trigger activations &amp; resolution tracking</p>
-            </div>
-          </div>
-          <div class="panel-header-right">
-            <select class="filter-select">
-              <option>This Week</option>
-              <option>Today</option>
-              <option>Last 30 days</option>
-            </select>
-            <select class="filter-select">
-              <option>All Severity</option>
-              <option>Critical</option>
-              <option>Warning</option>
-              <option>Info</option>
-            </select>
+    <!-- =============================================
+         PANEL 5: ALERTS & FLAGS
+         ============================================= -->
+    <div class="tab-panel" id="panel-alerts-flags">
+      <div class="panel-header">
+        <div class="panel-header-left">
+          <div class="panel-header-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></div>
+          <div class="panel-header-text">
+            <h1>Alerts &amp; Flags</h1>
+            <p>Automated alert monitoring &amp; driver flagging</p>
           </div>
         </div>
-        <div class="content-area content-area-padded">
+        <div class="panel-header-right">
+          <select class="filter-select">
+            <option>All Severities</option>
+            <option>Critical Only</option>
+            <option>Warning</option>
+            <option>Info</option>
+          </select>
+          <select class="filter-select">
+            <option>Last 7 days</option>
+            <option>Last 24 hours</option>
+            <option>Last 30 days</option>
+          </select>
+        </div>
+      </div>
+      <div class="content-area content-area-padded">
         <div class="kpi-row">
-          <div class="kpi-card animate-fadeInUp stagger-1">
-            <div class="kpi-label">Active Alerts</div>
-            <div class="kpi-value" data-count="14" data-format="int">0</div>
-            <div class="kpi-change down">
-              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 10L2 5H10L6 10Z" fill="currentColor"/></svg>
-              6
+          <div class="kpi-card">
+            <div class="kpi-card-header">
+              <div class="kpi-icon neutral">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+              </div>
+              <div class="kpi-label">Active Alerts</div>
             </div>
-            <div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>
+            <div class="kpi-value"><span class="count-up" data-target="14" data-format="integer">0</span></div>
+            <div class="kpi-change negative">3 critical</div>
           </div>
-          <div class="kpi-card animate-fadeInUp stagger-2">
-            <div class="kpi-label">Resolved This Week</div>
-            <div class="kpi-value" data-count="38" data-format="int">0</div>
-            <div class="kpi-change up">
-              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 2L10 7H2L6 2Z" fill="currentColor"/></svg>
-              11
+          <div class="kpi-card">
+            <div class="kpi-card-header">
+              <div class="kpi-icon neutral">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+              </div>
+              <div class="kpi-label">Resolved This Week</div>
             </div>
-            <div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
+            <div class="kpi-value"><span class="count-up" data-target="38" data-format="integer">0</span></div>
+            <div class="kpi-change positive">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 10V2M6 2L2.5 5.5M6 2L9.5 5.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              +12 vs last week
+            </div>
           </div>
-          <div class="kpi-card animate-fadeInUp stagger-3">
-            <div class="kpi-label">Avg Resolution</div>
-            <div class="kpi-value"><span data-count="1.8" data-format="float" data-decimals="1">0</span> hrs</div>
-            <div class="kpi-change up">
-              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 2L10 7H2L6 2Z" fill="currentColor"/></svg>
-              0.4 hrs
+          <div class="kpi-card">
+            <div class="kpi-card-header">
+              <div class="kpi-icon neutral">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              </div>
+              <div class="kpi-label">Avg Resolution</div>
             </div>
-            <div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+            <div class="kpi-value"><span class="count-up" data-target="1.8" data-format="decimal" data-decimals="1">0</span><span class="kpi-suffix"> hrs</span></div>
+            <div class="kpi-change positive">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 2V10M6 10L2.5 6.5M6 10L9.5 6.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              -0.6 hrs
+            </div>
           </div>
-          <div class="kpi-card animate-fadeInUp stagger-4">
-            <div class="kpi-label">Critical</div>
-            <div class="kpi-value" data-count="3" data-format="int">0</div>
-            <div class="kpi-change down">
-              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 10L2 5H10L6 10Z" fill="currentColor"/></svg>
-              2
+          <div class="kpi-card">
+            <div class="kpi-card-header">
+              <div class="kpi-icon neutral">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              </div>
+              <div class="kpi-label">Critical</div>
             </div>
-            <div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div>
+            <div class="kpi-value"><span class="count-up" data-target="3" data-format="integer">0</span></div>
+            <div class="kpi-change negative">Needs attention</div>
           </div>
         </div>
 
-        <div class="two-col">
+        <div class="chart-grid">
           <!-- Active Alerts -->
-          <div class="card animate-fadeInUp stagger-3">
-            <div class="card-title">Active Alerts <span class="badge">14 Active</span></div>
-            <div>
-              <div class="alert-item critical">
-                <div class="alert-dot critical"></div>
-                <div class="alert-content">
-                  <div class="alert-title">Driver Rating Below 3.0</div>
-                  <div class="alert-desc">3 drivers in Johannesburg area have dropped below minimum threshold</div>
-                </div>
-                <div class="alert-time">18 min ago</div>
+          <div class="card anim-card" style="animation-delay: 400ms">
+            <div class="card-title">Active Alerts</div>
+            <div class="alert-item">
+              <div class="alert-icon critical">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
               </div>
-              <div class="alert-item critical">
-                <div class="alert-dot critical"></div>
-                <div class="alert-content">
-                  <div class="alert-title">Delivery Success Rate Critical</div>
-                  <div class="alert-desc">Pretoria CBD success rate at 74% (threshold: 85%)</div>
-                </div>
-                <div class="alert-time">42 min ago</div>
+              <div class="alert-content">
+                <div class="alert-title">Driver rating below 3.0 - Polokwane region</div>
+                <div class="alert-desc">3 drivers consistently rated below threshold</div>
               </div>
-              <div class="alert-item critical">
-                <div class="alert-dot critical"></div>
-                <div class="alert-content">
-                  <div class="alert-title">Safety Incident Reported</div>
-                  <div class="alert-desc">Driver reported vehicle break-in during delivery in Hillbrow</div>
-                </div>
-                <div class="alert-time">1 hr ago</div>
+              <div class="alert-time">8 min ago</div>
+            </div>
+            <div class="alert-item">
+              <div class="alert-icon critical">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
               </div>
-              <div class="alert-item warning">
-                <div class="alert-dot warning"></div>
-                <div class="alert-content">
-                  <div class="alert-title">High Wait Times at Restaurants</div>
-                  <div class="alert-desc">8 restaurants in Sandton averaging 30+ min prep time</div>
-                </div>
-                <div class="alert-time">2 hrs ago</div>
+              <div class="alert-content">
+                <div class="alert-title">Delivery time spike - Sandton area</div>
+                <div class="alert-desc">Avg delivery exceeded 50 min during lunch rush</div>
               </div>
-              <div class="alert-item warning">
-                <div class="alert-dot warning"></div>
-                <div class="alert-content">
-                  <div class="alert-title">Spike in Refund Requests</div>
-                  <div class="alert-desc">Durban refund rate up 32% in last 24 hours</div>
-                </div>
-                <div class="alert-time">3 hrs ago</div>
+              <div class="alert-time">24 min ago</div>
+            </div>
+            <div class="alert-item">
+              <div class="alert-icon critical">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
               </div>
-              <div class="alert-item warning">
-                <div class="alert-dot warning"></div>
-                <div class="alert-content">
-                  <div class="alert-title">Driver Churn Risk</div>
-                  <div class="alert-desc">12 drivers with &lt;3.5 satisfaction flagged in Port Elizabeth</div>
-                </div>
-                <div class="alert-time">4 hrs ago</div>
+              <div class="alert-content">
+                <div class="alert-title">Food condition complaints surge - JHB North</div>
+                <div class="alert-desc">12 complaints in 4 hours, investigate driver handling</div>
               </div>
-              <div class="alert-item info">
-                <div class="alert-dot info"></div>
-                <div class="alert-content">
-                  <div class="alert-title">New WhatsApp Survey Deployed</div>
-                  <div class="alert-desc">Post-delivery feedback v4.1 live across all Gauteng regions</div>
-                </div>
-                <div class="alert-time">5 hrs ago</div>
+              <div class="alert-time">1 hr ago</div>
+            </div>
+            <div class="alert-item">
+              <div class="alert-icon warning">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
               </div>
-              <div class="alert-item info">
-                <div class="alert-dot info"></div>
-                <div class="alert-content">
-                  <div class="alert-title">Weekly Driver Report Ready</div>
-                  <div class="alert-desc">Week 13 driver performance report available for download</div>
-                </div>
-                <div class="alert-time">6 hrs ago</div>
+              <div class="alert-content">
+                <div class="alert-title">NPS decline - Pretoria East</div>
+                <div class="alert-desc">NPS dropped 11 points over 2 weeks</div>
               </div>
+              <div class="alert-time">2 hrs ago</div>
+            </div>
+            <div class="alert-item">
+              <div class="alert-icon warning">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+              </div>
+              <div class="alert-content">
+                <div class="alert-title">Low survey response rate - Bloemfontein</div>
+                <div class="alert-desc">Response rate dropped to 18%, well below 30% target</div>
+              </div>
+              <div class="alert-time">3 hrs ago</div>
+            </div>
+            <div class="alert-item">
+              <div class="alert-icon info">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+              </div>
+              <div class="alert-content">
+                <div class="alert-title">New driver onboarding batch complete</div>
+                <div class="alert-desc">42 new drivers activated in Cape Town region</div>
+              </div>
+              <div class="alert-time">5 hrs ago</div>
+            </div>
+            <div class="alert-item">
+              <div class="alert-icon info">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+              </div>
+              <div class="alert-content">
+                <div class="alert-title">Driver feedback milestone - Durban</div>
+                <div class="alert-desc">500 driver feedback responses collected this month</div>
+              </div>
+              <div class="alert-time">8 hrs ago</div>
+            </div>
+            <div class="alert-item">
+              <div class="alert-icon info">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+              </div>
+              <div class="alert-content">
+                <div class="alert-title">Weekly driver satisfaction report ready</div>
+                <div class="alert-desc">Report generated for all 10 active regions</div>
+              </div>
+              <div class="alert-time">12 hrs ago</div>
             </div>
           </div>
 
-          <!-- Trigger Activations Table -->
-          <div class="card animate-fadeInUp stagger-4">
-            <div class="card-title">Trigger Activations <span class="badge">This Week</span></div>
+          <!-- Trigger Activations -->
+          <div class="card anim-card" style="animation-delay: 500ms">
+            <div class="card-title">Recent Trigger Activations</div>
             <table class="data-table">
               <thead>
                 <tr>
@@ -1386,110 +1681,190 @@
                 </tr>
               </thead>
               <tbody>
-                <tr><td>Driver &lt; 3.0 rating</td><td>Johannesburg</td><td>18m ago</td><td><span class="status status-critical">Critical</span></td></tr>
-                <tr><td>Success &lt; 85%</td><td>Pretoria</td><td>42m ago</td><td><span class="status status-critical">Critical</span></td></tr>
-                <tr><td>Safety incident</td><td>Johannesburg</td><td>1h ago</td><td><span class="status status-critical">Critical</span></td></tr>
-                <tr><td>Wait &gt; 30 min</td><td>Sandton</td><td>2h ago</td><td><span class="status status-warning">Warning</span></td></tr>
-                <tr><td>Refunds &gt; 5%</td><td>Durban</td><td>3h ago</td><td><span class="status status-warning">Warning</span></td></tr>
-                <tr><td>Churn risk &gt; 10</td><td>Port Elizabeth</td><td>4h ago</td><td><span class="status status-warning">Warning</span></td></tr>
-                <tr><td>Survey deployed</td><td>Gauteng</td><td>5h ago</td><td><span class="status status-info">Info</span></td></tr>
-                <tr><td>Report ready</td><td>National</td><td>6h ago</td><td><span class="status status-info">Info</span></td></tr>
-                <tr><td>NPS &lt; 30</td><td>Polokwane</td><td>8h ago</td><td><span class="status status-warning">Warning</span></td></tr>
-                <tr><td>Driver CSAT &lt; 3.5</td><td>East London</td><td>10h ago</td><td><span class="status status-warning">Warning</span></td></tr>
+                <tr><td>Rating &lt; 3.0</td><td>Polokwane</td><td>8 min ago</td><td><span class="status-badge status-critical">Critical</span></td></tr>
+                <tr><td>Delivery &gt; 50 min</td><td>Sandton</td><td>24 min ago</td><td><span class="status-badge status-critical">Critical</span></td></tr>
+                <tr><td>Complaints &gt; 10/hr</td><td>JHB North</td><td>1 hr ago</td><td><span class="status-badge status-critical">Critical</span></td></tr>
+                <tr><td>NPS drop &gt; 10</td><td>Pretoria East</td><td>2 hrs ago</td><td><span class="status-badge status-warning">Warning</span></td></tr>
+                <tr><td>Response &lt; 20%</td><td>Bloemfontein</td><td>3 hrs ago</td><td><span class="status-badge status-warning">Warning</span></td></tr>
+                <tr><td>Driver batch complete</td><td>Cape Town</td><td>5 hrs ago</td><td><span class="status-badge status-info">Info</span></td></tr>
+                <tr><td>Feedback milestone</td><td>Durban</td><td>8 hrs ago</td><td><span class="status-badge status-info">Info</span></td></tr>
+                <tr><td>Weekly report</td><td>All Regions</td><td>12 hrs ago</td><td><span class="status-badge status-info">Info</span></td></tr>
+                <tr><td>On-time &lt; 80%</td><td>East London</td><td>1 day ago</td><td><span class="status-badge status-warning">Warning</span></td></tr>
+                <tr><td>Driver churn &gt; 5%</td><td>Port Elizabeth</td><td>1 day ago</td><td><span class="status-badge status-warning">Warning</span></td></tr>
               </tbody>
             </table>
           </div>
         </div>
-        </div><!-- end content-area -->
       </div>
+    </div>
 
-      <!-- ==========================================
-           TAB 6: REGIONAL VIEW
-           ========================================== -->
-      <div class="tab-panel" id="panel-regional-view">
-        <div class="panel-header">
-          <div class="panel-header-left">
-            <div class="panel-header-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="10" width="5" height="12" rx="0.5"/><rect x="9.5" y="5" width="5" height="17" rx="0.5"/><rect x="17" y="2" width="5" height="20" rx="0.5"/></svg></div>
-            <div class="panel-header-text">
-              <h1>Regional View</h1>
-              <p>Performance comparison across all active regions</p>
-            </div>
-          </div>
-          <div class="panel-header-right">
-            <select class="filter-select">
-              <option>All Time</option>
-              <option>Last 30 days</option>
-              <option>Last 90 days</option>
-            </select>
-            <select class="filter-select">
-              <option>All Regions</option>
-              <option>Gauteng</option>
-              <option>Western Cape</option>
-              <option>KwaZulu-Natal</option>
-            </select>
+    <!-- =============================================
+         PANEL 6: REGIONAL VIEW
+         ============================================= -->
+    <div class="tab-panel" id="panel-regional-view">
+      <div class="panel-header">
+        <div class="panel-header-left">
+          <div class="panel-header-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="10" width="5" height="12" rx="0.5"/><rect x="9.5" y="5" width="5" height="17" rx="0.5"/><rect x="17" y="2" width="5" height="20" rx="0.5"/></svg></div>
+          <div class="panel-header-text">
+            <h1>Regional View</h1>
+            <p>Regional performance &amp; driver distribution</p>
           </div>
         </div>
-        <div class="content-area content-area-padded">
+        <div class="panel-header-right">
+          <select class="filter-select">
+            <option>This Year</option>
+            <option>Last Quarter</option>
+            <option>Last Year</option>
+          </select>
+          <select class="filter-select">
+            <option>All Regions</option>
+            <option>Gauteng</option>
+            <option>Western Cape</option>
+            <option>KwaZulu-Natal</option>
+          </select>
+        </div>
+      </div>
+      <div class="content-area content-area-padded">
         <div class="kpi-row">
-          <div class="kpi-card animate-fadeInUp stagger-1">
-            <div class="kpi-label">Active Regions</div>
-            <div class="kpi-value" data-count="10" data-format="int">0</div>
-            <div class="kpi-change up">
-              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 2L10 7H2L6 2Z" fill="currentColor"/></svg>
-              2
+          <div class="kpi-card">
+            <div class="kpi-card-header">
+              <div class="kpi-icon neutral">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="10" width="5" height="12" rx="0.5"/><rect x="9.5" y="5" width="5" height="17" rx="0.5"/><rect x="17" y="2" width="5" height="20" rx="0.5"/></svg>
+              </div>
+              <div class="kpi-label">Active Regions</div>
             </div>
-            <div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="10" r="3"/><path d="M12 21.7C17.3 17 20 13 20 10a8 8 0 10-16 0c0 3 2.7 7 8 11.7z"/></svg></div>
+            <div class="kpi-value"><span class="count-up" data-target="10" data-format="integer">0</span></div>
+            <div class="kpi-change positive">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 10V2M6 2L2.5 5.5M6 2L9.5 5.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              +2 this year
+            </div>
           </div>
-          <div class="kpi-card animate-fadeInUp stagger-2">
-            <div class="kpi-label">Best Region</div>
-            <div class="kpi-value" style="font-size:22px;">Cape Town</div>
-            <div class="kpi-change up">
-              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 2L10 7H2L6 2Z" fill="currentColor"/></svg>
-              4.6 CSAT
+          <div class="kpi-card">
+            <div class="kpi-card-header">
+              <div class="kpi-icon neutral">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              </div>
+              <div class="kpi-label">Best Region</div>
             </div>
-            <div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 15l-2 5L7 11l10 4-5 0z"/><circle cx="12" cy="8" r="5"/></svg></div>
+            <div class="kpi-value" style="font-size:26px;">Cape Town</div>
+            <div class="kpi-desc success">4.6 avg CSAT</div>
           </div>
-          <div class="kpi-card animate-fadeInUp stagger-3">
-            <div class="kpi-label">Needs Attention</div>
-            <div class="kpi-value" style="font-size:22px;">Polokwane</div>
-            <div class="kpi-change down">
-              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 10L2 5H10L6 10Z" fill="currentColor"/></svg>
-              3.2 CSAT
+          <div class="kpi-card">
+            <div class="kpi-card-header">
+              <div class="kpi-icon neutral">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              </div>
+              <div class="kpi-label">Needs Attention</div>
             </div>
-            <div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div>
+            <div class="kpi-value" style="font-size:26px;">Polokwane</div>
+            <div class="kpi-change negative">3.2 avg CSAT</div>
           </div>
-          <div class="kpi-card animate-fadeInUp stagger-4">
-            <div class="kpi-label">Fastest Growing</div>
-            <div class="kpi-value" style="font-size:22px;">Durban</div>
-            <div class="kpi-change up">
-              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 2L10 7H2L6 2Z" fill="currentColor"/></svg>
-              28% growth
+          <div class="kpi-card">
+            <div class="kpi-card-header">
+              <div class="kpi-icon neutral">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+              </div>
+              <div class="kpi-label">Fastest Growing</div>
             </div>
-            <div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></div>
+            <div class="kpi-value" style="font-size:26px;">Durban</div>
+            <div class="kpi-change positive">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 10V2M6 2L2.5 5.5M6 2L9.5 5.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              +28% growth
+            </div>
           </div>
         </div>
 
-        <div class="two-col">
-          <!-- Regional Performance Lollipop -->
-          <div class="card animate-fadeInUp stagger-3">
-            <div class="card-title">Regional Driver Ratings <span class="badge">CSAT</span></div>
-            <div style="display:flex;flex-direction:column;gap:4px;">
-              <div class="lollipop-row"><span class="lollipop-label">Cape Town</span><div class="lollipop-track"><div class="lollipop-fill" style="width:92%"></div><div class="lollipop-dot" style="left:calc(92% - 5px)"></div></div><span class="lollipop-value">4.6</span></div>
-              <div class="lollipop-row"><span class="lollipop-label">Stellenbosch</span><div class="lollipop-track"><div class="lollipop-fill" style="width:88%"></div><div class="lollipop-dot" style="left:calc(88% - 5px)"></div></div><span class="lollipop-value">4.4</span></div>
-              <div class="lollipop-row"><span class="lollipop-label">Durban</span><div class="lollipop-track"><div class="lollipop-fill" style="width:86%"></div><div class="lollipop-dot" style="left:calc(86% - 5px)"></div></div><span class="lollipop-value">4.3</span></div>
-              <div class="lollipop-row"><span class="lollipop-label">Sandton</span><div class="lollipop-track"><div class="lollipop-fill" style="width:84%"></div><div class="lollipop-dot" style="left:calc(84% - 5px)"></div></div><span class="lollipop-value">4.2</span></div>
-              <div class="lollipop-row"><span class="lollipop-label">Johannesburg</span><div class="lollipop-track"><div class="lollipop-fill" style="width:82%"></div><div class="lollipop-dot" style="left:calc(82% - 5px)"></div></div><span class="lollipop-value">4.1</span></div>
-              <div class="lollipop-row"><span class="lollipop-label">Pretoria</span><div class="lollipop-track"><div class="lollipop-fill" style="width:78%"></div><div class="lollipop-dot" style="left:calc(78% - 5px)"></div></div><span class="lollipop-value">3.9</span></div>
-              <div class="lollipop-row"><span class="lollipop-label">Port Elizabeth</span><div class="lollipop-track"><div class="lollipop-fill" style="width:74%"></div><div class="lollipop-dot" style="left:calc(74% - 5px)"></div></div><span class="lollipop-value">3.7</span></div>
-              <div class="lollipop-row"><span class="lollipop-label">Bloemfontein</span><div class="lollipop-track"><div class="lollipop-fill" style="width:72%"></div><div class="lollipop-dot" style="left:calc(72% - 5px)"></div></div><span class="lollipop-value">3.6</span></div>
-              <div class="lollipop-row"><span class="lollipop-label">East London</span><div class="lollipop-track"><div class="lollipop-fill" style="width:68%"></div><div class="lollipop-dot" style="left:calc(68% - 5px)"></div></div><span class="lollipop-value">3.4</span></div>
-              <div class="lollipop-row"><span class="lollipop-label">Polokwane</span><div class="lollipop-track"><div class="lollipop-fill" style="width:64%"></div><div class="lollipop-dot" style="left:calc(64% - 5px)"></div></div><span class="lollipop-value">3.2</span></div>
+        <div class="chart-grid">
+          <!-- Regional Driver Ratings Lollipop -->
+          <div class="card anim-card" style="animation-delay: 400ms">
+            <div class="card-title">Regional Driver Ratings</div>
+            <div class="lollipop-chart">
+              <div class="lollipop-row selected">
+                <span class="lollipop-label">Cape Town</span>
+                <div class="lollipop-track">
+                  <div class="lollipop-line" data-width="92%" style="width:0%;background:#06C167;"></div>
+                  <div class="lollipop-dot" data-left="92%" style="left:0%;background:#06C167;opacity:0;"></div>
+                </div>
+                <span class="lollipop-score">4.6</span>
+              </div>
+              <div class="lollipop-row">
+                <span class="lollipop-label">Stellenbosch</span>
+                <div class="lollipop-track">
+                  <div class="lollipop-line" data-width="88%" style="width:0%;background:#06C167;opacity:0.85;"></div>
+                  <div class="lollipop-dot" data-left="88%" style="left:0%;background:#06C167;opacity:0;"></div>
+                </div>
+                <span class="lollipop-score">4.4</span>
+              </div>
+              <div class="lollipop-row">
+                <span class="lollipop-label">Durban</span>
+                <div class="lollipop-track">
+                  <div class="lollipop-line" data-width="86%" style="width:0%;background:#06C167;opacity:0.72;"></div>
+                  <div class="lollipop-dot" data-left="86%" style="left:0%;background:#06C167;opacity:0;"></div>
+                </div>
+                <span class="lollipop-score">4.3</span>
+              </div>
+              <div class="lollipop-row">
+                <span class="lollipop-label">Sandton</span>
+                <div class="lollipop-track">
+                  <div class="lollipop-line" data-width="84%" style="width:0%;background:#06C167;opacity:0.60;"></div>
+                  <div class="lollipop-dot" data-left="84%" style="left:0%;background:#06C167;opacity:0;"></div>
+                </div>
+                <span class="lollipop-score">4.2</span>
+              </div>
+              <div class="lollipop-row">
+                <span class="lollipop-label">Johannesburg</span>
+                <div class="lollipop-track">
+                  <div class="lollipop-line" data-width="82%" style="width:0%;background:#142328;"></div>
+                  <div class="lollipop-dot" data-left="82%" style="left:0%;background:#142328;opacity:0;"></div>
+                </div>
+                <span class="lollipop-score">4.1</span>
+              </div>
+              <div class="lollipop-row">
+                <span class="lollipop-label">Pretoria</span>
+                <div class="lollipop-track">
+                  <div class="lollipop-line" data-width="78%" style="width:0%;background:#142328;opacity:0.75;"></div>
+                  <div class="lollipop-dot" data-left="78%" style="left:0%;background:#142328;opacity:0;"></div>
+                </div>
+                <span class="lollipop-score">3.9</span>
+              </div>
+              <div class="lollipop-row">
+                <span class="lollipop-label">Port Elizabeth</span>
+                <div class="lollipop-track">
+                  <div class="lollipop-line" data-width="74%" style="width:0%;background:#142328;opacity:0.55;"></div>
+                  <div class="lollipop-dot" data-left="74%" style="left:0%;background:#142328;opacity:0;"></div>
+                </div>
+                <span class="lollipop-score">3.7</span>
+              </div>
+              <div class="lollipop-row">
+                <span class="lollipop-label">Bloemfontein</span>
+                <div class="lollipop-track">
+                  <div class="lollipop-line" data-width="72%" style="width:0%;background:#d97706;"></div>
+                  <div class="lollipop-dot" data-left="72%" style="left:0%;background:#d97706;opacity:0;"></div>
+                </div>
+                <span class="lollipop-score">3.6</span>
+              </div>
+              <div class="lollipop-row">
+                <span class="lollipop-label">East London</span>
+                <div class="lollipop-track">
+                  <div class="lollipop-line" data-width="68%" style="width:0%;background:#d97706;opacity:0.75;"></div>
+                  <div class="lollipop-dot" data-left="68%" style="left:0%;background:#d97706;opacity:0;"></div>
+                </div>
+                <span class="lollipop-score">3.4</span>
+              </div>
+              <div class="lollipop-row">
+                <span class="lollipop-label">Polokwane</span>
+                <div class="lollipop-track">
+                  <div class="lollipop-line" data-width="64%" style="width:0%;background:#dc2626;opacity:0.75;"></div>
+                  <div class="lollipop-dot" data-left="64%" style="left:0%;background:#dc2626;opacity:0;"></div>
+                </div>
+                <span class="lollipop-score">3.2</span>
+              </div>
             </div>
           </div>
 
           <!-- Regional Rankings Table -->
-          <div class="card animate-fadeInUp stagger-4">
-            <div class="card-title">Regional Rankings <span class="badge">All Regions</span></div>
+          <div class="card anim-card" style="animation-delay: 500ms">
+            <div class="card-title">Regional Rankings</div>
             <table class="data-table">
               <thead>
                 <tr>
@@ -1502,34 +1877,71 @@
                 </tr>
               </thead>
               <tbody>
-                <tr><td>1</td><td>Cape Town</td><td>624</td><td>4.6</td><td>74</td><td><span class="kpi-change up" style="font-size:11px;padding:1px 6px;">+3.8%</span></td></tr>
-                <tr><td>2</td><td>Stellenbosch</td><td>187</td><td>4.4</td><td>69</td><td><span class="kpi-change up" style="font-size:11px;padding:1px 6px;">+2.4%</span></td></tr>
-                <tr><td>3</td><td>Durban</td><td>512</td><td>4.3</td><td>66</td><td><span class="kpi-change up" style="font-size:11px;padding:1px 6px;">+5.1%</span></td></tr>
-                <tr><td>4</td><td>Sandton</td><td>389</td><td>4.2</td><td>63</td><td><span class="kpi-change up" style="font-size:11px;padding:1px 6px;">+1.9%</span></td></tr>
-                <tr><td>5</td><td>Johannesburg</td><td>743</td><td>4.1</td><td>59</td><td><span class="kpi-change up" style="font-size:11px;padding:1px 6px;">+1.2%</span></td></tr>
-                <tr><td>6</td><td>Pretoria</td><td>456</td><td>3.9</td><td>52</td><td><span class="kpi-change up" style="font-size:11px;padding:1px 6px;">+0.8%</span></td></tr>
-                <tr><td>7</td><td>Port Elizabeth</td><td>234</td><td>3.7</td><td>45</td><td><span class="kpi-change down" style="font-size:11px;padding:1px 6px;">-0.6%</span></td></tr>
-                <tr><td>8</td><td>Bloemfontein</td><td>198</td><td>3.6</td><td>42</td><td><span class="kpi-change down" style="font-size:11px;padding:1px 6px;">-1.3%</span></td></tr>
-                <tr><td>9</td><td>East London</td><td>156</td><td>3.4</td><td>38</td><td><span class="kpi-change down" style="font-size:11px;padding:1px 6px;">-0.9%</span></td></tr>
-                <tr><td>10</td><td>Polokwane</td><td>143</td><td>3.2</td><td>31</td><td><span class="kpi-change down" style="font-size:11px;padding:1px 6px;">-2.7%</span></td></tr>
+                <tr>
+                  <td style="color:#06C167;font-weight:700;">1</td>
+                  <td>Cape Town</td><td>624</td><td>4.6</td><td>74</td>
+                  <td><span class="status-badge status-active">+3.8%</span></td>
+                </tr>
+                <tr>
+                  <td style="color:#06C167;font-weight:700;">2</td>
+                  <td>Stellenbosch</td><td>187</td><td>4.4</td><td>69</td>
+                  <td><span class="status-badge status-active">+2.4%</span></td>
+                </tr>
+                <tr>
+                  <td style="color:#06C167;font-weight:700;">3</td>
+                  <td>Durban</td><td>512</td><td>4.3</td><td>66</td>
+                  <td><span class="status-badge status-active">+5.1%</span></td>
+                </tr>
+                <tr>
+                  <td style="font-weight:600;">4</td>
+                  <td>Sandton</td><td>389</td><td>4.2</td><td>63</td>
+                  <td><span class="status-badge status-completed">+1.9%</span></td>
+                </tr>
+                <tr>
+                  <td style="font-weight:600;">5</td>
+                  <td>Johannesburg</td><td>743</td><td>4.1</td><td>59</td>
+                  <td><span class="status-badge status-completed">+1.2%</span></td>
+                </tr>
+                <tr>
+                  <td style="font-weight:600;">6</td>
+                  <td>Pretoria</td><td>456</td><td>3.9</td><td>52</td>
+                  <td><span class="status-badge status-completed">+0.8%</span></td>
+                </tr>
+                <tr>
+                  <td style="font-weight:600;">7</td>
+                  <td>Port Elizabeth</td><td>234</td><td>3.7</td><td>45</td>
+                  <td><span class="status-badge status-warning">-0.6%</span></td>
+                </tr>
+                <tr>
+                  <td style="font-weight:600;">8</td>
+                  <td>Bloemfontein</td><td>198</td><td>3.6</td><td>42</td>
+                  <td><span class="status-badge status-warning">-1.3%</span></td>
+                </tr>
+                <tr>
+                  <td style="font-weight:600;">9</td>
+                  <td>East London</td><td>156</td><td>3.4</td><td>38</td>
+                  <td><span class="status-badge status-warning">-0.9%</span></td>
+                </tr>
+                <tr>
+                  <td style="font-weight:600;">10</td>
+                  <td>Polokwane</td><td>143</td><td>3.2</td><td>31</td>
+                  <td><span class="status-badge status-critical">-2.7%</span></td>
+                </tr>
               </tbody>
             </table>
           </div>
         </div>
-        </div><!-- end content-area -->
       </div>
+    </div>
 
   </div><!-- end main-area -->
 </div><!-- end app-layout -->
 
-<!-- ==========================================
-     JAVASCRIPT
-     ========================================== -->
 <script>
 (function() {
   'use strict';
 
-  // Sidebar navigation
+  // ---- Sidebar navigation ----
   const navItems = document.querySelectorAll('.sidebar-nav .nav-item');
   const tabPanels = document.querySelectorAll('.tab-panel');
 
@@ -1545,7 +1957,7 @@
         panel.style.animation = 'none';
         void panel.offsetWidth;
         panel.style.animation = '';
-        reAnimatePanel(panel);
+        triggerAnimations(panel);
       } else {
         panel.classList.remove('active');
       }
@@ -1560,101 +1972,238 @@
     });
   });
 
-  function reAnimatePanel(panel) {
-    const animatedEls = panel.querySelectorAll('.animate-fadeInUp, .animate-scaleIn');
-    animatedEls.forEach(el => {
-      el.style.animation = 'none';
-      el.offsetHeight;
-      el.style.animation = '';
+  // ---- Animations ----
+  function triggerAnimations(panel) {
+    // KPI cards: staggered reveal using .visible class
+    const kpiCards = panel.querySelectorAll('.kpi-card');
+    kpiCards.forEach((card) => {
+      card.classList.remove('visible');
+      card.style.transitionDelay = '0ms';
     });
 
-    const counters = panel.querySelectorAll('[data-count]');
-    counters.forEach(el => animateCounter(el));
-
-    const fills = panel.querySelectorAll('.progress-fill');
-    fills.forEach(fill => {
-      const targetWidth = fill.style.width;
-      fill.style.width = '0%';
+    requestAnimationFrame(() => {
       requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-          fill.style.width = targetWidth;
+        kpiCards.forEach((card, i) => {
+          card.style.transitionDelay = (i * 100) + 'ms';
+          card.classList.add('visible');
         });
       });
     });
 
-    // Animate lollipop fills
-    const lollipopFills = panel.querySelectorAll('.lollipop-fill');
-    lollipopFills.forEach(fill => {
-      const targetWidth = fill.style.width;
-      fill.style.width = '0%';
-      requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-          fill.style.width = targetWidth;
-        });
-      });
+    // Anim cards (charts, tables)
+    const animCards = panel.querySelectorAll('.anim-card');
+    animCards.forEach((card) => {
+      card.classList.remove('animate-in');
+      card.style.opacity = '0';
+      card.style.transform = 'translateY(16px)';
+      void card.offsetWidth;
     });
 
+    const baseDelay = kpiCards.length * 100 + 100;
+    animCards.forEach((card, i) => {
+      setTimeout(() => {
+        card.classList.add('animate-in');
+      }, baseDelay + i * 100);
+    });
+
+    // Lollipop chart animation
+    const lollipopLines = panel.querySelectorAll('.lollipop-line');
     const lollipopDots = panel.querySelectorAll('.lollipop-dot');
-    lollipopDots.forEach(dot => {
-      const targetLeft = dot.style.left;
-      dot.style.left = '0px';
-      requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-          dot.style.left = targetLeft;
-        });
+    lollipopLines.forEach(el => { el.style.width = '0%'; });
+    lollipopDots.forEach(el => { el.style.left = '0%'; el.style.opacity = '0'; });
+    setTimeout(() => {
+      lollipopLines.forEach((el, i) => {
+        setTimeout(() => {
+          el.style.width = el.dataset.width;
+        }, i * 60);
       });
+      lollipopDots.forEach((el, i) => {
+        setTimeout(() => {
+          el.style.left = el.dataset.left;
+          el.style.opacity = '1';
+        }, i * 60 + 300);
+      });
+    }, baseDelay);
+
+    // Score row bar animation
+    const scoreFills = panel.querySelectorAll('.score-row-fill');
+    scoreFills.forEach(el => { el.style.width = '0%'; });
+    setTimeout(() => {
+      scoreFills.forEach((el, i) => {
+        setTimeout(() => {
+          el.style.width = el.dataset.width;
+        }, i * 80);
+      });
+    }, baseDelay + 100);
+
+    // Count-up values
+    const countEls = panel.querySelectorAll('.count-up');
+    countEls.forEach(el => {
+      el.textContent = '0';
+      void el.offsetWidth;
     });
+    setTimeout(() => {
+      countEls.forEach(el => animateCount(el));
+    }, 200);
+
+    // Radar chart (delivery experience panel)
+    if (panel.id === 'panel-delivery-experience') {
+      setTimeout(() => {
+        buildDeliveryRadar();
+      }, baseDelay + 200);
+    }
   }
 
-  function animateCounter(el) {
-    const target = parseFloat(el.dataset.count);
-    const format = el.dataset.format || 'int';
+  // ---- Count-up animation ----
+  function animateCount(el) {
+    const target = parseFloat(el.dataset.target);
+    const format = el.dataset.format || 'integer';
     const decimals = parseInt(el.dataset.decimals) || 0;
     const duration = 1200;
     const startTime = performance.now();
 
-    function easeOutExpo(t) {
-      return t === 1 ? 1 : 1 - Math.pow(2, -10 * t);
+    function easeOutCubic(t) {
+      return 1 - Math.pow(1 - t, 3);
     }
 
     function update(currentTime) {
       const elapsed = currentTime - startTime;
       const progress = Math.min(elapsed / duration, 1);
-      const easedProgress = easeOutExpo(progress);
-      const currentValue = target * easedProgress;
+      const easedProgress = easeOutCubic(progress);
+      const currentVal = target * easedProgress;
 
-      if (format === 'int') {
-        el.textContent = Math.round(currentValue).toLocaleString();
-      } else if (format === 'float') {
-        el.textContent = currentValue.toFixed(decimals);
+      if (format === 'comma') {
+        el.textContent = Math.round(currentVal).toLocaleString('en-US');
+      } else if (format === 'decimal') {
+        el.textContent = currentVal.toFixed(decimals);
+      } else {
+        el.textContent = Math.round(currentVal).toLocaleString('en-US');
       }
 
       if (progress < 1) {
         requestAnimationFrame(update);
       } else {
-        if (format === 'int') {
-          el.textContent = Math.round(target).toLocaleString();
-        } else {
+        if (format === 'comma') {
+          el.textContent = Math.round(target).toLocaleString('en-US');
+        } else if (format === 'decimal') {
           el.textContent = target.toFixed(decimals);
+        } else {
+          el.textContent = Math.round(target).toLocaleString('en-US');
         }
       }
     }
 
-    el.textContent = format === 'float' ? (0).toFixed(decimals) : '0';
     requestAnimationFrame(update);
   }
 
-  function initAnimations() {
-    const activePanel = document.querySelector('.tab-panel.active');
-    if (activePanel) {
-      reAnimatePanel(activePanel);
+  // ---- Delivery Radar Chart ----
+  function buildDeliveryRadar() {
+    const svg = document.getElementById('delivery-radar');
+    if (!svg) return;
+    svg.innerHTML = '';
+
+    const cx = 160, cy = 130, maxR = 100;
+    const labels = ['Speed', 'Accuracy', 'Courtesy', 'Communication', 'Food Condition'];
+    const values = [82, 89, 90, 85, 78];
+    const numAxes = 5;
+    const angleStep = 360 / numAxes;
+
+    function polarToXY(r, angleDeg) {
+      const rad = (angleDeg - 90) * Math.PI / 180;
+      return { x: cx + r * Math.cos(rad), y: cy + r * Math.sin(rad) };
+    }
+
+    // Grid rings
+    for (let level = 1; level <= 4; level++) {
+      const r = (maxR / 4) * level;
+      let points = [];
+      for (let i = 0; i < numAxes; i++) {
+        const p = polarToXY(r, i * angleStep);
+        points.push(p.x + ',' + p.y);
+      }
+      const polygon = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
+      polygon.setAttribute('points', points.join(' '));
+      polygon.setAttribute('class', 'radar-grid-line');
+      svg.appendChild(polygon);
+    }
+
+    // Axes
+    for (let i = 0; i < numAxes; i++) {
+      const p = polarToXY(maxR, i * angleStep);
+      const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+      line.setAttribute('x1', cx);
+      line.setAttribute('y1', cy);
+      line.setAttribute('x2', p.x);
+      line.setAttribute('y2', p.y);
+      line.setAttribute('class', 'radar-axis');
+      svg.appendChild(line);
+    }
+
+    // Axis labels
+    const labelOffsets = [
+      { dx: 0, dy: -14, anchor: 'middle' },
+      { dx: 14, dy: 4, anchor: 'start' },
+      { dx: 10, dy: 16, anchor: 'start' },
+      { dx: -10, dy: 16, anchor: 'end' },
+      { dx: -14, dy: 4, anchor: 'end' }
+    ];
+    for (let i = 0; i < numAxes; i++) {
+      const p = polarToXY(maxR + 8, i * angleStep);
+      const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+      text.setAttribute('x', p.x + labelOffsets[i].dx);
+      text.setAttribute('y', p.y + labelOffsets[i].dy);
+      text.setAttribute('text-anchor', labelOffsets[i].anchor);
+      text.setAttribute('class', 'radar-axis-label');
+      text.textContent = labels[i];
+      svg.appendChild(text);
+    }
+
+    // Data area
+    let points = [];
+    for (let i = 0; i < numAxes; i++) {
+      const r = (values[i] / 100) * maxR;
+      const p = polarToXY(r, i * angleStep);
+      points.push(p.x + ',' + p.y);
+    }
+
+    const area = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
+    area.setAttribute('points', points.join(' '));
+    area.setAttribute('fill', '#06C167');
+    area.setAttribute('fill-opacity', '0.15');
+    area.setAttribute('stroke', '#06C167');
+    area.setAttribute('stroke-width', '2');
+    area.setAttribute('stroke-opacity', '0.8');
+    area.setAttribute('class', 'radar-area');
+    svg.appendChild(area);
+
+    // Dots
+    for (let i = 0; i < numAxes; i++) {
+      const r = (values[i] / 100) * maxR;
+      const p = polarToXY(r, i * angleStep);
+      const dot = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+      dot.setAttribute('cx', p.x);
+      dot.setAttribute('cy', p.y);
+      dot.setAttribute('r', '4');
+      dot.setAttribute('fill', '#06C167');
+      dot.setAttribute('class', 'radar-dot');
+      svg.appendChild(dot);
     }
   }
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initAnimations);
+  // ---- Initial load ----
+  function init() {
+    const activePanel = document.querySelector('.tab-panel.active');
+    if (activePanel) {
+      setTimeout(() => {
+        triggerAnimations(activePanel);
+      }, 100);
+    }
+  }
+
+  if (document.readyState === 'complete') {
+    init();
   } else {
-    initAnimations();
+    window.addEventListener('load', init);
   }
 })();
 </script>
