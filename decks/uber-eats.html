@@ -129,9 +129,6 @@
     width: 18px;
     height: 18px;
     flex-shrink: 0;
-  }
-
-  .nav-item svg {
     color: #A1A1AA;
   }
 
@@ -262,9 +259,12 @@
      ========================================= */
   .content-area {
     flex: 1;
+    display: flex;
+    flex-direction: column;
     overflow-y: auto;
     overflow-x: hidden;
     padding: 0 40px 48px;
+    min-height: 0;
   }
 
   .content-area-padded {
@@ -345,6 +345,20 @@
     color: var(--foreground);
     margin-bottom: 20px;
     font-family: 'DM Sans', sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+  }
+
+  .badge {
+    font-size: 11px;
+    font-weight: 500;
+    padding: 3px 10px;
+    border-radius: 20px;
+    background: var(--primary-10);
+    color: var(--primary);
+    font-family: 'Inter', sans-serif;
   }
 
   /* =========================================
@@ -364,6 +378,7 @@
     grid-template-columns: repeat(4, 1fr);
     gap: 20px;
     margin-bottom: 28px;
+    flex-shrink: 0;
   }
 
   /* =========================================
@@ -546,7 +561,26 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 20px;
-    margin-bottom: 28px;
+    flex: 1;
+    min-height: 0;
+  }
+
+  .chart-grid > .card {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+  }
+
+  .chart-grid > .card > .chart-container,
+  .chart-grid > .card > .lollipop-chart,
+  .chart-grid > .card > div:last-child {
+    flex: 1;
+    min-height: 0;
+  }
+
+  .chart-grid > .card > .chart-container svg {
+    width: 100%;
+    height: 100%;
   }
 
   .chart-container {
@@ -1295,7 +1329,7 @@
           <!-- Top Customer Complaints -->
           <div class="card anim-card" style="animation-delay: 500ms">
             <div class="card-title">Top Customer Complaints <span class="badge">This Month</span></div>
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px 32px;padding:8px 0;">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px 32px;padding:8px 0;flex:1;align-content:center;">
               <div class="lollipop-row" style="height:auto;padding:0;">
                 <span class="lollipop-label" style="width:110px;text-align:left;padding-right:12px;">Late Delivery</span>
                 <div class="lollipop-track" style="height:6px;border-radius:3px;">
