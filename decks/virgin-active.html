@@ -257,7 +257,7 @@ body{
 /* Drivers tab — pie + matrix */
 .pie-wrap{flex:1;display:flex;align-items:center;justify-content:center;position:relative}
 .pie{width:280px;height:280px;position:relative}
-.pie svg{width:100%;height:100%;transform:rotate(-90deg)}
+.pie svg{width:100%;height:100%;display:block}
 .pie-labels{position:absolute;inset:0;pointer-events:none}
 .pie-label{
   position:absolute;transform:translate(-50%,-50%);
@@ -888,29 +888,28 @@ function renderDriverPie(){
   const labels = document.getElementById('driver-pie-labels');
   const cx=140,cy=140,r=115;
   const total = DRIVERS.reduce((s,d)=>s+d.pct,0);
-  let angle = 0;
+  const gap = 0.025; // padding angle in radians (~1.4°)
+  let angle = -Math.PI/2; // start at top
   let html = '';
   let labelHtml = '';
   DRIVERS.forEach((d,i)=>{
-    const slice = (d.pct/total)*Math.PI*2;
-    const x1 = cx + r*Math.cos(angle);
-    const y1 = cy + r*Math.sin(angle);
-    const x2 = cx + r*Math.cos(angle+slice);
-    const y2 = cy + r*Math.sin(angle+slice);
-    const large = slice > Math.PI ? 1 : 0;
+    const fullSlice = (d.pct/total)*Math.PI*2;
+    const a1 = angle + gap/2;
+    const a2 = angle + fullSlice - gap/2;
+    const x1 = (cx + r*Math.cos(a1)).toFixed(2);
+    const y1 = (cy + r*Math.sin(a1)).toFixed(2);
+    const x2 = (cx + r*Math.cos(a2)).toFixed(2);
+    const y2 = (cy + r*Math.sin(a2)).toFixed(2);
+    const large = (a2-a1) > Math.PI ? 1 : 0;
     html += `<path d="M ${cx} ${cy} L ${x1} ${y1} A ${r} ${r} 0 ${large} 1 ${x2} ${y2} Z" fill="${DRIVER_COLORS[i]}" stroke="hsl(220,16%,8%)" stroke-width="2"/>`;
     if(d.pct >= 8){
-      const mid = angle + slice/2;
+      const mid = (a1+a2)/2;
       const lr = r*0.6;
-      // Account for the -90deg rotation of the SVG
       const lx = cx + lr*Math.cos(mid);
       const ly = cy + lr*Math.sin(mid);
-      // Convert to label coords (rotated -90 then translated)
-      const realX = 140 - (ly - 140);
-      const realY = 140 + (lx - 140);
-      labelHtml += `<div class="pie-label" style="left:${realX}px;top:${realY}px">${d.pct}%</div>`;
+      labelHtml += `<div class="pie-label" style="left:${lx}px;top:${ly}px">${d.pct}%</div>`;
     }
-    angle += slice;
+    angle += fullSlice;
   });
   svg.innerHTML = html;
   labels.innerHTML = labelHtml;
@@ -963,63 +962,71 @@ function renderCampaign(){
     </div>`).join('');
 }
 
-// === ANIMATION TRIGGER ===
+// === ANIMATION RESET & TRIGGER ===
+function resetAnimations(root){
+  root.querySelectorAll('.anim, .anim-h, .anim-x').forEach(el=>el.classList.remove('in'));
+  root.querySelectorAll('.bar-fill, .funnel-row .fill, .pi-fill, .insight-section .fill').forEach(el=>{
+    el.style.width = '0%';
+  });
+  root.querySelectorAll('.bar-group .b').forEach(el=>{
+    el.style.height = '0%';
+  });
+  root.querySelectorAll('.tm-cell').forEach(el=>el.classList.remove('in'));
+  const cf = document.getElementById('consider-fill');
+  if(cf) cf.style.width = '0%';
+  root.querySelectorAll('.kpi-value').forEach(el=>el.textContent = '0');
+}
+
 function triggerAnimations(page){
   const root = document.querySelector(`[data-page="${page}"]`);
   if(!root) return;
-  // header
-  root.querySelectorAll('.anim-h').forEach(el=>requestAnimationFrame(()=>el.classList.add('in')));
-  // generic anim cards
-  root.querySelectorAll('.anim').forEach(el=>requestAnimationFrame(()=>el.classList.add('in')));
-  root.querySelectorAll('.anim-x').forEach(el=>requestAnimationFrame(()=>el.classList.add('in')));
+  root.querySelectorAll('.anim-h, .anim, .anim-x').forEach(el=>el.classList.add('in'));
 
   if(page==='overview'){
     root.querySelectorAll('.kpi-value').forEach(animateCount);
   }
   if(page==='penetration'){
-    setTimeout(()=>{
-      root.querySelectorAll('.bar-fill').forEach(b=>{
-        b.style.width = Math.min(parseFloat(b.dataset.target),100)+'%';
-      });
-    },50);
+    root.querySelectorAll('.bar-fill').forEach(b=>{
+      b.style.width = Math.min(parseFloat(b.dataset.target),100)+'%';
+    });
   }
   if(page==='training'){
-    setTimeout(()=>{
-      root.querySelectorAll('.funnel-row .fill').forEach(f=>{
-        f.style.width = f.dataset.target+'%';
-      });
-      root.querySelectorAll('.bar-group .b').forEach(b=>{
-        b.style.height = b.dataset.h+'%';
-      });
-    },50);
+    root.querySelectorAll('.funnel-row .fill').forEach(f=>{
+      f.style.width = f.dataset.target+'%';
+    });
+    root.querySelectorAll('.bar-group .b').forEach(b=>{
+      b.style.height = b.dataset.h+'%';
+    });
+  }
+  if(page==='barriers'){
+    // Re-render treemap because card was hidden -> 0 size
+    renderTreemap();
   }
   if(page==='drivers'){
-    setTimeout(()=>{
-      root.querySelectorAll('.pi-fill').forEach(b=>{
-        b.style.width = Math.min(parseFloat(b.dataset.target),100)+'%';
-      });
-    },50);
+    root.querySelectorAll('.pi-fill').forEach(b=>{
+      b.style.width = Math.min(parseFloat(b.dataset.target),100)+'%';
+    });
   }
   if(page==='campaign'){
-    setTimeout(()=>{
-      root.querySelectorAll('.insight-section .fill').forEach(b=>{
-        b.style.width = Math.min(parseFloat(b.dataset.target),100)+'%';
-      });
-      const cf = document.getElementById('consider-fill');
-      if(cf) cf.style.width = '62%';
-    },50);
+    root.querySelectorAll('.insight-section .fill').forEach(b=>{
+      b.style.width = Math.min(parseFloat(b.dataset.target),100)+'%';
+    });
+    const cf = document.getElementById('consider-fill');
+    if(cf) cf.style.width = '62%';
   }
 }
 
 // === TAB SWITCHING ===
-const tabsTriggered = new Set();
 function switchTab(tab){
   document.querySelectorAll('.nav-btn').forEach(b=>b.classList.toggle('active', b.dataset.tab===tab));
   document.querySelectorAll('.tab-page').forEach(p=>p.classList.toggle('active', p.dataset.page===tab));
-  if(!tabsTriggered.has(tab)){
-    tabsTriggered.add(tab);
-    triggerAnimations(tab);
-  }
+  const root = document.querySelector(`[data-page="${tab}"]`);
+  if(!root) return;
+  resetAnimations(root);
+  // Force reflow so the reset styles take effect before the transition
+  void root.offsetHeight;
+  // Wait two frames to ensure browser commits initial state, then animate
+  requestAnimationFrame(()=>requestAnimationFrame(()=>triggerAnimations(tab)));
 }
 
 document.querySelectorAll('.nav-btn[data-tab]').forEach(btn=>{
@@ -1038,8 +1045,7 @@ renderDriverPie();
 renderPriority();
 renderCampaign();
 
-tabsTriggered.add('overview');
-requestAnimationFrame(()=>triggerAnimations('overview'));
+requestAnimationFrame(()=>requestAnimationFrame(()=>triggerAnimations('overview')));
 </script>
 </body>
 </html>
