@@ -1074,13 +1074,13 @@ function hideTooltip(){ tooltip.classList.remove('show'); }
 // === RENDERERS ===
 function renderKPIs(){
   const grid = document.getElementById('kpi-grid');
-  grid.innerHTML = KPIS.map((k,i)=>`
-    <div class="kpi anim ${k.accent?'accent':''}" style="transition-delay:${150+100*i}ms">
+  grid.innerHTML = KPIS.map(k=>`
+    <div class="kpi ${k.accent?'accent':''}">
       <div class="kpi-head">
         <div class="kpi-icon">${k.icon}</div>
         <p class="kpi-label">${k.label}</p>
       </div>
-      <p class="kpi-value" data-target="${k.value}" data-formatted="${k.formatted}">0</p>
+      <p class="kpi-value">${k.formatted}</p>
       <p class="kpi-desc">${k.desc}</p>
     </div>`).join('');
 }
@@ -1370,7 +1370,6 @@ function resetAnimations(root){
   root.querySelectorAll('.tm-cell').forEach(el=>el.classList.remove('in'));
   const cf = document.getElementById('consider-fill');
   if(cf) cf.style.width = '0%';
-  root.querySelectorAll('.kpi-value').forEach(el=>el.textContent = '0');
 }
 
 function triggerAnimations(page){
@@ -1378,9 +1377,6 @@ function triggerAnimations(page){
   if(!root) return;
   root.querySelectorAll('.anim-h, .anim, .anim-x').forEach(el=>el.classList.add('in'));
 
-  if(page==='overview'){
-    root.querySelectorAll('.kpi-value').forEach(animateCount);
-  }
   if(page==='penetration'){
     root.querySelectorAll('.bar-fill').forEach(b=>{
       b.style.width = Math.min(parseFloat(b.dataset.target),100)+'%';
