@@ -365,6 +365,10 @@ body{
 #driver-pie path{cursor:pointer;transition:opacity .15s ease}
 #driver-pie path:hover{opacity:.85}
 .tm-cell{cursor:pointer}
+#ms-donut circle[data-idx]{cursor:pointer;transition:opacity .15s ease}
+#ms-donut circle[data-idx]:hover{opacity:.8}
+.bar-group .b{cursor:pointer;transition:filter .15s ease}
+.bar-group .b:hover{filter:brightness(1.15)}
 
 /* Strategic Moves enhancements */
 .seg-profile{margin-top:20px;display:flex;flex-direction:column}
@@ -1107,12 +1111,20 @@ function renderDonut(){
   const C = 2*Math.PI*r;
   let off = 0;
   let html = `<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="hsl(220,14%,14%)" stroke-width="${sw}"/>`;
-  MEMBERSHIP.forEach(m=>{
+  MEMBERSHIP.forEach((m,i)=>{
     const len = (m.value/100)*C;
-    html += `<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${m.fill}" stroke-width="${sw}" stroke-dasharray="${len} ${C-len}" stroke-dashoffset="${-off}"/>`;
+    html += `<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${m.fill}" stroke-width="${sw}" stroke-dasharray="${len} ${C-len}" stroke-dashoffset="${-off}" data-idx="${i}"/>`;
     off += len + 3;
   });
   svg.innerHTML = html;
+
+  svg.querySelectorAll('circle[data-idx]').forEach(c=>{
+    const i = parseInt(c.dataset.idx);
+    const m = MEMBERSHIP[i];
+    c.addEventListener('mouseenter', e=>showTooltip(e, m.name, m.value, m.fill));
+    c.addEventListener('mousemove', moveTooltip);
+    c.addEventListener('mouseleave', hideTooltip);
+  });
 
   const leg = document.getElementById('ms-legend');
   leg.innerHTML = MEMBERSHIP.map(m=>`
@@ -1157,6 +1169,17 @@ function renderTrainChart(){
       </div>
       <div class="lab">${l.location}</div>
     </div>`).join('');
+
+  el.querySelectorAll('.bar-group').forEach((group,i)=>{
+    const loc = LOCATIONS[i];
+    const bars = group.querySelectorAll('.b');
+    bars[0].addEventListener('mouseenter', e=>showTooltip(e, loc.location + ' &middot; Combustibles share', loc.train, 'hsl(215,75%,55%)'));
+    bars[0].addEventListener('mousemove', moveTooltip);
+    bars[0].addEventListener('mouseleave', hideTooltip);
+    bars[1].addEventListener('mouseenter', e=>showTooltip(e, loc.location + ' &middot; New Categories share', loc.recover, 'hsl(42,96%,55%)'));
+    bars[1].addEventListener('mousemove', moveTooltip);
+    bars[1].addEventListener('mouseleave', hideTooltip);
+  });
 }
 
 // Squarified treemap (simplified row-by-row layout)
