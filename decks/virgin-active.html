@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#141519">
 <title>Virgin Active - HYROX Insights Dashboard</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -146,7 +146,7 @@ body{
 .anim-x.in{opacity:1;transform:translateX(0)}
 
 /* Overview KPI grid */
-.kpi-wrap{flex:1;display:flex;align-items:center;justify-content:center}
+.kpi-wrap{flex:1;display:flex;align-items:center;justify-content:center;padding:20px 0}
 .kpi-grid{display:grid;width:100%;max-width:1024px;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(2,1fr);gap:20px}
 .kpi{
   position:relative;overflow:hidden;
@@ -168,7 +168,8 @@ body{
   opacity:.8;
 }
 .kpi.accent:hover::before{opacity:1;transform:scale(1.15)}
-.kpi-head{position:relative;display:flex;align-items:center;gap:12px}
+.kpi-head{position:relative;display:flex;align-items:center;gap:12px;min-height:42px}
+.kpi-label{line-height:1.25}
 .kpi-icon{
   width:42px;height:42px;border-radius:10px;
   display:flex;align-items:center;justify-content:center;
@@ -339,8 +340,10 @@ body{
 .tm-cell.tiny .nm{display:none}
 .tm-cell.tiny .pc{font-size:13px;text-align:center}
 
-.quotes{display:flex;flex-direction:column;gap:12px}
-.quote{border-radius:8px;background:var(--muted-50);padding:12px}
+.quotes{display:flex;flex-direction:column;gap:10px;flex:1;min-height:0;overflow-y:auto;padding-right:4px}
+.quotes::-webkit-scrollbar{width:6px}
+.quotes::-webkit-scrollbar-thumb{background:var(--border);border-radius:999px}
+.quote{border-radius:8px;background:var(--muted-50);padding:12px;flex-shrink:0}
 .quote p.t{font-size:12px;line-height:1.5;color:var(--foreground);font-style:italic}
 .quote p.a{margin-top:6px;font-size:10px;color:var(--muted-fg)}
 
@@ -425,7 +428,7 @@ body{
 .move .desc{margin-top:4px;font-size:12px;line-height:1.5;color:var(--muted-fg)}
 
 /* Experience hero (Training tab · left card) */
-.exp-hero{display:flex;align-items:flex-end;gap:18px;margin-top:10px;margin-bottom:22px}
+.exp-hero{display:flex;align-items:flex-end;gap:18px;margin-top:14px;margin-bottom:22px;flex-wrap:wrap}
 .exp-num{font-family:'DM Sans','Inter',sans-serif;font-size:92px;font-weight:700;letter-spacing:-.045em;color:var(--primary);font-variant-numeric:tabular-nums;line-height:.95;display:flex;align-items:flex-start}
 .exp-num .pct-sup{font-size:42px;font-weight:600;color:hsla(355,85%,52%,.6);margin-left:4px;margin-top:10px;letter-spacing:-.02em}
 .exp-sub{padding-bottom:10px}
@@ -494,6 +497,129 @@ body{
 .ch-mb-3{margin-bottom:12px}
 .ch-mb-4{margin-bottom:16px}
 
+/* Question prompt under section labels */
+.q-prompt{font-size:12px;color:var(--foreground);line-height:1.45;margin-top:-6px;margin-bottom:12px;opacity:.78;font-style:italic}
+.q-prompt b{color:var(--primary);font-style:normal;font-weight:600;letter-spacing:.04em}
+
+/* Methodology tab */
+.meth-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.meth-item{border-radius:8px;background:var(--muted-30);border:1px solid var(--border);padding:12px 14px}
+.meth-item .mi-l{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--muted-fg)}
+.meth-item .mi-v{margin-top:6px;font-size:13px;font-weight:600;color:var(--foreground);line-height:1.4}
+.meth-profile{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:6px}
+.mp-cell{border-radius:10px;background:var(--muted-30);border:1px solid var(--border);padding:14px;display:flex;flex-direction:column;gap:4px}
+.mp-cell.accent{border-color:hsla(355,85%,52%,.22);background:var(--primary-06)}
+.mp-cell .mp-n{font-family:'DM Sans','Inter',sans-serif;font-size:26px;font-weight:700;color:var(--foreground);letter-spacing:-.025em;font-variant-numeric:tabular-nums;line-height:1}
+.mp-cell.accent .mp-n{color:var(--primary)}
+.mp-cell .mp-l{font-size:11px;color:var(--muted-fg);font-weight:500;line-height:1.35;margin-top:4px}
+.dataset-list{display:flex;flex-direction:column;gap:10px}
+.dataset{border-radius:10px;border:1px solid var(--border);background:var(--muted-30);padding:14px}
+.dataset .ds-h{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.dataset .ds-t{font-size:13px;font-weight:600;color:var(--foreground)}
+.dataset .ds-n{font-size:11px;font-weight:700;color:var(--primary);font-variant-numeric:tabular-nums}
+.dataset .ds-s{margin-top:6px;font-size:12px;color:var(--muted-fg);line-height:1.5}
+
+/* Qualitative tab */
+.theme-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.theme{border-radius:12px;border:1px solid var(--border);background:var(--muted-30);padding:16px;display:flex;flex-direction:column;gap:8px;transition:border-color .4s var(--ease), background .4s var(--ease)}
+.theme:hover{border-color:var(--border-80);background:hsla(220,14%,18%,.55)}
+.theme .tn{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--primary)}
+.theme .tt{font-size:15px;font-weight:700;color:var(--foreground);letter-spacing:-.01em;line-height:1.3}
+.theme .ts{font-size:12px;color:var(--muted-fg);line-height:1.55}
+.bucket-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.bucket{border-radius:10px;border:1px solid var(--border);background:var(--card);padding:14px;display:flex;flex-direction:column;gap:8px;transition:border-color .35s var(--ease), background .35s var(--ease)}
+.bucket:hover{border-color:var(--border-80);background:hsla(220,14%,14%,.8)}
+.bucket .bh{display:flex;align-items:center;flex-wrap:wrap;gap:8px 10px}
+.btag{font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted-fg);background:var(--muted);border:1px solid var(--border);border-radius:999px;padding:2px 8px}
+.btag.eq{color:hsl(35,85%,62%);border-color:hsla(35,85%,55%,.3);background:hsla(35,85%,55%,.08)}
+.btag.co{color:var(--primary);border-color:hsla(355,85%,52%,.3);background:hsla(355,85%,52%,.08)}
+.btag.pr{color:hsl(210,70%,62%);border-color:hsla(210,70%,55%,.3);background:hsla(210,70%,55%,.08)}
+.btag.re{color:var(--emerald);border-color:hsla(160,65%,40%,.3);background:hsla(160,65%,40%,.08)}
+.bucket .bt{font-size:12.5px;font-weight:600;color:var(--foreground);line-height:1.3}
+.bucket .bq{font-size:12px;font-style:italic;color:var(--foreground);opacity:.85;line-height:1.55}
+.bucket .ba{font-size:10.5px;color:var(--muted-fg);font-weight:500}
+
+/* Mobile responsive */
+@media (max-width: 860px){
+  html,body{height:auto;overflow:auto;-webkit-overflow-scrolling:touch}
+  body{font-size:13.5px}
+  .app{flex-direction:column;height:auto;min-height:100vh}
+  .sidebar{
+    position:sticky;top:0;z-index:50;
+    width:100%;height:auto;
+    border-right:none;border-bottom:1px solid var(--sidebar-border);
+    background:rgba(14,16,22,.94);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  }
+  .sidebar-logo{padding:10px 14px 6px}
+  .sidebar-logo img{height:30px}
+  .nav{padding:0 8px 8px;position:relative}
+  .nav::after{content:'';position:absolute;right:0;top:0;bottom:8px;width:28px;pointer-events:none;background:linear-gradient(to right,transparent,rgba(14,16,22,.95))}
+  .nav-list{flex-direction:row;gap:4px;overflow-x:auto;scrollbar-width:none;padding:2px 20px 6px 2px;scroll-snap-type:x proximity}
+  .nav-list::-webkit-scrollbar{display:none}
+  .nav-btn{flex:0 0 auto;font-size:12px;padding:8px 12px;white-space:nowrap;scroll-snap-align:start}
+  .nav-btn.active::before{display:none}
+  .nav-btn.active{box-shadow:inset 0 -2px 0 var(--primary);background:var(--sidebar-accent)}
+  .sidebar-bottom{display:none}
+  .main{overflow:visible;flex-direction:column}
+  .tab-page{height:auto !important;overflow:visible !important}
+  .tab-page.active{display:flex}
+  .card,.kpi,.mini-card,.card-accent{overflow:visible !important;min-height:auto !important;height:auto !important;flex:0 0 auto !important}
+  .kpi-wrap{flex:0 0 auto;display:block}
+  .donut-wrap{flex:0 0 auto;padding:10px 0}
+  .pie-wrap{flex:0 0 auto;padding:10px 0}
+  .bars,.train-bar-wrap,.funnel,.priority-list{flex:0 0 auto}
+  .quotes{flex:0 0 auto;overflow:visible;max-height:none}
+  .consider-block{margin-top:16px}
+  .page-overview{padding:18px}
+  .page-pad,.page-pad-5{padding:18px;gap:14px}
+  .page-header .h2xl{font-size:22px}
+  .page-header .hxl{font-size:19px}
+  .page-header p{font-size:13px}
+  .kpi-wrap{align-items:flex-start}
+  .kpi-grid{grid-template-columns:1fr 1fr;grid-template-rows:auto;gap:12px;max-width:100%}
+  .kpi{padding:18px}
+  .kpi-value{font-size:30px;margin-top:14px}
+  .kpi-icon{width:36px;height:36px;border-radius:8px}
+  .kpi-icon svg{width:16px;height:16px}
+  .kpi-label{font-size:10.5px}
+  .grid-2,.grid-3,.grid-5{grid-template-columns:1fr !important;gap:12px}
+  .col-2,.col-3{grid-column:span 1 !important}
+  .card{padding:16px;min-height:auto}
+  .mini-cards{grid-template-columns:1fr}
+  .flip-grid{grid-template-columns:1fr;gap:14px}
+  .brand-tiles{grid-template-columns:1fr 1fr;gap:8px}
+  .bt{padding:10px 12px}
+  .bt .bt-n{font-size:20px}
+  .exp-num{font-size:64px}
+  .exp-num .pct-sup{font-size:28px}
+  .nps-big{font-size:52px}
+  .donut{width:180px;height:180px}
+  .pie{width:240px;height:240px}
+  .pie-legend{grid-template-columns:1fr}
+  .tm-wrap{min-height:420px}
+  .funnel-row .stage{width:110px;font-size:11px}
+  .funnel-row .fill span{font-size:10px}
+  .theme-grid{grid-template-columns:1fr}
+  .bucket-grid{grid-template-columns:1fr}
+  .meth-grid,.meth-profile{grid-template-columns:1fr 1fr}
+  .takeaway{font-size:12.5px;padding:12px 14px}
+  .takeaway-lg{font-size:12.5px;line-height:1.55;padding:13px 15px}
+  .takeaway-lg b{font-size:13.5px}
+  .willing-callout{padding:14px}
+  .willing-callout .v{font-size:26px}
+  .ch-tooltip{display:none !important}
+  .funnel-row:hover,.priority-item:hover,.bar-row:hover,.card:hover{transform:none}
+}
+@media (max-width: 520px){
+  .kpi-grid{grid-template-columns:1fr}
+  .brand-tiles{grid-template-columns:1fr 1fr}
+  .page-overview{padding:14px}
+  .page-pad,.page-pad-5{padding:14px}
+  .page-header .h2xl{font-size:20px}
+  .exp-num{font-size:52px}
+  .exp-num .pct-sup{font-size:24px}
+  .nps-grid{grid-template-columns:1fr}
+}
 </style>
 </head>
 <body>
@@ -512,6 +638,10 @@ body{
         <button class="nav-btn active" data-tab="overview">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>
           Overview
+        </button>
+        <button class="nav-btn" data-tab="methodology">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M16 13H8"/><path d="M16 17H8"/><path d="M10 9H8"/></svg>
+          Methodology
         </button>
         <button class="nav-btn" data-tab="penetration">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12c.552 0 1.005-.449.95-.998a10 10 0 0 0-8.953-8.951c-.55-.055-.998.398-.998.95v8a1 1 0 0 0 1 1z"/><path d="M21.21 15.89A10 10 0 1 1 8 2.83"/></svg>
@@ -532,6 +662,10 @@ body{
         <button class="nav-btn" data-tab="drivers">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg>
           Drivers
+        </button>
+        <button class="nav-btn" data-tab="qualitative">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M22 17a2 2 0 0 1-2 2H6.828a2 2 0 0 0-1.414.586l-2.202 2.202A.71.71 0 0 1 2 21.286V5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2z"/><path d="M8 10h.01"/><path d="M12 10h.01"/><path d="M16 10h.01"/></svg>
+          Qualitative
         </button>
         <button class="nav-btn" data-tab="campaign">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
@@ -565,6 +699,56 @@ body{
       </div>
     </div>
 
+    <!-- ===== METHODOLOGY ===== -->
+    <div class="tab-page page-pad" data-page="methodology" style="flex-direction:column;gap:16px">
+      <div class="page-header anim-h">
+        <h1 class="hxl">Sample &amp; Methodology</h1>
+        <p>How the research was conducted · 733 athletes · 12 structured questions · one post-event window</p>
+      </div>
+      <div class="grid-3">
+        <div class="card anim" style="transition-delay:150ms">
+          <p class="muted-label ch-mb-3">Survey Design &amp; Deployment</p>
+          <div class="meth-grid">
+            <div class="meth-item"><p class="mi-l">Format</p><p class="mi-v">WhatsApp conversational survey · Yazi's proprietary research platform</p></div>
+            <div class="meth-item"><p class="mi-l">Period</p><p class="mi-v">April 2026 · immediately after HYROX South Africa</p></div>
+            <div class="meth-item"><p class="mi-l">Sample Source</p><p class="mi-v">HYROX Admin Project participants who opted into post-event feedback</p></div>
+            <div class="meth-item"><p class="mi-l">Base (N)</p><p class="mi-v">733 completes from 734 invited · one excluded for incomplete response</p></div>
+            <div class="meth-item"><p class="mi-l">Question Count</p><p class="mi-v">12 structured questions + open-ended qualitative prompts</p></div>
+            <div class="meth-item"><p class="mi-l">Analysis</p><p class="mi-v">Quantitative frequency analysis + thematic coding of 730+ verbatims</p></div>
+          </div>
+        </div>
+        <div class="card anim" style="transition-delay:250ms">
+          <p class="muted-label ch-mb-3">Sample Profile at a Glance</p>
+          <div class="meth-profile">
+            <div class="mp-cell"><p class="mp-n">51%</p><p class="mp-l">Female · 374 of 733</p></div>
+            <div class="mp-cell"><p class="mp-n">46%</p><p class="mp-l">Male · 339 of 733</p></div>
+            <div class="mp-cell"><p class="mp-n">34.5</p><p class="mp-l">Mean age · range 16&ndash;68</p></div>
+            <div class="mp-cell"><p class="mp-n">100%</p><p class="mp-l">South African · multi-city coverage</p></div>
+            <div class="mp-cell"><p class="mp-n">46%</p><p class="mp-l">Singles · 338 athletes</p></div>
+            <div class="mp-cell"><p class="mp-n">51%</p><p class="mp-l">Doubles / Relay · team participants</p></div>
+          </div>
+        </div>
+        <div class="card anim" style="transition-delay:350ms">
+          <p class="muted-label ch-mb-3">Datasets Included</p>
+          <div class="dataset-list">
+            <div class="dataset">
+              <div class="ds-h"><span class="ds-t">Training Experience Study · VA-specific</span><span class="ds-n">n=733</span></div>
+              <p class="ds-s">Primary dataset · WhatsApp post-event survey · April 2026. Source of every Q1&ndash;Q12 finding in this dashboard.</p>
+            </div>
+            <div class="dataset">
+              <div class="ds-h"><span class="ds-t">Broader HYROX SA Study · Athletes</span><span class="ds-n">n=954</span></div>
+              <p class="ds-s">Referenced in Brand Power. Sponsor recognition, athlete demographics, and event experience ratings.</p>
+            </div>
+            <div class="dataset">
+              <div class="ds-h"><span class="ds-t">Broader HYROX SA Study · Spectators</span><span class="ds-n">n=631</span></div>
+              <p class="ds-s">Referenced in Brand Power. Used in the sponsor recall flip comparison.</p>
+            </div>
+          </div>
+          <div class="takeaway" style="margin-top:14px"><b>99.9% response rate</b> across 733 of 734 invited respondents — an unusually clean base for consumer research.</div>
+        </div>
+      </div>
+    </div>
+
     <!-- ===== MARKET POSITION ===== -->
     <div class="tab-page page-pad" data-page="penetration" style="flex-direction:column;gap:16px">
       <div class="page-header anim-h">
@@ -575,6 +759,7 @@ body{
         <!-- Training Venue Donut -->
         <div class="card anim" style="transition-delay:150ms">
           <p class="muted-label ch-mb-3">Primary Training Venue (Q2, n=733)</p>
+          <p class="q-prompt"><b>Q2 &middot;</b> &ldquo;Where do you perform the majority of your HYROX training?&rdquo;</p>
           <div class="donut-wrap">
             <div class="donut">
               <svg id="ms-donut" viewBox="0 0 200 200"></svg>
@@ -585,7 +770,8 @@ body{
         <!-- VA Performance Rating -->
         <div class="card anim" style="transition-delay:250ms">
           <p class="muted-label ch-mb-3">VA Performance vs Competitors (Q11)</p>
-          <div style="flex:1;display:flex;align-items:center;justify-content:center">
+          <p class="q-prompt"><b>Q11 &middot;</b> &ldquo;How well do you feel Virgin Active supports the HYROX community compared to other gyms?&rdquo;</p>
+          <div style="flex:1;display:flex;align-items:center;justify-content:center;text-align:center;padding:16px 0">
             <div>
               <p class="nps-big">57%</p>
               <p class="nps-sub">Rate VA 'Behind' or 'Significantly Lagging'</p>
@@ -631,6 +817,7 @@ body{
       <div class="grid-3" style="grid-template-rows:1fr">
         <div class="card anim col-2" style="transition-delay:150ms">
           <p class="muted-label ch-mb-3">Sponsor Brand Recognition — Athletes (n=954)</p>
+          <p class="q-prompt">&ldquo;Which brands do you remember seeing or noticing at today's HYROX event?&rdquo; <span style="opacity:.7">· broader HYROX SA study</span></p>
           <div class="bars" id="sponsor-bars"></div>
           <div class="takeaway" style="margin-top:14px"><b>Virgin Active (81%) is the #2 most-recognised sponsor</b> — a single point behind Puma. Near-perfect embedding in the HYROX event identity, before any new product launches.</div>
         </div>
@@ -641,7 +828,7 @@ body{
             <div class="bt"><div class="bt-n">52/48</div><div class="bt-l">Male / Female split</div></div>
             <div class="bt"><div class="bt-n">68%</div><div class="bt-l">In 25–44 core band</div></div>
             <div class="bt accent"><div class="bt-n">98.7%</div><div class="bt-l">Would race again</div></div>
-            <div class="bt accent"><div class="bt-n">98.8%</div><div class="bt-l">Rated Excellent / V Good</div></div>
+            <div class="bt accent"><div class="bt-n">98.8%</div><div class="bt-l">Positive Experience Rating</div></div>
             <div class="bt"><div class="bt-n">52%</div><div class="bt-l">Race as Doubles (social)</div></div>
           </div>
         </div>
@@ -682,6 +869,7 @@ body{
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 7h6v6"/><path d="m22 7-8.5 8.5-5-5L2 17"/></svg>
             <p class="lbl">HYROX Experience Level (Q1 · n=733)</p>
           </div>
+          <p class="q-prompt"><b>Q1 &middot;</b> &ldquo;Was this your first ever HYROX event?&rdquo;</p>
 
           <div class="exp-hero">
             <div class="exp-num">58.1<sup class="pct-sup">%</sup></div>
@@ -704,6 +892,7 @@ body{
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
               <p class="lbl">Biggest Training Challenge (Q4, n=733)</p>
             </div>
+            <p class="q-prompt"><b>Q4 &middot;</b> &ldquo;What do you find to be the most challenging aspect of training for HYROX?&rdquo;</p>
             <div class="bars" id="train-challenges"></div>
           </div>
           <div class="mini-cards">
@@ -738,6 +927,7 @@ body{
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
             <p class="lbl">Barriers to Starting HYROX (Q3)</p>
           </div>
+          <p class="q-prompt"><b>Q3 &middot;</b> &ldquo;Before you started your HYROX journey, what were your biggest barriers to entry?&rdquo;</p>
           <p class="tm-help">All 733 respondents, multi-select. Size represents % of respondents who cited each barrier.</p>
           <div class="tm-wrap" id="treemap"></div>
         </div>
@@ -766,6 +956,7 @@ body{
       <div class="grid-2">
         <div class="card anim" style="transition-delay:150ms">
           <p class="muted-label" style="margin-bottom:8px">Importance of Community (Q7, n=733)</p>
+          <p class="q-prompt"><b>Q7 &middot;</b> &ldquo;How important is community or a social training environment to your gym choice?&rdquo;</p>
           <div class="pie-wrap">
             <div class="pie">
               <svg id="driver-pie" viewBox="0 0 280 280"></svg>
@@ -778,6 +969,23 @@ body{
           <p class="muted-label ch-mb-4">Switch Levers — Demand Signal &amp; Ease</p>
           <div class="priority-list" id="priority-list"></div>
         </div>
+      </div>
+    </div>
+
+    <!-- ===== QUALITATIVE INSIGHTS ===== -->
+    <div class="tab-page page-pad" data-page="qualitative" style="flex-direction:column;gap:16px;overflow-y:auto">
+      <div class="page-header anim-h">
+        <h1 class="hxl">Qualitative Insights</h1>
+        <p>Four dominant themes and ten verbatim buckets from 730+ open-ended responses (Q10 &amp; Q12)</p>
+      </div>
+      <div class="card anim" style="transition-delay:150ms">
+        <p class="muted-label ch-mb-3">Four Themes · One Story</p>
+        <div class="theme-grid" id="theme-grid"></div>
+        <div class="takeaway" style="margin-top:14px"><b>The through-line.</b> Athletes are not asking for luxury upgrades. They want fundamentals — equipment that works, coaches who understand HYROX, communities that welcome them, programmes that tell them what to do. Low-hanging fruit for a well-resourced national operator.</div>
+      </div>
+      <div class="card anim" style="transition-delay:250ms">
+        <p class="muted-label ch-mb-3">Ten Verbatim Buckets · The Unfiltered Voice</p>
+        <div class="bucket-grid" id="bucket-grid"></div>
       </div>
     </div>
 
@@ -796,12 +1004,12 @@ body{
 <script>
 // === DATA ===
 const KPIS = [
-  {label:"HYROX Athletes Surveyed",value:733,formatted:"733",accent:false,desc:"Post-event respondents, April 2026",icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><path d="M16 3.128a4 4 0 0 1 0 7.744"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><circle cx="9" cy="7" r="4"/></svg>'},
+  {label:"HYROX Athletes Surveyed",value:733,formatted:"733",accent:false,desc:"Post-event respondents · WhatsApp survey · April 2026",icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><path d="M16 3.128a4 4 0 0 1 0 7.744"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><circle cx="9" cy="7" r="4"/></svg>'},
   {label:"Train Primarily at Virgin Active",value:35.2,formatted:"35.2%",accent:true,desc:"258 athletes — 0.4ppt lead over CrossFit",icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9.5a5.5 5.5 0 0 1 9.591-3.676.56.56 0 0 0 .818 0A5.49 5.49 0 0 1 22 9.5c0 2.29-1.5 4-3 5.5l-5.492 5.313a2 2 0 0 1-3 .019L5 15c-1.5-1.5-3-3.2-3-5.5"/></svg>'},
-  {label:"Rate VA 'Behind' or 'Lagging'",value:57.0,formatted:"57.0%",accent:false,desc:"418 of 733 athletes (Q11 rating)",icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2"/></svg>'},
-  {label:"Want HYROX Community Package",value:79.4,formatted:"79.4%",accent:true,desc:"582 athletes — would influence gym choice",icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>'},
   {label:"First-Time HYROX Athletes",value:58.1,formatted:"58.1%",accent:true,desc:"426 newcomers — peak acquisition window",icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/></svg>'},
-  {label:"Rate VA 'Leading' or 'Gold'",value:14.2,formatted:"14.2%",accent:false,desc:"Only 104 athletes endorse VA at top tier",icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 7h6v6"/><path d="m22 7-8.5 8.5-5-5L2 17"/></svg>'},
+  {label:"Want HYROX Community Package",value:79.4,formatted:"79.4%",accent:true,desc:"582 athletes — would influence gym choice",icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>'},
+  {label:"Community Is 'Very Important / Essential'",value:49.4,formatted:"49.4%",accent:false,desc:"362 athletes — gym-switching trigger",icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 21a8 8 0 0 0-16 0"/><circle cx="10" cy="8" r="5"/><path d="M22 20c0-3.37-2-6.5-4-8a5 5 0 0 0-.45-8.3"/></svg>'},
+  {label:"Lack Structured Recovery Routine",value:70,formatted:"70%+",accent:false,desc:"Foam rollers at home or nothing structured at all",icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4"/><path d="M12 18v4"/><path d="m4.93 4.93 2.83 2.83"/><path d="m16.24 16.24 2.83 2.83"/><path d="M2 12h4"/><path d="M18 12h4"/><path d="m4.93 19.07 2.83-2.83"/><path d="m16.24 7.76 2.83-2.83"/></svg>'},
 ];
 
 const MEMBERSHIP = [
@@ -843,9 +1051,12 @@ const BARRIERS = [
 const BARRIER_COLORS = ["hsl(355, 85%, 48%)","hsl(355, 70%, 42%)","hsl(35, 80%, 46%)","hsl(35, 60%, 38%)","hsl(215, 30%, 35%)"];
 
 const QUOTES = [
-  {text:"Our Virgin Active was so ill-equipped for HYROX training. No sleds, no wall ball targets. I asked if I could train at a VA that had the equipment — but was met with no response.",age:"Female, 30s",city:"Singles"},
-  {text:"All Virgin Actives should have ALL the equipment. Mine doesn't have a sled or appropriate area for lunge, kettlebell, or burpee practice. It makes it impossible to simulate race conditions.",age:"Male, 20s",city:"Singles"},
-  {text:"Virgin needs to get the gear now. Time for them to commit to the sponsorship properly.",age:"Male, 40s",city:"Singles"},
+  {text:"Our Virgin Active was so ill-equipped for HYROX training. No sleds, no wall ball targets. I asked if I could train at a VA that had the equipment — but was met with no response.",age:"Female, 30s",city:"Singles",tag:"Equipment"},
+  {text:"All Virgin Actives should have ALL the equipment. Mine doesn't have a sled or appropriate area for lunge, kettlebell, or burpee practice. It makes it impossible to simulate race conditions.",age:"Male, 20s",city:"Singles",tag:"Equipment"},
+  {text:"A regular, non-judgmental community that is welcoming, inclusive and supportive. That is what would make me stay.",age:"Female, 20s",city:"Singles",tag:"Community"},
+  {text:"I join HYROX group classes at F45, but my runs I always have to do alone. If Virgin Active could start a run club, I would be overjoyed.",age:"Female, 30s",city:"Doubles",tag:"Community"},
+  {text:"A structured programme to follow based on your fitness level and the division you'd like to compete in — factoring in when you plan to race. That is what I need.",age:"Male, 30s",city:"Singles",tag:"Programming"},
+  {text:"Virgin needs to get the gear now. Time for them to commit to the sponsorship properly.",age:"Male, 40s",city:"Singles",tag:"Equipment"},
 ];
 
 // Pie: Q7 community importance
@@ -899,6 +1110,26 @@ const FLIP_ATHLETE = [
   {rank:"#3",name:"Red Bull",score:75},
   {rank:"#4",name:"Nivea",score:null},
   {rank:"—",name:"Virgin Active",score:null,muted:true},
+];
+
+const THEMES = [
+  {n:"Theme 01",t:"Equipment is the foundation.",s:"The sled (push/pull) and turf lane are the most requested items. Athletes at non-equipped Virgin Active clubs feel unable to properly prepare for race day. 'All Virgin Actives should have ALL the equipment' appears repeatedly."},
+  {n:"Theme 02",t:"Community drives consistency.",s:"Run clubs and group simulation sessions are the most requested services. Athletes who train alone are more likely to be inconsistent. The word 'welcoming' appears frequently — HYROX newcomers fear judgement from regulars."},
+  {n:"Theme 03",t:"Structured programming is missing.",s:"Athletes demand periodised HYROX training plans that integrate running and strength. The tension between 'I write my own plan' and 'I don't know what I'm doing' is visible across hundreds of responses."},
+  {n:"Theme 04",t:"Recovery is underserved &amp; underused.",s:"Athletes want post-class recovery protocols — guided mobility, nutrition tips, and access to sauna and ice. They are not using in-gym recovery options because nobody is showing them how."},
+];
+
+const BUCKETS = [
+  {tag:"Equipment",sub:"Ill-equipped and ignored",text:"Our Virgin Active was so ill-equipped for HYROX training. No sleds, no wall ball targets, and even an indoor track would be helpful. I asked if I could train at a VA that had the equipment, I proved I had a HYROX ticket, but was met with no response.",who:"Female, 30s · Singles"},
+  {tag:"Equipment",sub:"All clubs, all equipment",text:"All Virgin Actives should have ALL the equipment. Mine doesn't have a sled or appropriate area for lunge, kettlebell, or burpee practice. It makes it impossible to simulate race conditions.",who:"Male, 20s · Singles"},
+  {tag:"Equipment",sub:"Race-condition simulation",text:"A fully set-up HYROX-style training space where everything is laid out exactly like race conditions. That would make my preparation 10 times easier.",who:"Female, 30s · Doubles"},
+  {tag:"Equipment",sub:"Commit to the partnership",text:"Virgin needs to get the gear now. Time for them to commit to the sponsorship properly.",who:"Male, 40s · Singles"},
+  {tag:"Community",sub:"Start a run club",text:"I join HYROX group classes at F45, but my runs I always have to do alone. If Virgin Active could start a run club, I would be overjoyed.",who:"Female, 30s · Doubles"},
+  {tag:"Community",sub:"Welcoming and inclusive",text:"A regular, non-judgmental community that is welcoming, inclusive, and supportive. That is what would make me stay.",who:"Female, 20s · Singles"},
+  {tag:"Community",sub:"A coach who cares",text:"A coach who cares. Knowing what I was nervous about before race day and identifying a way to deal with it. That personalised message before my race made all the difference.",who:"Female, 46 · Singles"},
+  {tag:"Programming",sub:"Built for my division",text:"A structured programme to follow based on your fitness level and the division you'd like to compete in, factoring in when you plan to compete. That is what I need.",who:"Male, 30s · Singles"},
+  {tag:"Programming",sub:"Form, mechanics, injury prevention",text:"Ensure trainers know the form for each movement very well, as well as running mechanics. This minimises injuries. Then an elite-level training programme that is dynamic and can be adapted by each individual.",who:"Female, 40s · Doubles"},
+  {tag:"Recovery",sub:"Teach me how to recover",text:"How to use recovery as part of the training journey, and suggestions on nutrition. Nobody at the gym talks about this. It would make a huge difference to how I train.",who:"Female, 30s · Doubles"},
 ];
 
 const RECS = [
@@ -1252,8 +1483,10 @@ function renderTreemap(){
 }
 
 function renderQuotes(){
+  const tagClass = t => t==='Equipment'?'eq':t==='Community'?'co':t==='Programming'?'pr':t==='Recovery'?'re':'';
   document.getElementById('quotes').innerHTML = QUOTES.map((q,i)=>`
-    <div class="quote anim-x" style="transition-delay:${500+150*i}ms">
+    <div class="quote anim-x" style="transition-delay:${500+120*i}ms">
+      ${q.tag?`<span class="btag ${tagClass(q.tag)}" style="display:inline-block;margin-bottom:8px">${q.tag}</span>`:''}
       <p class="t">"${q.text}"</p>
       <p class="a">${q.age} · ${q.city}</p>
     </div>`).join('');
@@ -1355,6 +1588,31 @@ function renderPriority(){
     </div>`).join('');
 }
 
+function renderQualitative(){
+  const tagClass = t => t==='Equipment'?'eq':t==='Community'?'co':t==='Programming'?'pr':t==='Recovery'?'re':'';
+  const tg = document.getElementById('theme-grid');
+  if(tg){
+    tg.innerHTML = THEMES.map((t,i)=>`
+      <div class="theme anim" style="transition-delay:${250+100*i}ms">
+        <p class="tn">${t.n}</p>
+        <p class="tt">${t.t}</p>
+        <p class="ts">${t.s}</p>
+      </div>`).join('');
+  }
+  const bg = document.getElementById('bucket-grid');
+  if(bg){
+    bg.innerHTML = BUCKETS.map((b,i)=>`
+      <div class="bucket anim" style="transition-delay:${350+60*i}ms">
+        <div class="bh">
+          <span class="btag ${tagClass(b.tag)}">${b.tag}</span>
+          <p class="bt">${b.sub}</p>
+        </div>
+        <p class="bq">&ldquo;${b.text}&rdquo;</p>
+        <p class="ba">${b.who}</p>
+      </div>`).join('');
+  }
+}
+
 function renderCampaign(){
   document.getElementById('recs').innerHTML = RECS.map((r,i)=>`
     <div class="card card-accent anim" style="transition-delay:${150+100*i}ms">
@@ -1438,7 +1696,13 @@ function switchTab(tab){
 }
 
 document.querySelectorAll('.nav-btn[data-tab]').forEach(btn=>{
-  btn.addEventListener('click', ()=>switchTab(btn.dataset.tab));
+  btn.addEventListener('click', ()=>{
+    switchTab(btn.dataset.tab);
+    if(window.matchMedia('(max-width: 860px)').matches){
+      btn.scrollIntoView({behavior:'smooth',inline:'center',block:'nearest'});
+      window.scrollTo({top:0,behavior:'smooth'});
+    }
+  });
 });
 
 // === INIT ===
@@ -1455,8 +1719,15 @@ renderCampaign();
 renderSponsors();
 renderVenueBroad();
 renderFlip();
+renderQualitative();
 
 requestAnimationFrame(()=>requestAnimationFrame(()=>triggerAnimations('overview')));
+
+// On mobile, centre the active tab in the horizontal nav on load
+if(window.matchMedia('(max-width: 860px)').matches){
+  const active = document.querySelector('.nav-btn.active');
+  if(active) active.scrollIntoView({inline:'center',block:'nearest'});
+}
 </script>
 </body>
 </html>
