@@ -231,7 +231,7 @@ body{
 .willing-callout svg{width:16px;height:16px;color:var(--primary)}
 .willing-callout .h{font-size:12px;font-weight:500;color:var(--muted-fg)}
 .willing-callout .v{margin-top:4px;font-family:'DM Sans','Inter',sans-serif;font-size:32px;font-weight:700;color:var(--primary);letter-spacing:-.03em;font-variant-numeric:tabular-nums;line-height:1}
-.bars{display:flex;flex-direction:column;gap:10px;flex:1 1 0;min-height:0;justify-content:center}
+.bars{display:flex;flex-direction:column;gap:12px;padding:4px 0}
 .bar-row{padding:2px 6px;margin:-2px -6px;border-radius:6px;transition:background .35s var(--ease)}
 .bar-row:hover{background:hsla(220,14%,18%,.35);cursor:default}
 .bar-row.dim{opacity:.35}
@@ -367,7 +367,7 @@ body{
 .pie-legend .ll.dim{opacity:.4}
 .pie-legend .ll .name{font-size:11px;color:var(--muted-fg);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 
-.priority-list{display:flex;flex-direction:column;gap:10px;flex:1}
+.priority-list{display:flex;flex-direction:column;gap:12px}
 .priority-item{
   display:flex;align-items:center;justify-content:space-between;
   border-radius:8px;border:1px solid var(--border);
@@ -440,14 +440,14 @@ body{
 .exp-bar .seg:hover{filter:brightness(1.15) saturate(1.1)}
 .exp-bar .seg + .seg{box-shadow:inset 2px 0 0 var(--card)}
 
-.exp-legend{display:flex;flex-direction:column;gap:8px;margin-bottom:16px}
-.exp-legend .el-row{display:grid;grid-template-columns:12px 1fr auto auto;align-items:center;gap:12px;padding:6px 8px;margin:-6px -8px;border-radius:6px;transition:background .3s var(--ease);cursor:default}
-.exp-legend .el-row:hover{background:hsla(220,14%,18%,.45)}
+.exp-legend{display:flex;flex-direction:column;gap:6px;margin-bottom:16px;padding:4px 0}
+.exp-legend .el-row{display:grid;grid-template-columns:12px 1fr auto auto;align-items:center;gap:14px;padding:10px 12px;margin:0;border-radius:8px;background:var(--muted-30);border:1px solid transparent;transition:background .3s var(--ease), border-color .3s var(--ease);cursor:default}
+.exp-legend .el-row:hover{background:hsla(220,14%,18%,.6);border-color:var(--border)}
 .exp-legend .el-row.dim{opacity:.45}
 .exp-legend .el-row .dot{width:10px;height:10px;border-radius:3px}
-.exp-legend .el-row .nm{font-size:13px;font-weight:500;color:var(--foreground)}
-.exp-legend .el-row .ct{font-size:11px;color:var(--muted-fg);font-variant-numeric:tabular-nums;min-width:80px;text-align:right}
-.exp-legend .el-row .pc{font-size:14px;font-weight:700;color:var(--foreground);font-variant-numeric:tabular-nums;letter-spacing:-.015em;min-width:50px;text-align:right}
+.exp-legend .el-row .nm{font-size:13.5px;font-weight:500;color:var(--foreground)}
+.exp-legend .el-row .ct{font-size:11.5px;color:var(--muted-fg);font-variant-numeric:tabular-nums;min-width:90px;text-align:right}
+.exp-legend .el-row .pc{font-size:15px;font-weight:700;color:var(--foreground);font-variant-numeric:tabular-nums;letter-spacing:-.015em;min-width:56px;text-align:right}
 
 /* Larger takeaway variant for critical insights */
 .takeaway-lg{font-size:13.5px;line-height:1.6;padding:16px 18px;border-radius:10px}
@@ -539,8 +539,8 @@ body{
 .bucket .bq{font-size:14.5px;font-style:italic;color:var(--foreground);opacity:.92;line-height:1.6;margin-top:4px}
 .bucket .ba{font-size:11.5px;color:var(--muted-fg);font-weight:500;letter-spacing:.01em;margin-top:2px}
 
-/* Mobile responsive */
-@media (max-width: 860px){
+/* Responsive: stack layout on tablets + mobile */
+@media (max-width: 1024px){
   html,body{height:auto;overflow:auto;-webkit-overflow-scrolling:touch}
   body{font-size:13.5px}
   .app{flex-direction:column;height:auto;min-height:100vh}
@@ -588,6 +588,9 @@ body{
   .mini-cards{grid-template-columns:1fr}
   .flip-grid{grid-template-columns:1fr;gap:14px}
   .brand-tiles{grid-template-columns:1fr 1fr;gap:8px}
+  .flip-grid{grid-template-columns:1fr;gap:14px;overflow:visible;flex:0 0 auto;min-height:auto}
+  .flip-col,.flip-list{flex:0 0 auto;min-height:auto}
+  .flip-list{gap:6px}
   .bt{padding:10px 12px}
   .bt .bt-n{font-size:20px}
   .exp-num{font-size:64px}
@@ -883,7 +886,7 @@ body{
 
           <div class="exp-legend" id="exp-legend"></div>
 
-          <div class="takeaway takeaway-lg" style="margin-top:auto"><b>58.1% competed in their first HYROX.</b> 426 newcomers primed for gym loyalty — whoever catches them at peak motivation wins long-term retention.</div>
+          <div class="takeaway takeaway-lg" style="margin-top:18px"><b>58.1% competed in their first HYROX.</b> 426 newcomers primed for gym loyalty — whoever catches them at peak motivation wins long-term retention. <b style="color:var(--primary);font-weight:600">89%</b> of the surveyed field has 0&ndash;2 prior events — the sport is still forming loyalty patterns.</div>
         </div>
         <!-- Training challenges + minicards -->
         <div class="anim" style="transition-delay:300ms;display:flex;flex-direction:column;gap:16px">
@@ -894,6 +897,7 @@ body{
             </div>
             <p class="q-prompt"><b>Q4 &middot;</b> &ldquo;What do you find to be the most challenging aspect of training for HYROX?&rdquo;</p>
             <div class="bars" id="train-challenges"></div>
+            <div class="takeaway" style="margin-top:14px"><b>Time, programming &amp; recovery are 83.8% of all challenges</b> — a single structured programme addresses the majority.</div>
           </div>
           <div class="mini-cards">
             <div class="mini-card">
@@ -968,6 +972,7 @@ body{
         <div class="card anim" style="transition-delay:300ms">
           <p class="muted-label ch-mb-4">Switch Levers — Demand Signal &amp; Ease</p>
           <div class="priority-list" id="priority-list"></div>
+          <div class="takeaway takeaway-lg" style="margin-top:18px"><b>Community is the highest-leverage lever.</b> 79.4% of athletes say a structured HYROX package would influence gym choice — the strongest commercial signal in the study, and one of the easiest to build.</div>
         </div>
       </div>
     </div>
@@ -1698,7 +1703,7 @@ function switchTab(tab){
 document.querySelectorAll('.nav-btn[data-tab]').forEach(btn=>{
   btn.addEventListener('click', ()=>{
     switchTab(btn.dataset.tab);
-    if(window.matchMedia('(max-width: 860px)').matches){
+    if(window.matchMedia('(max-width: 1024px)').matches){
       btn.scrollIntoView({behavior:'smooth',inline:'center',block:'nearest'});
       window.scrollTo({top:0,behavior:'smooth'});
     }
@@ -1723,8 +1728,8 @@ renderQualitative();
 
 requestAnimationFrame(()=>requestAnimationFrame(()=>triggerAnimations('overview')));
 
-// On mobile, centre the active tab in the horizontal nav on load
-if(window.matchMedia('(max-width: 860px)').matches){
+// On tablets/mobile, centre the active tab in the horizontal nav on load
+if(window.matchMedia('(max-width: 1024px)').matches){
   const active = document.querySelector('.nav-btn.active');
   if(active) active.scrollIntoView({inline:'center',block:'nearest'});
 }
