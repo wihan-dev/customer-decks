@@ -59,6 +59,7 @@ body{
 }
 .heading{font-family:'DM Sans','Inter',sans-serif;letter-spacing:-.02em}
 .app{display:flex;height:100vh;overflow:hidden;background:var(--bg)}
+.main{display:flex;min-width:0}
 
 /* Sidebar */
 .sidebar{
@@ -96,8 +97,11 @@ body{
 .sidebar-bottom .nav-btn{margin-bottom:2px}
 
 /* Main */
-.main{flex:1;overflow:hidden;display:flex}
-.tab-page{display:none;flex:1;flex-direction:column;height:100vh;overflow:hidden}
+.main{flex:1;overflow:hidden;display:flex;min-width:0}
+.tab-page{display:none;flex:1;flex-direction:column;height:100vh;overflow-y:auto;overflow-x:hidden;min-width:0}
+.tab-page::-webkit-scrollbar{width:8px}
+.tab-page::-webkit-scrollbar-thumb{background:var(--border);border-radius:999px}
+.tab-page::-webkit-scrollbar-thumb:hover{background:var(--border-80)}
 .tab-page.active{display:flex}
 .page-overview{padding:32px}
 .page-pad{padding:24px;gap:16px}
@@ -185,9 +189,11 @@ body{
 .kpi-desc{position:relative;margin-top:10px;font-size:12px;color:var(--muted-fg);line-height:1.45}
 
 /* Penetration tab */
-.grid-3{display:grid;flex:1 1 0;min-height:0;grid-template-columns:repeat(3,1fr);gap:16px}
-.grid-2{display:grid;flex:1 1 0;min-height:0;grid-template-columns:repeat(2,1fr);gap:16px}
-.grid-5{display:grid;flex:1 1 0;min-height:0;grid-template-columns:repeat(5,1fr);gap:16px}
+.grid-3{display:grid;flex:1 1 auto;grid-template-columns:repeat(3,1fr);gap:16px}
+.grid-2{display:grid;flex:1 1 auto;grid-template-columns:repeat(2,1fr);gap:16px}
+.grid-5{display:grid;flex:1 1 auto;grid-template-columns:repeat(5,1fr);gap:16px}
+/* Cards placed directly in a scrollable tab-page (e.g. Qualitative) must keep their content height so the page can scroll */
+.tab-page > .card{flex-shrink:0}
 .col-3{grid-column:span 3}
 .col-2{grid-column:span 2}
 
@@ -322,7 +328,7 @@ body{
 
 /* Barriers tab — treemap */
 .tm-help{margin-bottom:12px;font-size:11px;color:var(--muted-fg)}
-.tm-wrap{position:relative;flex:1;overflow:hidden;border-radius:8px;min-height:300px}
+.tm-wrap{position:relative;flex:1;overflow:hidden;border-radius:8px;min-height:480px}
 .tm-cell{
   position:absolute;border-radius:8px;padding:12px;
   transition:filter .3s var(--ease), transform .65s var(--ease), opacity .65s var(--ease), box-shadow .3s var(--ease);
