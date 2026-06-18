@@ -628,6 +628,69 @@ body{
   .exp-num .pct-sup{font-size:24px}
   .nps-grid{grid-template-columns:1fr}
 }
+
+/* ============ VIEW TOGGLE (Cape Town / Joburg / Compare) ============ */
+.view-toggle{margin:2px 12px 12px;display:flex;flex-direction:column;gap:7px}
+.vt-label{font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.13em;color:var(--muted-fg);padding:0 2px;display:flex;align-items:center;gap:7px}
+.vt-label::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--primary);box-shadow:0 0 8px hsla(355,85%,52%,.6)}
+.vt-seg{display:flex;background:var(--sidebar-accent);border:1px solid var(--sidebar-border);border-radius:10px;padding:3px;gap:2px}
+.vt-btn{flex:1;border:none;background:transparent;color:var(--sidebar-fg);font:inherit;font-size:11px;font-weight:600;padding:8px 4px;border-radius:7px;cursor:pointer;transition:background .35s var(--ease),color .35s var(--ease),box-shadow .35s var(--ease);white-space:nowrap;letter-spacing:-.01em}
+.vt-btn:hover{color:var(--foreground)}
+.vt-btn.active{color:#fff}
+.vt-btn.active[data-view="cpt"]{background:hsl(210,70%,52%);box-shadow:0 2px 10px -3px hsla(210,70%,52%,.7)}
+.vt-btn.active[data-view="jhb"]{background:var(--primary);box-shadow:0 2px 10px -3px hsla(355,85%,52%,.7)}
+.vt-btn.active[data-view="compare"]{background:linear-gradient(90deg,hsl(210,70%,52%),hsl(355,85%,52%));box-shadow:0 2px 10px -3px hsla(355,85%,52%,.5)}
+@media (max-width:1024px){
+  .view-toggle{margin:0 8px 8px;flex-direction:row;align-items:center;gap:10px}
+  .vt-label{display:none}
+  .vt-seg{flex:1}
+}
+
+/* Header compare badge */
+.cmp-badge{display:inline-flex;align-items:center;gap:8px;margin-top:10px;font-size:11px;font-weight:600;color:var(--foreground);background:var(--muted-30);border:1px solid var(--border);border-radius:999px;padding:5px 13px}
+.cmp-badge .d{width:9px;height:9px;border-radius:3px}
+.cmp-badge .d.cpt{background:hsl(210,70%,55%)} .cmp-badge .d.jhb{background:hsl(355,85%,52%)}
+
+/* Compare grouped bars (reused across tabs) */
+.cmp-legend{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:16px;font-size:11.5px;color:var(--muted-fg)}
+.cmp-legend .k{display:flex;align-items:center;gap:7px;font-weight:600}
+.cmp-legend .sw{width:11px;height:11px;border-radius:3px}
+.cmp-legend .sw.cpt{background:hsl(210,70%,55%)} .cmp-legend .sw.jhb{background:hsl(355,85%,52%)}
+.cmp-list{display:flex;flex-direction:column;gap:15px}
+.cmp-row{padding:1px 6px;margin:-1px -6px;border-radius:7px;transition:background .3s var(--ease)}
+.cmp-row:hover{background:hsla(220,14%,18%,.4)}
+.cmp-row .cmp-top{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:8px}
+.cmp-row .cmp-name{font-size:12.5px;font-weight:500;color:var(--foreground)}
+.cmp-row .cmp-delta{font-size:10.5px;font-weight:700;font-variant-numeric:tabular-nums;padding:2px 8px;border-radius:999px;flex-shrink:0}
+.cmp-delta.up{color:var(--emerald-fg);background:var(--emerald-15)}
+.cmp-delta.down{color:var(--amber-fg);background:var(--amber-15)}
+.cmp-delta.flat{color:var(--muted-fg);background:var(--muted)}
+.cmp-bars{display:flex;flex-direction:column;gap:6px}
+.cmp-bar{display:flex;align-items:center;gap:11px}
+.cmp-bar .tg{width:30px;flex-shrink:0;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--muted-fg)}
+.cmp-bar .track{flex:1;height:9px;border-radius:999px;background:var(--muted);overflow:hidden}
+.cmp-bar .fill{height:100%;border-radius:999px;width:0;transition:width 1.05s var(--ease) .25s}
+.cmp-bar .pc{width:50px;flex-shrink:0;text-align:right;font-size:12.5px;font-weight:700;font-variant-numeric:tabular-nums}
+.cmp-bar.cpt .fill{background:hsl(210,70%,55%)} .cmp-bar.cpt .pc{color:hsl(210,70%,64%)}
+.cmp-bar.jhb .fill{background:hsl(355,85%,52%)} .cmp-bar.jhb .pc{color:hsl(355,85%,62%)}
+
+/* Compare KPI dual-value card */
+.kpi-duo{display:flex;align-items:flex-end;gap:14px;margin-top:18px}
+.kpi-duo .kd{display:flex;flex-direction:column;gap:4px}
+.kpi-duo .kd .kn{font-family:'DM Sans','Inter',sans-serif;font-size:30px;font-weight:700;letter-spacing:-.03em;font-variant-numeric:tabular-nums;line-height:1}
+.kpi-duo .kd.cpt .kn{color:hsl(210,70%,64%)} .kpi-duo .kd.jhb .kn{color:var(--primary)}
+.kpi-duo .kd .kc{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted-fg)}
+.kpi-duo .kdiv{font-size:16px;color:var(--border);padding-bottom:7px;font-weight:300}
+.kpi-duo .kdelta{margin-left:auto;font-size:11.5px;font-weight:700;font-variant-numeric:tabular-nums;padding:3px 9px;border-radius:999px;align-self:center}
+.kdelta.up{color:var(--emerald-fg);background:var(--emerald-15)} .kdelta.down{color:var(--amber-fg);background:var(--amber-15)} .kdelta.flat{color:var(--muted-fg);background:var(--muted)}
+
+/* Compare: methodology / rating two-column */
+.meth-cmp{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.cmp-col-h{display:flex;align-items:center;gap:8px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px}
+.cmp-col-h .d{width:9px;height:9px;border-radius:3px}
+.cmp-col-h.cpt{color:hsl(210,70%,64%)} .cmp-col-h.cpt .d{background:hsl(210,70%,55%)}
+.cmp-col-h.jhb{color:var(--primary)} .cmp-col-h.jhb .d{background:hsl(355,85%,52%)}
+@media (max-width:1024px){.meth-cmp{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -640,6 +703,14 @@ body{
   <aside class="sidebar">
     <div class="sidebar-logo">
       <img src="https://v0-virgin-active-dashboard.vercel.app/images/virgin-active-logo-dark.png" alt="Virgin Active" onerror="this.style.display='none'">
+    </div>
+    <div class="view-toggle">
+      <div class="vt-label">Event View</div>
+      <div class="vt-seg" id="view-seg">
+        <button class="vt-btn" data-view="cpt">Cape Town</button>
+        <button class="vt-btn active" data-view="jhb">Joburg</button>
+        <button class="vt-btn" data-view="compare">Compare</button>
+      </div>
     </div>
     <nav class="nav">
       <div class="nav-list">
@@ -700,7 +771,7 @@ body{
     <div class="tab-page active page-overview" data-page="overview">
       <div class="page-header anim-h">
         <h1 class="h2xl">HYROX × Virgin Active</h1>
-        <p>Training Experience Study · 733 post-event respondents · April 2026</p>
+        <p id="sub-overview">Training Experience Study · 733 post-event respondents · April 2026</p>
       </div>
       <div class="kpi-wrap">
         <div class="kpi-grid" id="kpi-grid"></div>
@@ -711,107 +782,40 @@ body{
     <div class="tab-page page-pad" data-page="methodology" style="flex-direction:column;gap:16px">
       <div class="page-header anim-h">
         <h1 class="hxl">Sample &amp; Methodology</h1>
-        <p>How the research was conducted · 733 athletes · 12 structured questions · one post-event window</p>
+        <p id="sub-methodology">How the research was conducted · 733 athletes · 12 structured questions · one post-event window</p>
       </div>
-      <div class="grid-3">
-        <div class="card anim" style="transition-delay:150ms">
-          <p class="muted-label ch-mb-3">Survey Design &amp; Deployment</p>
-          <div class="meth-grid">
-            <div class="meth-item"><p class="mi-l">Format</p><p class="mi-v">WhatsApp conversational survey · Yazi's proprietary research platform</p></div>
-            <div class="meth-item"><p class="mi-l">Period</p><p class="mi-v">April 2026 · immediately after HYROX South Africa</p></div>
-            <div class="meth-item"><p class="mi-l">Sample Source</p><p class="mi-v">HYROX Admin Project participants who opted into post-event feedback</p></div>
-            <div class="meth-item"><p class="mi-l">Base (N)</p><p class="mi-v">733 completes from 734 invited · one excluded for incomplete response</p></div>
-            <div class="meth-item"><p class="mi-l">Question Count</p><p class="mi-v">12 structured questions + open-ended qualitative prompts</p></div>
-            <div class="meth-item"><p class="mi-l">Analysis</p><p class="mi-v">Quantitative frequency analysis + thematic coding of 730+ verbatims</p></div>
-          </div>
-        </div>
-        <div class="card anim" style="transition-delay:250ms">
-          <p class="muted-label ch-mb-3">Sample Profile at a Glance</p>
-          <div class="meth-profile">
-            <div class="mp-cell"><p class="mp-n">51%</p><p class="mp-l">Female · 374 of 733</p></div>
-            <div class="mp-cell"><p class="mp-n">46%</p><p class="mp-l">Male · 339 of 733</p></div>
-            <div class="mp-cell"><p class="mp-n">34.5</p><p class="mp-l">Mean age · range 16&ndash;68</p></div>
-            <div class="mp-cell"><p class="mp-n">100%</p><p class="mp-l">South African · multi-city coverage</p></div>
-            <div class="mp-cell"><p class="mp-n">46%</p><p class="mp-l">Singles · 338 athletes</p></div>
-            <div class="mp-cell"><p class="mp-n">51%</p><p class="mp-l">Doubles / Relay · team participants</p></div>
-          </div>
-        </div>
-        <div class="card anim" style="transition-delay:350ms">
-          <p class="muted-label ch-mb-3">Datasets Included</p>
-          <div class="dataset-list">
-            <div class="dataset">
-              <div class="ds-h"><span class="ds-t">Training Experience Study · VA-specific</span><span class="ds-n">n=733</span></div>
-              <p class="ds-s">Primary dataset · WhatsApp post-event survey · April 2026. Source of every Q1&ndash;Q12 finding in this dashboard.</p>
-            </div>
-            <div class="dataset">
-              <div class="ds-h"><span class="ds-t">Broader HYROX SA Study · Athletes</span><span class="ds-n">n=954</span></div>
-              <p class="ds-s">Referenced in Brand Power. Sponsor recognition, athlete demographics, and event experience ratings.</p>
-            </div>
-            <div class="dataset">
-              <div class="ds-h"><span class="ds-t">Broader HYROX SA Study · Spectators</span><span class="ds-n">n=631</span></div>
-              <p class="ds-s">Referenced in Brand Power. Used in the sponsor recall flip comparison.</p>
-            </div>
-          </div>
-          <div class="takeaway" style="margin-top:14px"><b>99.9% response rate</b> across 733 of 734 invited respondents — an unusually clean base for consumer research.</div>
-        </div>
-      </div>
+      <div class="grid-3" id="meth-grid"></div>
     </div>
 
     <!-- ===== MARKET POSITION ===== -->
     <div class="tab-page page-pad" data-page="penetration" style="flex-direction:column;gap:16px">
       <div class="page-header anim-h">
         <h1 class="hxl">Market Position</h1>
-        <p>Primary training venue, athlete performance rating, and the gap to CrossFit</p>
+        <p id="sub-penetration">Primary training venue, athlete performance rating, and the gap to CrossFit</p>
       </div>
       <div class="grid-3">
         <!-- Training Venue Donut -->
         <div class="card anim" style="transition-delay:150ms">
-          <p class="muted-label ch-mb-3">Primary Training Venue (Q2, n=733)</p>
+          <p class="muted-label ch-mb-3" id="lbl-venue">Primary Training Venue (Q2)</p>
           <p class="q-prompt"><b>Q2 &middot;</b> &ldquo;Where do you perform the majority of your HYROX training?&rdquo;</p>
-          <div class="donut-wrap">
+          <div class="donut-wrap" id="venue-native">
             <div class="donut">
               <svg id="ms-donut" viewBox="0 0 200 200"></svg>
             </div>
           </div>
           <div class="legend-list" id="ms-legend"></div>
+          <div id="venue-cmp" style="display:none;flex:1"></div>
         </div>
         <!-- VA Performance Rating -->
         <div class="card anim" style="transition-delay:250ms">
           <p class="muted-label ch-mb-3">VA Performance vs Competitors (Q11)</p>
           <p class="q-prompt"><b>Q11 &middot;</b> &ldquo;How well do you feel Virgin Active supports the HYROX community compared to other gyms?&rdquo;</p>
-          <div style="flex:1;display:flex;align-items:center;justify-content:center;text-align:center;padding:16px 0">
-            <div>
-              <p class="nps-big">57%</p>
-              <p class="nps-sub">Rate VA 'Behind' or 'Significantly Lagging'</p>
-            </div>
-          </div>
-          <div class="nps-grid">
-            <div class="nps-cell p">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 7h6v6"/><path d="m22 7-8.5 8.5-5-5L2 17"/></svg>
-              <p class="pct">14.2%</p><p class="lbl">Leading / Gold</p>
-            </div>
-            <div class="nps-cell q">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/></svg>
-              <p class="pct">28.8%</p><p class="lbl">On Par</p>
-            </div>
-            <div class="nps-cell d">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 17h6v-6"/><path d="m22 17-8.5-8.5-5 5L2 7"/></svg>
-              <p class="pct">57.0%</p><p class="lbl">Behind</p>
-            </div>
-          </div>
+          <div id="rating-host" style="flex:1;display:flex;flex-direction:column;justify-content:center"></div>
         </div>
-        <!-- The 0.4ppt Gap -->
+        <!-- The Gap to CrossFit -->
         <div class="card anim" style="transition-delay:350ms">
-          <p class="muted-label ch-mb-3">The Gap to CrossFit</p>
-          <div class="willing-callout">
-            <div class="row">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
-              <p class="h">VA lead over CrossFit on training share</p>
-            </div>
-            <p class="v">0.4 ppts</p>
-          </div>
-          <div class="bars" id="willing-bars"></div>
-          <div class="takeaway takeaway-lg"><b>CrossFit is winning on experience, not footprint.</b> Athletes choose VA for proximity — not because it is the superior HYROX environment. The window to out-invest is now.</div>
+          <p class="muted-label ch-mb-3" id="lbl-gap">The Gap to CrossFit</p>
+          <div id="gap-host" style="display:flex;flex-direction:column;flex:1"></div>
         </div>
       </div>
     </div>
@@ -868,58 +872,37 @@ body{
     <div class="tab-page page-pad" data-page="training" style="flex-direction:column">
       <div class="page-header anim-h">
         <h1 class="hxl">Training &amp; Journey</h1>
-        <p>Experience level, training challenges, and how athletes manage their programmes</p>
+        <p id="sub-training">Experience level, training challenges, and how athletes manage their programmes</p>
       </div>
       <div class="grid-2">
         <!-- Experience Split -->
         <div class="card anim" style="transition-delay:150ms">
           <div class="ch ch-mb-3">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 7h6v6"/><path d="m22 7-8.5 8.5-5-5L2 17"/></svg>
-            <p class="lbl">HYROX Experience Level (Q1 · n=733)</p>
+            <p class="lbl" id="lbl-exp">HYROX Experience Level (Q1)</p>
           </div>
           <p class="q-prompt"><b>Q1 &middot;</b> &ldquo;Was this your first ever HYROX event?&rdquo;</p>
 
-          <div class="exp-hero">
-            <div class="exp-num">58.1<sup class="pct-sup">%</sup></div>
-            <div class="exp-sub">
-              <div class="exp-sub-t">First-Time Athletes</div>
-              <div class="exp-sub-s">426 of 733 · the onboarding prize</div>
-            </div>
-          </div>
+          <div class="exp-hero" id="exp-hero"></div>
 
           <div class="exp-bar" id="exp-bar"></div>
 
           <div class="exp-legend" id="exp-legend"></div>
 
-          <div class="takeaway takeaway-lg" style="margin-top:18px"><b>58.1% competed in their first HYROX.</b> 426 newcomers primed for gym loyalty — whoever catches them at peak motivation wins long-term retention. <b style="color:var(--primary);font-weight:600">89%</b> of the surveyed field has 0&ndash;2 prior events — the sport is still forming loyalty patterns.</div>
+          <div class="takeaway takeaway-lg" id="tk-experience" style="margin-top:18px"></div>
         </div>
         <!-- Training challenges + minicards -->
         <div class="anim" style="transition-delay:300ms;display:flex;flex-direction:column;gap:16px">
           <div class="card" style="flex:1">
             <div class="ch ch-mb-3">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
-              <p class="lbl">Biggest Training Challenge (Q4, n=733)</p>
+              <p class="lbl" id="lbl-challenges">Biggest Training Challenge (Q4)</p>
             </div>
             <p class="q-prompt"><b>Q4 &middot;</b> &ldquo;What do you find to be the most challenging aspect of training for HYROX?&rdquo;</p>
             <div class="bars" id="train-challenges"></div>
-            <div class="takeaway" style="margin-top:14px"><b>Time, programming &amp; recovery are 83.8% of all challenges</b> — a single structured programme addresses the majority.</div>
+            <div class="takeaway" id="tk-challenges" style="margin-top:14px"></div>
           </div>
-          <div class="mini-cards">
-            <div class="mini-card">
-              <p class="ml">Self-write programme</p>
-              <p class="mv p">39.3%</p>
-              <p class="ms">Largest group — flying blind</p>
-            </div>
-            <div class="mini-card">
-              <p class="ml">Use 1-on-1 PT</p>
-              <p class="mv">14.9%</p>
-              <p class="ms">45.5% of rest cite cost</p>
-            </div>
-            <div class="mini-card accent">
-              <p class="ml">Opportunity</p>
-              <p class="mtxt"><b>84%</b> struggle with time, programming, or recovery. One tiered plan closes all three.</p>
-            </div>
-          </div>
+          <div class="mini-cards" id="prog-cards"></div>
         </div>
       </div>
     </div>
@@ -928,7 +911,7 @@ body{
     <div class="tab-page page-pad-5" data-page="barriers" style="flex-direction:column">
       <div class="page-header anim-h">
         <h1 class="hxl">Barriers to Entry</h1>
-        <p>What held athletes back before they started their HYROX journey</p>
+        <p id="sub-barriers">What held athletes back before they started their HYROX journey</p>
       </div>
       <div class="grid-5">
         <div class="card col-3 anim" style="transition-delay:150ms">
@@ -937,7 +920,7 @@ body{
             <p class="lbl">Barriers to Starting HYROX (Q3)</p>
           </div>
           <p class="q-prompt"><b>Q3 &middot;</b> &ldquo;Before you started your HYROX journey, what were your biggest barriers to entry?&rdquo;</p>
-          <p class="tm-help">All 733 respondents, multi-select. Size represents % of respondents who cited each barrier.</p>
+          <p class="tm-help" id="tm-help">All 733 respondents, multi-select. Size represents % of respondents who cited each barrier.</p>
           <div class="tm-wrap" id="treemap"></div>
         </div>
         <div class="col-2 anim" style="transition-delay:300ms;display:flex;flex-direction:column;gap:16px">
@@ -950,7 +933,7 @@ body{
           </div>
           <div class="card card-accent" style="padding:16px">
             <p class="muted-label">Key Takeaway</p>
-            <p style="margin-top:8px;font-size:14px;line-height:1.6;color:var(--foreground)"><b style="color:var(--primary);font-weight:700">Intimidation (48.7%)</b> and <b style="color:var(--primary);font-weight:700">equipment gaps (38.3%)</b> are the top two barriers — both are directly solvable at a gym level with welcoming community, coached onboarding, and a proper HYROX kit.</p>
+            <p id="tk-barriers" style="margin-top:8px;font-size:14px;line-height:1.6;color:var(--foreground)"></p>
           </div>
         </div>
       </div>
@@ -960,24 +943,25 @@ body{
     <div class="tab-page page-pad-5" data-page="drivers" style="flex-direction:column">
       <div class="page-header anim-h">
         <h1 class="hxl">Community &amp; Switch Levers</h1>
-        <p>How much community matters to gym choice, and the levers Virgin Active can pull</p>
+        <p id="sub-drivers">How much community matters to gym choice, and the levers Virgin Active can pull</p>
       </div>
       <div class="grid-2">
         <div class="card anim" style="transition-delay:150ms">
-          <p class="muted-label" style="margin-bottom:8px">Importance of Community (Q7, n=733)</p>
+          <p class="muted-label" id="lbl-community" style="margin-bottom:8px">Importance of Community (Q7)</p>
           <p class="q-prompt"><b>Q7 &middot;</b> &ldquo;How important is community or a social training environment to your gym choice?&rdquo;</p>
-          <div class="pie-wrap">
+          <div class="pie-wrap" id="comm-native">
             <div class="pie">
               <svg id="driver-pie" viewBox="0 0 280 280"></svg>
               <div class="pie-labels" id="driver-pie-labels"></div>
             </div>
           </div>
           <div class="pie-legend" id="driver-legend"></div>
+          <div id="community-cmp" style="display:none;flex:1"></div>
         </div>
         <div class="card anim" style="transition-delay:300ms">
           <p class="muted-label ch-mb-4">Switch Levers — Demand Signal &amp; Ease</p>
           <div class="priority-list" id="priority-list"></div>
-          <div class="takeaway takeaway-lg" style="margin-top:18px"><b>Community is the highest-leverage lever.</b> 79.4% of athletes say a structured HYROX package would influence gym choice — the strongest commercial signal in the study, and one of the easiest to build.</div>
+          <div class="takeaway takeaway-lg" id="tk-drivers" style="margin-top:18px"></div>
         </div>
       </div>
     </div>
@@ -986,12 +970,12 @@ body{
     <div class="tab-page page-pad" data-page="qualitative" style="flex-direction:column;gap:16px;overflow-y:auto">
       <div class="page-header anim-h">
         <h1 class="hxl">Qualitative Insights</h1>
-        <p>Four dominant themes and ten verbatim buckets from 730+ open-ended responses (Q10 &amp; Q12)</p>
+        <p id="sub-qualitative">Four dominant themes and ten verbatim buckets from 730+ open-ended responses (Q10 &amp; Q12)</p>
       </div>
       <div class="card anim" style="transition-delay:150ms">
-        <p class="muted-label ch-mb-3">Four Themes · One Story</p>
+        <p class="muted-label ch-mb-3" id="lbl-themes">Dominant Themes · One Story</p>
         <div class="theme-grid" id="theme-grid"></div>
-        <div class="takeaway" style="margin-top:14px"><b>The through-line.</b> Athletes are not asking for luxury upgrades. They want fundamentals — equipment that works, coaches who understand HYROX, communities that welcome them, programmes that tell them what to do. Low-hanging fruit for a well-resourced national operator.</div>
+        <div class="takeaway" id="tk-themes" style="margin-top:14px"></div>
       </div>
       <div class="card anim" style="transition-delay:250ms">
         <p class="muted-label ch-mb-3">Ten Verbatim Buckets · The Unfiltered Voice</p>
@@ -1013,7 +997,7 @@ body{
 
 <script>
 // === DATA ===
-const KPIS = [
+let KPIS = [
   {label:"HYROX Athletes Surveyed",value:733,formatted:"733",accent:false,desc:"Post-event respondents · WhatsApp survey · April 2026",icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><path d="M16 3.128a4 4 0 0 1 0 7.744"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><circle cx="9" cy="7" r="4"/></svg>'},
   {label:"Train Primarily at Virgin Active",value:35.2,formatted:"35.2%",accent:true,desc:"258 athletes — 0.4ppt lead over CrossFit",icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9.5a5.5 5.5 0 0 1 9.591-3.676.56.56 0 0 0 .818 0A5.49 5.49 0 0 1 22 9.5c0 2.29-1.5 4-3 5.5l-5.492 5.313a2 2 0 0 1-3 .019L5 15c-1.5-1.5-3-3.2-3-5.5"/></svg>'},
   {label:"First-Time HYROX Athletes",value:58.1,formatted:"58.1%",accent:true,desc:"426 newcomers — peak acquisition window",icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/></svg>'},
@@ -1022,28 +1006,28 @@ const KPIS = [
   {label:"Lack Structured Recovery Routine",value:70,formatted:"70%+",accent:false,desc:"Foam rollers at home or nothing structured at all",icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4"/><path d="M12 18v4"/><path d="m4.93 4.93 2.83 2.83"/><path d="m16.24 16.24 2.83 2.83"/><path d="M2 12h4"/><path d="M18 12h4"/><path d="m4.93 19.07 2.83-2.83"/><path d="m16.24 7.76 2.83-2.83"/></svg>'},
 ];
 
-const MEMBERSHIP = [
+let MEMBERSHIP = [
   {name:"Virgin Active (Home Club)",value:35.2,count:258,fill:"hsl(355, 85%, 52%)"},
   {name:"CrossFit / Functional Boutique",value:34.8,count:255,fill:"hsl(210, 70%, 55%)"},
   {name:"Other Commercial Gym",value:19.9,count:146,fill:"hsl(215, 14%, 40%)"},
   {name:"Home / Outdoors",value:10.1,count:74,fill:"hsl(215, 14%, 25%)"},
 ];
 
-const WILLING = [
+let WILLING = [
   {label:"Virgin Active",pct:35.2,color:"hsl(355, 85%, 52%)"},
   {label:"CrossFit / Boutique",pct:34.8,color:"hsl(210, 70%, 55%)"},
   {label:"Other Commercial Gym",pct:19.9,color:"hsl(215, 14%, 40%)"},
   {label:"Home / Outdoors",pct:10.1,color:"hsl(215, 14%, 28%)"},
 ];
 
-const FUNNEL = [
+let FUNNEL = [
   {stage:"First-Time Athletes",value:426,pct:58.1},
   {stage:"1–2 Prior Events",value:226,pct:30.8},
   {stage:"Seasoned (3+ events)",value:81,pct:11.1},
 ];
 const FUNNEL_COLORS = ["hsl(355, 85%, 52%)","hsl(355, 60%, 50%)","hsl(355, 40%, 40%)"];
 
-const TRAIN_CHALLENGES = [
+let TRAIN_CHALLENGES = [
   {label:"Time mgmt: run vs strength volume",pct:47.5,color:"hsl(355, 85%, 52%)"},
   {label:"Programming: what to do on which day",pct:18.7,color:"hsl(355, 65%, 45%)"},
   {label:"Recovery: aches, pains, fatigue",pct:17.6,color:"hsl(210, 70%, 55%)"},
@@ -1051,7 +1035,7 @@ const TRAIN_CHALLENGES = [
   {label:"Technical knowledge: form & technique",pct:8.0,color:"hsl(215, 14%, 30%)"},
 ];
 
-const BARRIERS = [
+let BARRIERS = [
   {barrier:"Intimidation / Fear of not being fit enough",pct:48.7},
   {barrier:"Lack of specialised equipment",pct:38.3},
   {barrier:"Finding a gym that allows HYROX training",pct:20.5},
@@ -1060,7 +1044,7 @@ const BARRIERS = [
 ];
 const BARRIER_COLORS = ["hsl(355, 85%, 48%)","hsl(355, 70%, 42%)","hsl(35, 80%, 46%)","hsl(35, 60%, 38%)","hsl(215, 30%, 35%)"];
 
-const QUOTES = [
+let QUOTES = [
   {text:"Our Virgin Active was so ill-equipped for HYROX training. No sleds, no wall ball targets. I asked if I could train at a VA that had the equipment — but was met with no response.",age:"Female, 30s",city:"Singles",tag:"Equipment"},
   {text:"All Virgin Actives should have ALL the equipment. Mine doesn't have a sled or appropriate area for lunge, kettlebell, or burpee practice. It makes it impossible to simulate race conditions.",age:"Male, 20s",city:"Singles",tag:"Equipment"},
   {text:"A regular, non-judgmental community that is welcoming, inclusive and supportive. That is what would make me stay.",age:"Female, 20s",city:"Singles",tag:"Community"},
@@ -1070,7 +1054,7 @@ const QUOTES = [
 ];
 
 // Pie: Q7 community importance
-const DRIVERS = [
+let DRIVERS = [
   {driver:"Very important: train better in community",pct:40.4},
   {driver:"Somewhat important: like group sessions",pct:20.7},
   {driver:"Not important: prefer solo",pct:15.6},
@@ -1080,7 +1064,7 @@ const DRIVERS = [
 const DRIVER_COLORS = ["hsl(355, 85%, 52%)","hsl(355, 60%, 50%)","hsl(215, 14%, 40%)","hsl(215, 14%, 28%)","hsl(355, 45%, 60%)"];
 
 // Priority: switch levers VA can pull
-const SWITCH_LEVERS = [
+let SWITCH_LEVERS = [
   {driver:"HYROX Community Package demand",pct:79.4,ease:"High"},
   {driver:"Activate in-gym recovery (sauna, ice)",pct:80.0,ease:"High"},
   {driver:"Structured programming (time/plan help)",pct:47.5,ease:"Medium"},
@@ -1122,14 +1106,14 @@ const FLIP_ATHLETE = [
   {rank:"—",name:"Virgin Active",score:null,muted:true},
 ];
 
-const THEMES = [
+let THEMES = [
   {n:"Theme 01",t:"Equipment is the foundation.",s:"The sled (push/pull) and turf lane are the most requested items. Athletes at non-equipped Virgin Active clubs feel unable to properly prepare for race day. 'All Virgin Actives should have ALL the equipment' appears repeatedly."},
   {n:"Theme 02",t:"Community drives consistency.",s:"Run clubs and group simulation sessions are the most requested services. Athletes who train alone are more likely to be inconsistent. The word 'welcoming' appears frequently — HYROX newcomers fear judgement from regulars."},
   {n:"Theme 03",t:"Structured programming is missing.",s:"Athletes demand periodised HYROX training plans that integrate running and strength. The tension between 'I write my own plan' and 'I don't know what I'm doing' is visible across hundreds of responses."},
   {n:"Theme 04",t:"Recovery is underserved &amp; underused.",s:"Athletes want post-class recovery protocols — guided mobility, nutrition tips, and access to sauna and ice. They are not using in-gym recovery options because nobody is showing them how."},
 ];
 
-const BUCKETS = [
+let BUCKETS = [
   {tag:"Equipment",sub:"Ill-equipped and ignored",text:"Our Virgin Active was so ill-equipped for HYROX training. No sleds, no wall ball targets, and even an indoor track would be helpful. I asked if I could train at a VA that had the equipment, I proved I had a HYROX ticket, but was met with no response.",who:"Female, 30s · Singles"},
   {tag:"Equipment",sub:"All clubs, all equipment",text:"All Virgin Actives should have ALL the equipment. Mine doesn't have a sled or appropriate area for lunge, kettlebell, or burpee practice. It makes it impossible to simulate race conditions.",who:"Male, 20s · Singles"},
   {tag:"Equipment",sub:"Race-condition simulation",text:"A fully set-up HYROX-style training space where everything is laid out exactly like race conditions. That would make my preparation 10 times easier.",who:"Female, 30s · Doubles"},
@@ -1142,7 +1126,7 @@ const BUCKETS = [
   {tag:"Recovery",sub:"Teach me how to recover",text:"How to use recovery as part of the training journey, and suggestions on nutrition. Nobody at the gym talks about this. It would make a huge difference to how I train.",who:"Female, 30s · Doubles"},
 ];
 
-const RECS = [
+let RECS = [
   {
     pillar:"Pillar 01",
     title:"Standardise the HYROX Equipment Kit",
@@ -1165,6 +1149,61 @@ const RECS = [
     impact:"Closes programming gap without PT cost. Activates recovery infrastructure VA already owns into a competitive differentiator."
   },
 ];
+
+// ===== DATASETS: Cape Town (n=733) + Johannesburg (n=1,173) =====
+const VENUE_FILLS = ["hsl(355, 85%, 52%)","hsl(210, 70%, 55%)","hsl(215, 14%, 40%)","hsl(215, 14%, 25%)"];
+const VLAB = ["Virgin Active","CrossFit / Boutique","Other Commercial Gym","Home / Outdoors"];
+const JHB_KPI = [
+  {value:1173,formatted:"1,173",desc:"Post-event respondents · WhatsApp survey · June 2026"},
+  {value:31.7,formatted:"31.7%",desc:"372 athletes · 4.8ppt behind CrossFit"},
+  {value:67.3,formatted:"67.3%",desc:"790 newcomers · peak acquisition window"},
+  {value:82.4,formatted:"82.4%",desc:"966 athletes · would influence gym choice"},
+  {value:51.9,formatted:"51.9%",desc:"608 athletes · gym-switching trigger"},
+  {value:80,formatted:"80%+",desc:"No routine (41.3%) or only home basics (42.0%)"},
+];
+const DATA = {
+  cpt:{
+    kpis:KPIS, venue:MEMBERSHIP, funnel:FUNNEL, challenges:TRAIN_CHALLENGES,
+    barriers:BARRIERS, quotes:QUOTES, community:DRIVERS, levers:SWITCH_LEVERS,
+    themes:THEMES, buckets:BUCKETS, recs:RECS,
+    rating:{big:"57%",sub:"Rate VA 'Behind' or 'Significantly Lagging'",cells:[{cls:'p',pct:'14.2%',lbl:'Leading / Gold'},{cls:'q',pct:'28.8%',lbl:'On Par'},{cls:'d',pct:'57.0%',lbl:'Behind'}]},
+    gap:{val:"0.4 ppts",label:"VA lead over CrossFit on training share",takeaway:`<b>CrossFit is winning on experience, not footprint.</b> Athletes choose VA for proximity, not because it is the superior HYROX environment. The window to out-invest is now.`},
+    experience:{firstPct:"58.1",firstN:"426 of 733 · the onboarding prize",takeaway:`<b>58.1% competed in their first HYROX.</b> 426 newcomers primed for gym loyalty. Whoever catches them at peak motivation wins long-term retention. <b style="color:var(--primary);font-weight:600">89%</b> of the field has 0&ndash;2 prior events, so the sport is still forming loyalty patterns.`},
+    prog:[{ml:"Self-write programme",mv:"39.3%",cls:"p",ms:"Largest group, flying blind"},{ml:"Use 1-on-1 PT",mv:"14.9%",cls:"",ms:"45.5% of rest cite cost"},{accent:true,ml:"Opportunity",mtxt:`<b>84%</b> struggle with time, programming, or recovery. One tiered plan closes all three.`}],
+    meta:{fields:[{l:"Format",v:"WhatsApp conversational survey · Yazi's proprietary research platform"},{l:"Period",v:"April 2026 · immediately after HYROX South Africa"},{l:"Sample Source",v:"HYROX Admin Project participants who opted into post-event feedback"},{l:"Base (N)",v:"733 completes from 734 invited · one excluded for incomplete response"},{l:"Question Count",v:"12 structured questions plus open-ended qualitative prompts"},{l:"Analysis",v:"Quantitative frequency analysis plus thematic coding of 730+ verbatims"}],profileTitle:"Sample Profile at a Glance",profile:[{n:"51%",l:"Female · 374 of 733"},{n:"46%",l:"Male · 339 of 733"},{n:"34.5",l:"Mean age · range 16&ndash;68"},{n:"100%",l:"South African · multi-city"},{n:"46%",l:"Singles · 338 athletes"},{n:"51%",l:"Doubles / Relay"}],datasets:[{t:"Training Experience Study · VA-specific",n:"n=733",s:"Primary dataset · WhatsApp post-event survey · April 2026. Source of every Q1&ndash;Q12 finding in this view."},{t:"Broader HYROX SA Study · Athletes",n:"n=954",s:"Referenced in Brand Power. Sponsor recognition, athlete demographics and event ratings."},{t:"Broader HYROX SA Study · Spectators",n:"n=631",s:"Referenced in Brand Power. Used in the sponsor recall flip comparison."}],note:`<b>99.9% response rate</b> across 733 of 734 invited respondents, an unusually clean base for consumer research.`},
+    txt:{subOverview:"Training Experience Study · 733 post-event respondents · Cape Town · April 2026",subMethodology:"How the research was conducted · 733 athletes · 12 structured questions · one post-event window",subPenetration:"Primary training venue, athlete performance rating, and the gap to CrossFit",subTraining:"Experience level, training challenges, and how athletes manage their programmes",subBarriers:"What held athletes back before they started their HYROX journey",subDrivers:"How much community matters to gym choice, and the levers Virgin Active can pull",subQualitative:"Four dominant themes and ten verbatim buckets from 730+ open-ended responses (Q10 &amp; Q12)",lblVenue:"Primary Training Venue (Q2, n=733)",lblExp:"HYROX Experience Level (Q1 · n=733)",lblChallenges:"Biggest Training Challenge (Q4, n=733)",lblCommunity:"Importance of Community (Q7, n=733)",lblGap:"The Gap to CrossFit",lblThemes:"Four Themes · One Story",tmHelp:"All 733 respondents, multi-select. Size represents % of respondents who cited each barrier.",tkChallenges:`<b>Time, programming and recovery are 83.8% of all challenges.</b> A single structured programme addresses the majority.`,tkBarriers:`<b style="color:var(--primary);font-weight:700">Intimidation (48.7%)</b> and <b style="color:var(--primary);font-weight:700">equipment gaps (38.3%)</b> are the top two barriers. Both are solvable at a gym level with welcoming community, coached onboarding, and a proper HYROX kit.`,tkDrivers:`<b>Community is the highest-leverage lever.</b> 79.4% of athletes say a structured HYROX package would influence gym choice, the strongest commercial signal in the study and one of the easiest to build.`,tkThemes:`<b>The through-line.</b> Athletes are not asking for luxury upgrades. They want fundamentals: equipment that works, coaches who understand HYROX, communities that welcome them, programmes that tell them what to do.`}
+  },
+  jhb:{
+    kpis:KPIS.map((k,i)=>({...k,...JHB_KPI[i]})),
+    venue:[{name:"Virgin Active (Home Club)",value:31.7,count:372},{name:"CrossFit / Functional Boutique",value:36.5,count:428},{name:"Other Commercial Gym",value:23.4,count:274},{name:"Home / Outdoors",value:8.4,count:99}],
+    funnel:[{stage:"First-Time Athletes",value:790,pct:67.3},{stage:"1&ndash;2 Prior Events",value:307,pct:26.2},{stage:"Seasoned (3+ events)",value:76,pct:6.5}],
+    challenges:[{label:"Time mgmt: run vs strength volume",pct:50.1,color:"hsl(355, 85%, 52%)"},{label:"Programming: what to do on which day",pct:18.0,color:"hsl(355, 65%, 45%)"},{label:"Recovery: aches, pains, fatigue",pct:16.3,color:"hsl(210, 70%, 55%)"},{label:"Motivation: staying consistent solo",pct:9.0,color:"hsl(215, 14%, 40%)"},{label:"Technical knowledge: form and technique",pct:6.6,color:"hsl(215, 14%, 30%)"}],
+    barriers:[{barrier:"Intimidation / Fear of not being fit enough",pct:54.8},{barrier:"Lack of specialised equipment",pct:29.6},{barrier:"Not understanding rules or flow of the event",pct:18.8},{barrier:"Finding a gym that allows HYROX training",pct:15.6},{barrier:"Lack of community or training partner",pct:14.3}],
+    quotes:[{text:"Multiple sets of the needed equipment. Especially the sleds. It becomes difficult if there is only 1 and it is being shared by 3 different people.",age:"JHB Athlete",city:"Q10",tag:"Equipment"},{text:"It's a designated area. Not in the mix with the rest of the gym. All stations laid out correctly with well equipped tools and equipment. Good music.",age:"JHB Athlete",city:"Q12",tag:"Equipment"},{text:"More HYROX simulation classes that aren't packed.",age:"JHB Athlete",city:"Q10",tag:"Programming"},{text:"Weekly HYROX classes and equipment, run club.",age:"JHB Athlete",city:"Q8",tag:"Community"},{text:"At least functionality for all stations. And a dedicated running track like they have at Planet Fitness.",age:"JHB Athlete",city:"Q12",tag:"Equipment"},{text:"All the equipment and a little extra for functional training. Also grouped classes to make everybody feel at ease and comfortable.",age:"JHB Athlete",city:"Q12",tag:"Community"}],
+    community:[{driver:"Very important: train better in community",pct:39.6},{driver:"Somewhat important: like group sessions",pct:22.8},{driver:"Not important: prefer solo",pct:12.0},{driver:"Minor factor: equipment/location first",pct:13.3},{driver:"Essential: wouldn't join without it",pct:12.3}],
+    levers:[{driver:"HYROX Community Package demand",pct:82.4,ease:"High"},{driver:"Activate in-gym recovery (sauna, ice)",pct:83.0,ease:"High"},{driver:"Structured programming (time/plan help)",pct:50.1,ease:"Medium"},{driver:"Close equipment gap (sleds, turf, walls)",pct:29.6,ease:"Medium"}],
+    themes:[{n:"Theme 01",t:"Equipment is the foundation.",s:"Sleds, SkiErgs, RowErgs and wall balls are the most requested items. Athletes describe single sleds shared by three people, and clubs missing the kit used at the actual event."},{n:"Theme 02",t:"A dedicated HYROX zone.",s:"A designated area, set apart from the main gym floor, with all stations laid out correctly. The single most consistent request in the Joburg open responses."},{n:"Theme 03",t:"Structured programmes and simulation.",s:"Athletes want structured classes and HYROX simulation sessions that are not overcrowded, run throughout the year rather than only in the weeks before an event."},{n:"Theme 04",t:"Community and visible coaching.",s:"Grouped classes that make everybody feel at ease, run clubs, and qualified coaches who know HYROX movement and running form, visible on the floor."}],
+    buckets:[{tag:"Equipment",sub:"One sled, three people",text:"Multiple sets of the needed equipment. Especially the sleds. It becomes difficult if there is only 1 and it is being shared by 3 different people.",who:"JHB Athlete · Q10"},{tag:"Equipment",sub:"Match the race",text:"Ensure all equipment that is used at the actual event is available at gyms.",who:"JHB Athlete · Q10"},{tag:"Equipment",sub:"The exact spec",text:"Multiple lanes of astro for the sleds, lunges, burpees and FC, about 15m or longer. Then 3 to 4 wall ball targets and 4 to 5 row and ski ergs.",who:"JHB Athlete · Q12"},{tag:"Equipment",sub:"Set it apart from the floor",text:"A designated area, not in the mix with the rest of the gym. All stations laid out correctly with well equipped tools and equipment. Good music.",who:"JHB Athlete · Q12"},{tag:"Programming",sub:"Just give me the class",text:"Structured training classes. And more HYROX simulation classes that aren't packed.",who:"JHB Athlete · Q10"},{tag:"Programming",sub:"Train all year",text:"HYROX crash courses for members. Training throughout the year, not just leading up to events.",who:"JHB Athlete · Q8"},{tag:"Community",sub:"The simple ask",text:"Weekly HYROX classes and equipment, run club.",who:"JHB Athlete · Q8"},{tag:"Community",sub:"Make everybody feel at ease",text:"All the equipment and a little extra for functional training. Also grouped classes to make everybody feel at ease and comfortable.",who:"JHB Athlete · Q12"},{tag:"Recovery",sub:"Sleds for pull and push",text:"Sleds for pull and push practice. Not all VAs have these. Otherwise, I think it's great.",who:"JHB Athlete · Q12"},{tag:"Community",sub:"A real running track",text:"At least functionality for all stations. And a dedicated running track like they have at Planet Fitness.",who:"JHB Athlete · Q12"}],
+    recs:[{pillar:"Pillar 01",title:"Launch the HYROX Community Package",stats:[{v:"82.4%",l:"say it influences gym choice"},{v:"51.9%",l:"rate community 'very important'"}],action:"Design a subscription add-on (~R250 to R400/mo): weekly coached run clubs, technique clinics, monthly simulation days, private WhatsApp community. Pilot in 3 Gauteng clubs by Q3 2026.",impact:"Directly monetises the strongest commercial signal in the Joburg study. CrossFit boxes offer this natively, Virgin Active does not at scale."},{pillar:"Pillar 02",title:"Equip Every VA Club on the Circuit",stats:[{v:"29.6%",l:"blocked by missing equipment"},{v:"47.9%",l:"rate VA 'behind'"}],action:"Audit HYROX equipment across all Gauteng clubs. Set a minimum standard: multiple sled lanes on turf, 3 to 4 RowErgs and SkiErgs, wall ball targets, a dedicated zone. Q12 responses spell out the exact build spec.",impact:"Closes the perception gap with CrossFit boxes and removes the barrier that keeps athletes training at a competitor's facility."},{pillar:"Pillar 03",title:"Make HYROX Coaches Findable &amp; Affordable",stats:[{v:"44.1%",l:"skip a PT on cost"},{v:"5.2%",l:"did not know VA HYROX PTs exist"}],action:"Promote certified-trainer credentials on-floor and in-app. Introduce a 'HYROX Group Coaching' session at group-class pricing to reach the cost-sensitive majority.",impact:"Closes the programming gap without 1-on-1 PT cost, and converts the 30.1% who prefer group training into a coaching revenue line."}],
+    rating:{big:"47.9%",sub:"Rate VA 'Behind' or 'Significantly Lagging'",cells:[{cls:'p',pct:'19.1%',lbl:'Leading / Gold'},{cls:'q',pct:'33.0%',lbl:'On Par'},{cls:'d',pct:'47.9%',lbl:'Behind'}]},
+    gap:{val:"4.8 ppts",label:"VA gap behind CrossFit on training share",takeaway:`<b>CrossFit has taken the training home ground.</b> 36.5% of Joburg athletes train at a CrossFit box versus 31.7% at Virgin Active. The sport VA sponsors is being trained for at a rival's facility.`},
+    experience:{firstPct:"67.3",firstN:"790 of 1,173 · the onboarding prize",takeaway:`<b>67.3% competed in their first HYROX</b>, 9 points higher than Cape Town. 790 newcomers primed for gym loyalty. <b style="color:var(--primary);font-weight:600">93.5%</b> of the field has 0&ndash;2 prior events, an even younger market than Cape Town.`},
+    prog:[{ml:"Coached group class",mv:"41.0%",cls:"p",ms:"Largest group, already bought in"},{ml:"Use 1-on-1 PT",mv:"19.6%",cls:"",ms:"44.1% of rest cite cost"},{accent:true,ml:"Opportunity",mtxt:`<b>84.4%</b> struggle with time, programming, or recovery. One tiered plan closes all three.`}],
+    meta:{fields:[{l:"Format",v:"WhatsApp conversational survey · Yazi's proprietary research platform"},{l:"Period",v:"June 2026 · immediately after HYROX Johannesburg"},{l:"Event",v:"HYROX Johannesburg · Season 25/26 · raced 30&ndash;31 May 2026"},{l:"Base (N)",v:"1,173 completed responses from HYROX Johannesburg athletes"},{l:"Question Count",v:"12 structured questions including open-ended (Q10, Q12) prompts"},{l:"Analysis",v:"Quantitative frequency analysis plus thematic coding of open responses"}],profileTitle:"Sample Scope",profile:null,profileNote:`No individual-level demographic enrichment is available for this training study. Gender and age cross-cuts are not reported. Open responses were coded by Yazi analysts.`,scopeCells:[{n:"1,173",l:"Completed responses · primary"},{n:"733",l:"Cape Town benchmark · cross-ref"},{n:"12",l:"Questions · incl. 2 open-ended"},{n:"30&ndash;31",l:"May 2026 · Season 25/26"}],datasets:[{t:"Training Experience Study · Johannesburg",n:"n=1,173",s:"Primary dataset · WhatsApp post-event survey · June 2026. Source of every Q1&ndash;Q12 finding in the Joburg view."},{t:"Training Experience Study · Cape Town",n:"n=733",s:"Cross-reference benchmark · April 2026. Used for all Joburg-vs-Cape-Town comparisons."},{t:"Broader HYROX SA Study · Athletes / Spectators",n:"n=954 · 631",s:"Referenced in Brand Power. National sponsor recognition and event ratings."}],note:`<b>No demographic cross-cuts.</b> This companion training study captures behaviour and intent, benchmarked against the n=733 Cape Town study throughout.`},
+    txt:{subOverview:"Training Experience Study · 1,173 post-event respondents · Johannesburg · June 2026",subMethodology:"How the research was conducted · 1,173 athletes · 12 structured questions · benchmarked vs Cape Town",subPenetration:"Primary training venue, athlete performance rating, and the gap to CrossFit · Johannesburg",subTraining:"Experience level, training challenges, and how athletes manage their programmes · Johannesburg",subBarriers:"What held athletes back before they started their HYROX journey · Johannesburg",subDrivers:"How much community matters to gym choice, and the levers Virgin Active can pull · Johannesburg",subQualitative:"Dominant themes and verbatim buckets from open-ended responses (Q10 &amp; Q12) · Johannesburg",lblVenue:"Primary Training Venue (Q2, n=1,173)",lblExp:"HYROX Experience Level (Q1 · n=1,173)",lblChallenges:"Biggest Training Challenge (Q4, n=1,173)",lblCommunity:"Importance of Community (Q7, n=1,173)",lblGap:"The Gap to CrossFit",lblThemes:"Dominant Themes · One Story",tmHelp:"All 1,173 respondents, multi-select. Size represents % of respondents who cited each barrier.",tkChallenges:`<b>Time, programming and recovery are 84.4% of all challenges.</b> A single structured programme addresses the majority.`,tkBarriers:`<b style="color:var(--primary);font-weight:700">Intimidation (54.8%)</b> and <b style="color:var(--primary);font-weight:700">equipment gaps (29.6%)</b> are the top two barriers. Fear is even higher in Joburg than Cape Town, and both are solvable at a gym level.`,tkDrivers:`<b>Community is the highest-leverage lever.</b> 82.4% of Joburg athletes say a structured HYROX package would influence gym choice, higher than Cape Town's 79.4% and the strongest commercial signal in the study.`,tkThemes:`<b>The through-line.</b> Joburg athletes want fundamentals: multiple sled lanes, a dedicated zone set apart from the floor, structured simulation classes, and a community that welcomes them. The build spec writes itself.`}
+  }
+};
+let VIEW='jhb', COMPARE=false;
+let RATING, EXP, GAP, PROG, META, TXT;
+function loadCity(key){
+  const d = DATA[key];
+  KPIS=d.kpis;
+  MEMBERSHIP=d.venue.map((v,i)=>({name:v.name,value:v.value,count:v.count,fill:VENUE_FILLS[i]}));
+  WILLING=d.venue.map((v,i)=>({label:VLAB[i],pct:v.value,color:VENUE_FILLS[i]}));
+  FUNNEL=d.funnel; TRAIN_CHALLENGES=d.challenges; BARRIERS=d.barriers; QUOTES=d.quotes;
+  DRIVERS=d.community; SWITCH_LEVERS=d.levers; THEMES=d.themes; BUCKETS=d.buckets; RECS=d.recs;
+  RATING=d.rating; EXP=d.experience; GAP=d.gap; PROG=d.prog; META=d.meta; TXT=d.txt;
+}
 
 // === TOOLTIP ===
 const TT = document.getElementById('ch-tooltip');
@@ -1456,6 +1495,7 @@ function renderTreemap(){
   const wrap = document.getElementById('treemap');
   const items = BARRIERS.map((b,i)=>({name:b.barrier,pct:b.pct,color:BARRIER_COLORS[i]}));
   const draw = ()=>{
+    if(COMPARE) return;
     const W = wrap.clientWidth, H = wrap.clientHeight;
     if(W<10||H<10) return;
     const cells = squarify(items, W, H);
@@ -1492,9 +1532,9 @@ function renderTreemap(){
   new ResizeObserver(draw).observe(wrap);
 }
 
-function renderQuotes(){
+function renderQuotes(arr){
   const tagClass = t => t==='Equipment'?'eq':t==='Community'?'co':t==='Programming'?'pr':t==='Recovery'?'re':'';
-  document.getElementById('quotes').innerHTML = QUOTES.map((q,i)=>`
+  document.getElementById('quotes').innerHTML = (arr||QUOTES).map((q,i)=>`
     <div class="quote anim-x" style="transition-delay:${500+120*i}ms">
       ${q.tag?`<span class="btag ${tagClass(q.tag)}" style="display:inline-block;margin-bottom:8px">${q.tag}</span>`:''}
       <p class="t">"${q.text}"</p>
@@ -1623,8 +1663,8 @@ function renderQualitative(){
   }
 }
 
-function renderCampaign(){
-  document.getElementById('recs').innerHTML = RECS.map((r,i)=>`
+function renderCampaign(recs){
+  document.getElementById('recs').innerHTML = (recs||RECS).map((r,i)=>`
     <div class="card card-accent anim" style="transition-delay:${150+100*i}ms">
       <div class="ch ch-mb-4">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
@@ -1652,6 +1692,7 @@ function resetAnimations(root){
   });
   root.querySelectorAll('.tm-cell').forEach(el=>el.classList.remove('in'));
   root.querySelectorAll('.kpi-value').forEach(el=>el.textContent = '0');
+  root.querySelectorAll('.cmp-bar .fill').forEach(el=>el.style.width = '0%');
 }
 
 function triggerAnimations(page){
@@ -1675,7 +1716,7 @@ function triggerAnimations(page){
       b.style.width = Math.min(parseFloat(b.dataset.target),100)+'%';
     });
   }
-  if(page==='barriers'){
+  if(page==='barriers' && !COMPARE){
     // Re-render treemap because card was hidden -> 0 size
     renderTreemap();
   }
@@ -1690,6 +1731,162 @@ function triggerAnimations(page){
     });
   }
   // campaign tab: nothing to animate beyond the card fade-in
+  // compare grouped bars (any tab)
+  root.querySelectorAll('.cmp-bar .fill').forEach(el=>{ el.style.width = (el.dataset.w||0)+'%'; });
+}
+
+// === CITY HOST RENDERERS (converted cards) ===
+const NPS_ICON={
+  p:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 7h6v6"/><path d="m22 7-8.5 8.5-5-5L2 17"/></svg>',
+  q:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/></svg>',
+  d:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 17h6v-6"/><path d="m22 17-8.5-8.5-5 5L2 7"/></svg>'
+};
+const ARROW='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>';
+function S(id,html){const e=document.getElementById(id); if(e) e.innerHTML=html;}
+
+function renderRating(){
+  const r=RATING, host=document.getElementById('rating-host'); if(!host) return;
+  host.innerHTML=`<div style="flex:1;display:flex;align-items:center;justify-content:center;text-align:center;padding:8px 0"><div><p class="nps-big">${r.big}</p><p class="nps-sub">${r.sub}</p></div></div>
+    <div class="nps-grid">${r.cells.map(c=>`<div class="nps-cell ${c.cls}">${NPS_ICON[c.cls]}<p class="pct">${c.pct}</p><p class="lbl">${c.lbl}</p></div>`).join('')}</div>`;
+}
+function renderGap(){
+  const host=document.getElementById('gap-host'); if(!host) return;
+  host.innerHTML=`<div class="willing-callout"><div class="row">${ARROW}<p class="h">${GAP.label}</p></div><p class="v">${GAP.val}</p></div>
+    <div class="bars" id="willing-bars"></div>
+    <div class="takeaway takeaway-lg">${GAP.takeaway}</div>`;
+  renderWilling();
+}
+function renderExpHero(){
+  const h=document.getElementById('exp-hero'); if(!h) return;
+  h.innerHTML=`<div class="exp-num">${EXP.firstPct}<sup class="pct-sup">%</sup></div><div class="exp-sub"><div class="exp-sub-t">First-Time Athletes</div><div class="exp-sub-s">${EXP.firstN}</div></div>`;
+}
+function renderProgCards(){
+  const el=document.getElementById('prog-cards'); if(!el) return;
+  el.innerHTML=PROG.map(c=>c.accent
+    ? `<div class="mini-card accent"><p class="ml">${c.ml}</p><p class="mtxt">${c.mtxt}</p></div>`
+    : `<div class="mini-card"><p class="ml">${c.ml}</p><p class="mv ${c.cls}">${c.mv}</p><p class="ms">${c.ms}</p></div>`).join('');
+}
+function renderMethodology(){
+  const m=META, el=document.getElementById('meth-grid'); if(!el) return;
+  const c1=`<div class="card anim" style="transition-delay:150ms"><p class="muted-label ch-mb-3">Survey Design &amp; Deployment</p><div class="meth-grid">${m.fields.map(f=>`<div class="meth-item"><p class="mi-l">${f.l}</p><p class="mi-v">${f.v}</p></div>`).join('')}</div></div>`;
+  const c2 = m.profile
+    ? `<div class="card anim" style="transition-delay:250ms"><p class="muted-label ch-mb-3">${m.profileTitle}</p><div class="meth-profile">${m.profile.map(p=>`<div class="mp-cell"><p class="mp-n">${p.n}</p><p class="mp-l">${p.l}</p></div>`).join('')}</div></div>`
+    : `<div class="card anim" style="transition-delay:250ms"><p class="muted-label ch-mb-3">${m.profileTitle}</p><div class="meth-profile">${m.scopeCells.map(p=>`<div class="mp-cell accent"><p class="mp-n">${p.n}</p><p class="mp-l">${p.l}</p></div>`).join('')}</div><div class="takeaway" style="margin-top:14px">${m.profileNote}</div></div>`;
+  const c3=`<div class="card anim" style="transition-delay:350ms"><p class="muted-label ch-mb-3">Datasets Included</p><div class="dataset-list">${m.datasets.map(d=>`<div class="dataset"><div class="ds-h"><span class="ds-t">${d.t}</span><span class="ds-n">${d.n}</span></div><p class="ds-s">${d.s}</p></div>`).join('')}</div><div class="takeaway" style="margin-top:14px">${m.note}</div></div>`;
+  el.innerHTML=c1+c2+c3;
+}
+function setTexts(){
+  const t=TXT;
+  S('sub-overview',t.subOverview);S('sub-methodology',t.subMethodology);S('sub-penetration',t.subPenetration);S('sub-training',t.subTraining);S('sub-barriers',t.subBarriers);S('sub-drivers',t.subDrivers);S('sub-qualitative',t.subQualitative);
+  S('lbl-venue',t.lblVenue);S('lbl-exp',t.lblExp);S('lbl-challenges',t.lblChallenges);S('lbl-community',t.lblCommunity);S('lbl-gap',t.lblGap);S('lbl-themes',t.lblThemes);S('tm-help',t.tmHelp);
+  S('tk-experience',EXP.takeaway);S('tk-challenges',t.tkChallenges);S('tk-barriers',t.tkBarriers);S('tk-drivers',t.tkDrivers);S('tk-themes',t.tkThemes);
+}
+
+// === COMPARE RENDERERS ===
+const CMP={
+  venue:[{name:"Virgin Active",cpt:35.2,jhb:31.7},{name:"CrossFit / Boutique",cpt:34.8,jhb:36.5},{name:"Other Commercial Gym",cpt:19.9,jhb:23.4},{name:"Home / Outdoors",cpt:10.1,jhb:8.4}],
+  exp:[{name:"First-Time Athletes",cpt:58.1,jhb:67.3},{name:"1–2 Prior Events",cpt:30.8,jhb:26.2},{name:"Seasoned (3+ events)",cpt:11.1,jhb:6.5}],
+  challenges:[{name:"Time mgmt: run vs strength",cpt:47.5,jhb:50.1},{name:"Programming",cpt:18.7,jhb:18.0},{name:"Recovery",cpt:17.6,jhb:16.3},{name:"Motivation (solo)",cpt:8.2,jhb:9.0},{name:"Technical knowledge",cpt:8.0,jhb:6.6}],
+  barriers:[{name:"Intimidation / Fear",cpt:48.7,jhb:54.8},{name:"Lack of equipment",cpt:38.3,jhb:29.6},{name:"Finding a HYROX gym",cpt:20.5,jhb:15.6},{name:"Rules / event flow",cpt:20.2,jhb:18.8},{name:"No community / partner",cpt:16.8,jhb:14.3}],
+  community:[{name:"Very important",cpt:40.4,jhb:39.6},{name:"Somewhat important",cpt:20.7,jhb:22.8},{name:"Minor factor",cpt:14.3,jhb:13.3},{name:"Essential",cpt:9.0,jhb:12.3},{name:"Not important (solo)",cpt:15.6,jhb:12.0}],
+  levers:[{name:"HYROX Community Package",cpt:79.4,jhb:82.4},{name:"Activate in-gym recovery",cpt:80.0,jhb:83.0},{name:"Structured programming",cpt:47.5,jhb:50.1},{name:"Close equipment gap",cpt:38.3,jhb:29.6}],
+  rating:[{name:"Behind / Lagging",cpt:57.0,jhb:47.9},{name:"On Par with Competitors",cpt:28.8,jhb:33.0},{name:"Leading / Gold Standard",cpt:14.2,jhb:19.1}]
+};
+function cmpHead(){return `<div class="cmp-legend"><span class="k"><span class="sw cpt"></span>Cape Town</span><span class="k"><span class="sw jhb"></span>Joburg</span><span style="margin-left:auto;font-size:10.5px">&#9650; higher in Joburg</span></div>`;}
+function cmpBarsHTML(items,opt){
+  opt=opt||{};
+  const max=opt.max||Math.max.apply(null,items.flatMap(i=>[i.cpt,i.jhb]))*1.06;
+  const dchip=(c,j)=>{const dd=+(j-c).toFixed(1);const cls=dd>0.05?'up':dd<-0.05?'down':'flat';const s=dd>0?'+':'';return `<span class="cmp-delta ${cls}">${s}${dd}pp</span>`;};
+  return cmpHead()+`<div class="cmp-list">${items.map(i=>`
+    <div class="cmp-row"><div class="cmp-top"><span class="cmp-name">${i.name}</span>${dchip(i.cpt,i.jhb)}</div>
+    <div class="cmp-bars">
+      <div class="cmp-bar cpt"><span class="tg">CPT</span><div class="track"><div class="fill" data-w="${(i.cpt/max*100).toFixed(1)}" style="width:0"></div></div><span class="pc">${i.cpt}%</span></div>
+      <div class="cmp-bar jhb"><span class="tg">JHB</span><div class="track"><div class="fill" data-w="${(i.jhb/max*100).toFixed(1)}" style="width:0"></div></div><span class="pc">${i.jhb}%</span></div>
+    </div></div>`).join('')}</div>`;
+}
+function cmpInto(id,items,opt){const el=document.getElementById(id); if(el) el.innerHTML=cmpBarsHTML(items,opt);}
+function cmpKPIs(){
+  const c=DATA.cpt.kpis,j=DATA.jhb.kpis;
+  document.getElementById('kpi-grid').innerHTML=c.map((k,i)=>{
+    const jj=j[i],isPct=k.formatted.includes('%');
+    const cn=parseFloat(k.value),jn=parseFloat(jj.value),dd=jn-cn;
+    const cls=dd>0?'up':dd<0?'down':'flat',s=dd>0?'+':'';
+    const dtxt=isPct?`${s}${dd.toFixed(1)}pp`:`${s}${Math.round(dd).toLocaleString()}`;
+    return `<div class="kpi anim ${k.accent?'accent':''}" style="transition-delay:${150+80*i}ms">
+      <div class="kpi-head"><div class="kpi-icon">${k.icon}</div><p class="kpi-label">${k.label}</p></div>
+      <div class="kpi-duo"><div class="kd cpt"><span class="kn">${k.formatted}</span><span class="kc">Cape Town</span></div><span class="kdiv">/</span><div class="kd jhb"><span class="kn">${jj.formatted}</span><span class="kc">Joburg</span></div><span class="kdelta ${cls}">${dtxt}</span></div>
+      <p class="kpi-desc" style="margin-top:14px">${jj.desc}</p></div>`;
+  }).join('');
+}
+function cmpVenue(){ cmpInto('venue-cmp',CMP.venue,{max:40}); }
+function cmpRating(){ document.getElementById('rating-host').innerHTML=cmpBarsHTML(CMP.rating,{max:62})+`<div class="takeaway" style="margin-top:14px"><b>Joburg rates VA better.</b> 47.9% say 'behind' versus 57.0% in Cape Town, and 19.1% call VA leading versus 14.2%.</div>`; }
+function cmpGap(){ document.getElementById('gap-host').innerHTML=`<div class="willing-callout"><div class="row">${ARROW}<p class="h">Training-share position vs CrossFit</p></div><p class="v" style="font-size:24px">+0.4 → −4.8 ppts</p></div>`+cmpBarsHTML(CMP.venue,{max:40})+`<div class="takeaway takeaway-lg" style="margin-top:14px"><b>The home ground flipped.</b> VA edged CrossFit in Cape Town by 0.4pp, but trails by 4.8pp in Joburg.</div>`; }
+function cmpExp(){ document.getElementById('exp-hero').innerHTML=`<div class="exp-num">67.3<sup class="pct-sup">%</sup></div><div class="exp-sub"><div class="exp-sub-t">First-Timers · Joburg</div><div class="exp-sub-s">versus 58.1% in Cape Town · +9.2pp</div></div>`; const eb=document.getElementById('exp-bar'); if(eb) eb.style.display='none'; cmpInto('exp-legend',CMP.exp,{max:70}); }
+function cmpChallenges(){ cmpInto('train-challenges',CMP.challenges,{max:55}); }
+function cmpBarriers(){ cmpInto('treemap',CMP.barriers,{max:62}); }
+function cmpCommunity(){ cmpInto('community-cmp',CMP.community,{max:45}); }
+function cmpLevers(){ cmpInto('priority-list',CMP.levers,{max:90}); }
+function cmpProgCards(){ document.getElementById('prog-cards').innerHTML=`<div class="mini-card"><p class="ml">Coached group class</p><p class="mv p">34.9% → 41.0%</p><p class="ms">CPT to JHB · +6.1pp</p></div><div class="mini-card"><p class="ml">Self-write programme</p><p class="mv">39.3% → 29.0%</p><p class="ms">CPT to JHB · −10.3pp</p></div><div class="mini-card accent"><p class="ml">Shift</p><p class="mtxt">Joburg leans to <b>coaching</b>, Cape Town to <b>self-programming</b>. JHB has already bought the community concept.</p></div>`; }
+function cmpQuotes(){ renderQuotes(DATA.jhb.quotes); }
+function cmpMethodology(){
+  const fact=d=>`<div class="meth-grid" style="grid-template-columns:1fr">${d.map(r=>`<div class="meth-item"><p class="mi-l">${r.l}</p><p class="mi-v">${r.v}</p></div>`).join('')}</div>`;
+  const cpt=[{l:"Base (N)",v:"733 completes (734 invited)"},{l:"Event window",v:"April 2026 · HYROX South Africa"},{l:"Demographics",v:"Full: gender, age, format split"},{l:"Benchmark role",v:"Standalone study"}];
+  const jhb=[{l:"Base (N)",v:"1,173 completes"},{l:"Event window",v:"30–31 May 2026 · HYROX Joburg"},{l:"Demographics",v:"Not reported for this study"},{l:"Benchmark role",v:"Benchmarked vs Cape Town n=733"}];
+  document.getElementById('meth-grid').innerHTML=`
+    <div class="card anim col-2" style="transition-delay:150ms"><p class="muted-label ch-mb-3">Two-Market Study · Side by Side</p>
+      <div class="meth-cmp"><div><div class="cmp-col-h cpt"><span class="d"></span>Cape Town</div>${fact(cpt)}</div><div><div class="cmp-col-h jhb"><span class="d"></span>Joburg</div>${fact(jhb)}</div></div></div>
+    <div class="card anim" style="transition-delay:250ms"><p class="muted-label ch-mb-3">Combined Reach</p>
+      <div class="meth-profile"><div class="mp-cell accent"><p class="mp-n">1,906</p><p class="mp-l">Athletes · both events</p></div><div class="mp-cell"><p class="mp-n">2</p><p class="mp-l">HYROX SA events</p></div><div class="mp-cell"><p class="mp-n">12</p><p class="mp-l">Questions per study</p></div><div class="mp-cell"><p class="mp-n">2026</p><p class="mp-l">April to June</p></div></div>
+      <div class="takeaway" style="margin-top:14px"><b>Cape Town demographics, Joburg behaviour.</b> The CT study carries full demographic enrichment; the JHB study focuses on training behaviour and intent, benchmarked against CT throughout.</div></div>`;
+}
+function cmpQualitative(){
+  const col=(arr,cls,label)=>`<div><div class="cmp-col-h ${cls}"><span class="d"></span>${label}</div>${arr.map(t=>`<div class="theme" style="margin-bottom:10px"><p class="tn">${t.n}</p><p class="tt">${t.t}</p></div>`).join('')}</div>`;
+  document.getElementById('theme-grid').innerHTML=col(DATA.cpt.themes,'cpt','Cape Town Themes')+col(DATA.jhb.themes,'jhb','Joburg Themes');
+  const tagClass=t=>t==='Equipment'?'eq':t==='Community'?'co':t==='Programming'?'pr':t==='Recovery'?'re':'';
+  document.getElementById('bucket-grid').innerHTML=DATA.jhb.buckets.map((b,i)=>`<div class="bucket anim" style="transition-delay:${350+60*i}ms"><div class="bh"><span class="btag ${tagClass(b.tag)}">${b.tag}</span><p class="b-sub">${b.sub}</p></div><p class="bq">&ldquo;${b.text}&rdquo;</p><p class="ba">${b.who}</p></div>`).join('');
+}
+function setTextsCompare(){
+  S('sub-overview','Cape Town (n=733) vs Johannesburg (n=1,173) · every KPI side by side, with the points change');
+  S('sub-methodology','Two HYROX SA events compared · Cape Town April 2026 vs Johannesburg June 2026');
+  S('sub-penetration','Training venue, performance rating and the CrossFit gap · Cape Town vs Joburg');
+  S('sub-training','Experience level and training challenges · Cape Town vs Joburg');
+  S('sub-barriers','Barriers to entry · Cape Town vs Joburg · % citing each barrier');
+  S('sub-drivers','Community importance and switch levers · Cape Town vs Joburg');
+  S('sub-qualitative','Dominant themes in each market · Cape Town vs Joburg');
+  S('lbl-venue','Primary Training Venue (Q2) · CPT vs JHB');
+  S('lbl-exp','HYROX Experience Level (Q1) · CPT vs JHB');
+  S('lbl-challenges','Biggest Training Challenge (Q4) · CPT vs JHB');
+  S('lbl-community','Importance of Community (Q7) · CPT vs JHB');
+  S('lbl-gap','Training-Share Gap · CPT vs JHB');
+  S('lbl-themes','Themes · Cape Town vs Joburg');
+  S('tm-help','Cape Town (n=733) vs Joburg (n=1,173) · multi-select · % citing each barrier.');
+  S('tk-challenges','<b>Time management leads in both markets</b>, 47.5% Cape Town and 50.1% Joburg. The universal HYROX problem, slightly sharper in Gauteng.');
+  S('tk-barriers','<b>Fear is the #1 barrier in both</b>, and higher in Joburg (54.8% vs 48.7%). Equipment is a bigger blocker in Cape Town (38.3% vs 29.6%).');
+  S('tk-drivers','<b>Community demand is higher in Joburg</b>, 82.4% want a HYROX package versus 79.4% in Cape Town. The strongest commercial signal in both studies.');
+  S('tk-themes','<b>Same story, two markets.</b> Cape Town centres on equipment and recovery; Joburg adds a louder call for a dedicated, designated HYROX zone.');
+}
+
+// === VIEW CONTROLLER ===
+function setVisible(id,show){const e=document.getElementById(id); if(e) e.style.display=show?'':'none';}
+function applyView(view){
+  VIEW=view; COMPARE=(view==='compare');
+  document.querySelectorAll('#view-seg .vt-btn').forEach(b=>b.classList.toggle('active', b.dataset.view===view));
+  if(!COMPARE){
+    loadCity(view);
+    setVisible('venue-native',true); setVisible('ms-legend',true); setVisible('venue-cmp',false);
+    setVisible('comm-native',true); setVisible('driver-legend',true); setVisible('community-cmp',false);
+    const eb=document.getElementById('exp-bar'); if(eb) eb.style.display='';
+    renderKPIs(); renderDonut(); renderRating(); renderGap(); renderFunnel(); renderExpHero(); renderProgCards(); renderTrainChallenges(); renderTreemap(); renderQuotes(); renderDriverPie(); renderPriority(); renderMethodology(); renderQualitative(); renderCampaign();
+    setTexts();
+  } else {
+    setVisible('venue-native',false); setVisible('ms-legend',false); setVisible('venue-cmp',true);
+    setVisible('comm-native',false); setVisible('driver-legend',false); setVisible('community-cmp',true);
+    cmpKPIs(); cmpVenue(); cmpRating(); cmpGap(); cmpExp(); cmpProgCards(); cmpChallenges(); cmpBarriers(); cmpCommunity(); cmpLevers(); cmpQuotes(); cmpMethodology(); cmpQualitative(); renderCampaign(DATA.jhb.recs);
+    setTextsCompare();
+  }
+  renderSponsors(); renderVenueBroad(); renderFlip();
+  const active=document.querySelector('.tab-page.active');
+  if(active){ const pg=active.dataset.page; resetAnimations(active); void active.offsetHeight; requestAnimationFrame(()=>requestAnimationFrame(()=>triggerAnimations(pg))); }
 }
 
 // === TAB SWITCHING ===
@@ -1716,22 +1913,13 @@ document.querySelectorAll('.nav-btn[data-tab]').forEach(btn=>{
 });
 
 // === INIT ===
-renderKPIs();
-renderDonut();
-renderWilling();
-renderFunnel();
-renderTrainChallenges();
-renderTreemap();
-renderQuotes();
-renderDriverPie();
-renderPriority();
-renderCampaign();
-renderSponsors();
-renderVenueBroad();
-renderFlip();
-renderQualitative();
+// Wire the Cape Town / Joburg / Compare toggle
+document.querySelectorAll('#view-seg .vt-btn').forEach(btn=>{
+  btn.addEventListener('click', ()=>applyView(btn.dataset.view));
+});
 
-requestAnimationFrame(()=>requestAnimationFrame(()=>triggerAnimations('overview')));
+// Boot in Joburg view (the latest event)
+applyView('jhb');
 
 // On tablets/mobile, centre the active tab in the horizontal nav on load
 if(window.matchMedia('(max-width: 1024px)').matches){
